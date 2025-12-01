@@ -35,7 +35,7 @@ G4bool WrappingSensitiveDetector::ProcessHits(G4Step* theStep, G4TouchableHistor
 	G4int trackID = theTrack->GetTrackID();
 
 	// if the hit properties have already been set, stop here
-	if(! isnan(DataStorage->GetWrappingHitTime(trackID))) return true;
+	if(!std::isnan(DataStorage->GetWrappingHitTime(trackID))) return true;
 
 
 

@@ -89,7 +89,7 @@ void GODDeSS_DataStorage::AddUpEnergyDepositionInScintillator(G4int trackID, G4d
 {
 	if( ! TrackIDHasEntries(trackID) )					(ParticleVector[trackID])[EnergyDepositionKey] = deltaE;
 	else if( ! (ParticleVector[trackID]).count(ScintillatorHitTimeKey) )	(ParticleVector[trackID])[EnergyDepositionKey] = deltaE;
-	else if( isnan(GetEnergyDepositionInScintillator(trackID)) )		(ParticleVector[trackID])[EnergyDepositionKey] = deltaE;
+	else if( std::isnan(GetEnergyDepositionInScintillator(trackID)) )		(ParticleVector[trackID])[EnergyDepositionKey] = deltaE;
 	else
 	{
 		G4double deltaE_inMap = GetEnergyDepositionInScintillator(trackID);
@@ -117,7 +117,7 @@ void GODDeSS_DataStorage::AddUpPathLengthInScintillator(G4int trackID, G4double 
 {
 	if( ! TrackIDHasEntries(trackID) )					(ParticleVector[trackID])[PathLengthKey] = deltaX;
 	else if( ! (ParticleVector[trackID]).count(ScintillatorHitTimeKey) )	(ParticleVector[trackID])[PathLengthKey] = deltaX;
-	else if( isnan(GetPathLengthInScintillator(trackID)) )		(ParticleVector[trackID])[PathLengthKey] = deltaX;
+	else if( std::isnan(GetPathLengthInScintillator(trackID)) )		(ParticleVector[trackID])[PathLengthKey] = deltaX;
 	else
 	{
 		G4double deltaX_inMap = GetPathLengthInScintillator(trackID);
@@ -224,6 +224,29 @@ G4bool GODDeSS_DataStorage::FibreWasHit(G4int trackID) const
 	if(TrackIDHasEntries(trackID))
 	{
 		if( (ParticleVector[trackID]).count(FibreWasHitKey) ) return boost::any_cast<G4bool>( (ParticleVector[trackID]).at(FibreWasHitKey) );
+	}
+
+	return false;
+}
+
+
+
+/**
+ *  Function to change the G4bool, if an optical coupling was hit by the particle, to "true".
+ */
+void GODDeSS_DataStorage::SetOpticalCouplingWasHit(G4int trackID)
+{
+	(ParticleVector[trackID])[OpticalCouplingWasHitKey] = true;
+}
+/**
+ *  @return <b> if the entry exists for this particle: </b> G4bool if an optical coupling was hit by the particle with the corresponding track ID
+ *  @return <b> else: </b> false
+ */
+G4bool GODDeSS_DataStorage::OpticalCouplingWasHit(G4int trackID) const
+{
+	if(TrackIDHasEntries(trackID))
+	{
+		if( (ParticleVector[trackID]).count(OpticalCouplingWasHitKey) ) return boost::any_cast<G4bool>( (ParticleVector[trackID]).at(OpticalCouplingWasHitKey) );
 	}
 
 	return false;

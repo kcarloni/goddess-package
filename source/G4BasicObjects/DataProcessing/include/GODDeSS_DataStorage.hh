@@ -43,6 +43,7 @@ public:
 	, WrappingHitMomentumKey("WrappingHitMomentum")
 	, WrappingHitTimeKey("WrappingHitTime")
 	, FibreWasHitKey("FibreWasHit")
+	, OpticalCouplingWasHitKey("OpticalCouplingWasHit")
 	, PhotonDetectorWasHitKey("PhotonDetectorWasHit")
 	, PhotonDetectorHitPositionKey("PhotonDetectorHitPosition")
 	, PhotonDetectorHitMomentumKey("PhotonDetectorHitMomentum")
@@ -109,6 +110,11 @@ public:
 
 	void SetFibreWasHit(G4int trackID);
 	G4bool FibreWasHit(G4int trackID) const;
+
+
+
+	void SetOpticalCouplingWasHit(G4int trackID);
+	G4bool OpticalCouplingWasHit(G4int trackID) const;
 
 
 
@@ -261,6 +267,7 @@ private:
 	G4String WrappingHitMomentumKey;
 	G4String WrappingHitTimeKey;
 	G4String FibreWasHitKey;
+	G4String OpticalCouplingWasHitKey;
 	std::vector<G4String> PhotonSensitiveDetectorNameVector;
 	G4String PhotonDetectorWasHitKey;
 	G4String PhotonDetectorHitPositionKey;

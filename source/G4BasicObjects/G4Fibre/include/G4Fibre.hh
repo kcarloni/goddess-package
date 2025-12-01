@@ -63,6 +63,7 @@ public:
 		 G4String embedment_profile,					/**< profile that the G4Fibre%'s glue volume should have ("round" or "quadratic") */
 		 G4String where_is_embedment_to_be_flush_with_fibre,		/**< the ends at which the G4Fibre%'s glue volume is to be flush with the G4Fibre ("" = none, "S" = start point, "E" = end point or "SE" = start and end point) */
 		 std::vector<G4VPhysicalVolume *> volumes_with_embedment,	/**< the volumes to which the G4Fibre is to be glued */
+// 		 G4bool in_groove,						/**< the G4Fibre is to be placed into a groove, i.e. the glue-volume will be extended to one side (using the side with the minimal groove extent), untill it reaches the mother volume's surface ("true" or "false") */
 		 G4bool constructSensitiveDetector,				/**< a sensitive detector is to be constructed ("true" or "false") */
 		 G4bool searchOverlaps,						/**< Geant should search for overlaps when placing the physical volumes of G4Fibre%'s ("true" or "false") */
 		 PropertyToolsManager * propertyTools,				/**< pointer to the PropertyToolsManager that is to be used */
@@ -82,6 +83,7 @@ public:
 	, OnlyInsideMother(onlyInsideMother)
 	, CutAuntVolumesWithDaughters(cutAuntVolumesWithDaughters)
 	, Glued(glued)
+// 	, InGroove(in_groove)
 	, EmbedmentProfile(embedment_profile)
 	, WhereIsEmbedmentToBeFlushWithFibre(where_is_embedment_to_be_flush_with_fibre)
 	, VolumesWithEmbedment(volumes_with_embedment)
@@ -140,6 +142,7 @@ public:
 		}
 
 		if(Glued) OpticalCementProperties.load(glue_property_file);
+// 		else InGroove = false;   // it would not make sence to simulate a fibre hanging in the air   FIXME
 
 		// calculate variables and create materials:
 		InitialiseVariables();
@@ -184,6 +187,7 @@ public:
 		 G4String embedment_profile,					/**< profile that the G4Fibre%'s glue volume should have ("round" or "quadratic") */
 		 G4String where_is_embedment_to_be_flush_with_fibre,		/**< the ends at which the G4Fibre%'s glue volume is to be flush with the G4Fibre ("" = none, "S" = start point, "E" = end point or "SE" = start and end point) */
 		 std::vector<G4VPhysicalVolume *> volumes_with_embedment,	/**< the volumes to which the G4Fibre is to be glued */
+// 		 G4bool in_groove,						/**< the G4Fibre is to be placed into a groove, i.e. the glue-volume will be extended to one side (using the side with the minimal groove extent), untill it reaches the mother volume's surface ("true" or "false") */
 		 G4bool constructSensitiveDetector,				/**< a sensitive detector is to be constructed ("true" or "false") */
 		 G4bool searchOverlaps,						/**< Geant should search for overlaps when placing the physical volumes of G4Fibre%'s ("true" or "false") */
 		 PropertyToolsManager * propertyTools,				/**< pointer to the PropertyToolsManager that is to be used */
@@ -204,6 +208,7 @@ public:
 	, OnlyInsideMother(onlyInsideMother)
 	, CutAuntVolumesWithDaughters(cutAuntVolumesWithDaughters)
 	, Glued(glued)
+// 	, InGroove(in_groove)
 	, EmbedmentProfile(embedment_profile)
 	, WhereIsEmbedmentToBeFlushWithFibre(where_is_embedment_to_be_flush_with_fibre)
 	, VolumesWithEmbedment(volumes_with_embedment)
@@ -262,6 +267,7 @@ public:
 		}
 
 		if(Glued) OpticalCementProperties.load(glue_property_file);
+// 		else InGroove = false;   // it would not make sence to simulate a fibre hanging in the air   FIXME
 
 		// calculate variables and create materials:
 		InitialiseVariables();
@@ -305,6 +311,7 @@ public:
 		 G4String embedment_profile,					/**< profile that the G4Fibre%'s glue volume should have ("round" or "quadratic") */
 		 G4String where_is_embedment_to_be_flush_with_fibre,		/**< the ends at which the G4Fibre%'s glue volume is to be flush with the G4Fibre ("" = none, "S" = start point, "E" = end point or "SE" = start and end point) */
 		 std::vector<G4VPhysicalVolume *> volumes_with_embedment,	/**< the volumes to which the G4Fibre is to be glued */
+// 		 G4bool in_groove,						/**< the G4Fibre is to be placed into a groove, i.e. the glue-volume will be extended to one side (using the side with the minimal groove extent), untill it reaches the mother volume's surface ("true" or "false") */
 		 G4bool constructSensitiveDetector,				/**< a sensitive detector is to be constructed ("true" or "false") */
 		 G4bool searchOverlaps,						/**< Geant should search for overlaps when placing the physical volumes of G4Fibre%'s ("true" or "false") */
 		 PropertyToolsManager * propertyTools,				/**< pointer to the PropertyToolsManager that is to be used */
@@ -324,6 +331,7 @@ public:
 	, OnlyInsideMother(onlyInsideMother)
 	, CutAuntVolumesWithDaughters(cutAuntVolumesWithDaughters)
 	, Glued(glued)
+// 	, InGroove(in_groove)
 	, EmbedmentProfile(embedment_profile)
 	, WhereIsEmbedmentToBeFlushWithFibre(where_is_embedment_to_be_flush_with_fibre)
 	, VolumesWithEmbedment(volumes_with_embedment)
@@ -382,6 +390,7 @@ public:
 		}
 
 		if(Glued) OpticalCementProperties.load(glue_property_file);
+// 		else InGroove = false;   // it would not make sence to simulate a fibre hanging in the air
 
 		// calculate variables and create materials:
 		InitialiseVariables();
@@ -426,6 +435,7 @@ public:
 		 G4String embedment_profile,					/**< profile that the G4Fibre%'s glue volume should have ("round" or "quadratic") */
 		 G4String where_is_embedment_to_be_flush_with_fibre,		/**< the ends at which the G4Fibre%'s glue volume is to be flush with the G4Fibre ("" = none, "S" = start point, "E" = end point or "SE" = start and end point) */
 		 std::vector<G4VPhysicalVolume *> volumes_with_embedment,	/**< the volumes to which the G4Fibre is to be glued */
+// 		 G4bool in_groove,						/**< the G4Fibre is to be placed into a groove, i.e. the glue-volume will be extended to one side (using the side with the minimal groove extent), untill it reaches the mother volume's surface ("true" or "false") */
 		 G4bool constructSensitiveDetector,				/**< a sensitive detector is to be constructed ("true" or "false") */
 		 G4bool searchOverlaps,						/**< Geant should search for overlaps when placing the physical volumes of G4Fibre%'s ("true" or "false") */
 		 PropertyToolsManager * propertyTools,				/**< pointer to the PropertyToolsManager that is to be used */
@@ -446,6 +456,7 @@ public:
 	, OnlyInsideMother(onlyInsideMother)
 	, CutAuntVolumesWithDaughters(cutAuntVolumesWithDaughters)
 	, Glued(glued)
+// 	, InGroove(in_groove)
 	, EmbedmentProfile(embedment_profile)
 	, WhereIsEmbedmentToBeFlushWithFibre(where_is_embedment_to_be_flush_with_fibre)
 	, VolumesWithEmbedment(volumes_with_embedment)
@@ -504,6 +515,7 @@ public:
 		}
 
 		if(Glued) OpticalCementProperties.load(glue_property_file);
+// 		else InGroove = false;   // it would not make sence to simulate a fibre hanging in the air
 
 		// calculate variables and create materials:
 		InitialiseVariables();
@@ -549,6 +561,7 @@ public:
 		 G4String embedment_profile,					/**< profile that the G4Fibre%'s glue volume should have ("round" or "quadratic") */
 		 G4String where_is_embedment_to_be_flush_with_fibre,		/**< the ends at which the G4Fibre%'s glue volume is to be flush with the G4Fibre ("" = none, "S" = start point, "E" = end point or "SE" = start and end point) */
 		 std::vector<G4VPhysicalVolume *> volumes_with_embedment,	/**< the volumes to which the G4Fibre is to be glued */
+// 		 G4bool in_groove,						/**< the G4Fibre is to be placed into a groove, i.e. the glue-volume will be extended to one side (using the side with the minimal groove extent), untill it reaches the mother volume's surface ("true" or "false") */
 		 G4bool constructSensitiveDetector,				/**< a sensitive detector is to be constructed ("true" or "false") */
 		 G4bool searchOverlaps,						/**< Geant should search for overlaps when placing the physical volumes of G4Fibre%'s ("true" or "false") */
 		 PropertyToolsManager * propertyTools,				/**< pointer to the PropertyToolsManager that is to be used */
@@ -570,6 +583,7 @@ public:
 	, OnlyInsideMother(onlyInsideMother)
 	, CutAuntVolumesWithDaughters(cutAuntVolumesWithDaughters)
 	, Glued(glued)
+// 	, InGroove(in_groove)
 	, EmbedmentProfile(embedment_profile)
 	, WhereIsEmbedmentToBeFlushWithFibre(where_is_embedment_to_be_flush_with_fibre)
 	, VolumesWithEmbedment(volumes_with_embedment)
@@ -631,6 +645,7 @@ public:
 		}
 
 		if(Glued) OpticalCementProperties.load(glue_property_file);
+// 		else InGroove = false;   // it would not make sence to simulate a fibre hanging in the air
 
 		// calculate variables and create materials:
 		InitialiseVariables();
@@ -677,6 +692,7 @@ public:
 		 G4String embedment_profile,					/**< profile that the G4Fibre%'s glue volume should have ("round" or "quadratic") */
 		 G4String where_is_embedment_to_be_flush_with_fibre,		/**< the ends at which the G4Fibre%'s glue volume is to be flush with the G4Fibre ("" = none, "S" = start point, "E" = end point or "SE" = start and end point) */
 		 std::vector<G4VPhysicalVolume *> volumes_with_embedment,	/**< the volumes to which the G4Fibre is to be glued */
+// 		 G4bool in_groove,						/**< the G4Fibre is to be placed into a groove, i.e. the glue-volume will be extended to one side (using the side with the minimal groove extent), untill it reaches the mother volume's surface ("true" or "false") */
 		 G4bool constructSensitiveDetector,				/**< a sensitive detector is to be constructed ("true" or "false") */
 		 G4bool searchOverlaps,						/**< Geant should search for overlaps when placing the physical volumes of G4Fibre%'s ("true" or "false") */
 		 PropertyToolsManager * propertyTools,				/**< pointer to the PropertyToolsManager that is to be used */
@@ -699,6 +715,7 @@ public:
 	, OnlyInsideMother(onlyInsideMother)
 	, CutAuntVolumesWithDaughters(cutAuntVolumesWithDaughters)
 	, Glued(glued)
+// 	, InGroove(in_groove)
 	, EmbedmentProfile(embedment_profile)
 	, WhereIsEmbedmentToBeFlushWithFibre(where_is_embedment_to_be_flush_with_fibre)
 	, VolumesWithEmbedment(volumes_with_embedment)
@@ -760,6 +777,7 @@ public:
 		}
 
 		if(Glued) OpticalCementProperties.load(glue_property_file);
+// 		else InGroove = false;   // it would not make sence to simulate a fibre hanging in the air
 
 		// calculate variables and create materials:
 		InitialiseVariables();
@@ -806,6 +824,7 @@ public:
 		 G4String embedment_profile,					/**< profile that the G4Fibre%'s glue volume should have ("round" or "quadratic") */
 		 G4String where_is_embedment_to_be_flush_with_fibre,		/**< the ends at which the G4Fibre%'s glue volume is to be flush with the G4Fibre ("" = none, "S" = start point, "E" = end point or "SE" = start and end point) */
 		 std::vector<G4VPhysicalVolume *> volumes_with_embedment,	/**< the volumes to which the G4Fibre is to be glued */
+// 		 G4bool in_groove,						/**< the G4Fibre is to be placed into a groove, i.e. the glue-volume will be extended to one side (using the side with the minimal groove extent), untill it reaches the mother volume's surface ("true" or "false") */
 		 G4bool constructSensitiveDetector,				/**< a sensitive detector is to be constructed ("true" or "false") */
 		 G4bool searchOverlaps,						/**< Geant should search for overlaps when placing the physical volumes of G4Fibre%'s ("true" or "false") */
 		 PropertyToolsManager * propertyTools,				/**< pointer to the PropertyToolsManager that is to be used */
@@ -828,6 +847,7 @@ public:
 	, OnlyInsideMother(onlyInsideMother)
 	, CutAuntVolumesWithDaughters(cutAuntVolumesWithDaughters)
 	, Glued(glued)
+// 	, InGroove(in_groove)
 	, EmbedmentProfile(embedment_profile)
 	, WhereIsEmbedmentToBeFlushWithFibre(where_is_embedment_to_be_flush_with_fibre)
 	, VolumesWithEmbedment(volumes_with_embedment)
@@ -894,6 +914,7 @@ public:
 		}
 
 		if(Glued) OpticalCementProperties.load(glue_property_file);
+// 		else InGroove = false;   // it would not make sence to simulate a fibre hanging in the air
 
 		// calculate variables and create materials:
 		InitialiseVariables();
@@ -941,6 +962,7 @@ public:
 		 G4String embedment_profile,					/**< profile that the G4Fibre%'s glue volume should have ("round" or "quadratic") */
 		 G4String where_is_embedment_to_be_flush_with_fibre,		/**< the ends at which the G4Fibre%'s glue volume is to be flush with the G4Fibre ("" = none, "S" = start point, "E" = end point or "SE" = start and end point) */
 		 std::vector<G4VPhysicalVolume *> volumes_with_embedment,	/**< the volumes to which the G4Fibre is to be glued */
+// 		 G4bool in_groove,						/**< the G4Fibre is to be placed into a groove, i.e. the glue-volume will be extended to one side (using the side with the minimal groove extent), untill it reaches the mother volume's surface ("true" or "false") */
 		 G4bool constructSensitiveDetector,				/**< a sensitive detector is to be constructed ("true" or "false") */
 		 G4bool searchOverlaps,						/**< Geant should search for overlaps when placing the physical volumes of G4Fibre%'s ("true" or "false") */
 		 PropertyToolsManager * propertyTools,				/**< pointer to the PropertyToolsManager that is to be used */
@@ -964,6 +986,7 @@ public:
 	, OnlyInsideMother(onlyInsideMother)
 	, CutAuntVolumesWithDaughters(cutAuntVolumesWithDaughters)
 	, Glued(glued)
+// 	, InGroove(in_groove)
 	, EmbedmentProfile(embedment_profile)
 	, WhereIsEmbedmentToBeFlushWithFibre(where_is_embedment_to_be_flush_with_fibre)
 	, VolumesWithEmbedment(volumes_with_embedment)
@@ -1030,6 +1053,7 @@ public:
 		}
 
 		if(Glued) OpticalCementProperties.load(glue_property_file);
+// 		else InGroove = false;   // it would not make sence to simulate a fibre hanging in the air
 
 		// calculate variables and create materials:
 		InitialiseVariables();
@@ -1174,7 +1198,8 @@ public:
 	/** @return the transformation of the G4Fibre inside the mother volume */
 	G4Transform3D GetFibreInsideMotherTransformation()
 	{
-		return FibreTransformation_insideMother;
+		/*if(!Glued)*/ return FibreTransformation_insideMother;
+// 		else return EmbedmentTransformation;
 	}
 
 	/** @return the transformation of the G4Fibre outside the mother volume in the grandmother volume */
@@ -2299,6 +2324,10 @@ public:
 	G4bool IsFibreGlued()
 	{ return Glued; }
 
+// 	/* * @return G4bool, if the fibre is inside a groove */
+// 	G4bool IsFibreInGroove()
+// 	{ return InGroove; }
+
 	/** @return G4bool, if a coating exists */
 	G4bool DoesCoatingExist()
 	{ return CoatingExists; }
@@ -2383,6 +2412,7 @@ private:
 	void InitialiseVariables();
 	void GenerateTransformation(G4String fibreType	/**< which type of G4Fibre is to be created (bent or straight) */
 				   );
+// 	void GenerateEmbedmentTransformation();
 
 	void DefineMaterials();
 
@@ -2480,6 +2510,7 @@ private:
 	G4bool IsScinti;
 	G4bool IsWLS;
 	G4bool Glued;
+// 	G4bool InGroove;
 	G4bool Cladding1Exists;
 	G4bool Cladding2Exists;
 	G4bool Cladding3Exists;
@@ -2511,6 +2542,9 @@ private:
 	G4String EmbedmentProfile;
 	G4String WhereIsEmbedmentToBeFlushWithFibre;
 	std::vector<G4VPhysicalVolume *> VolumesWithEmbedment;
+// 	G4Transform3D EmbedmentTransformation;
+// 	G4Transform3D EmbedmentCutTransformation;
+// 	G4ThreeVector EmbedmentDimensions;
 	G4double EmbedmentThickness;
 
 // Reflective/roughend/smooth fibre end

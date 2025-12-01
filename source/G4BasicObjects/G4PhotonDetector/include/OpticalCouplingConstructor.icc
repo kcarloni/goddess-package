@@ -1,0 +1,90 @@
+/*
+ * author:      Erik Dietz-Laursonn
+ * institution: Physics Institute 3A, RWTH Aachen University, Aachen, Germany
+ * copyright:   Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License
+ */
+
+
+// class variables begin with capital letters, local variables with small letters
+
+
+
+// These are the overloaded functions. They are calling the main function using default values for the parameters which are not specified.
+
+
+
+// option to create replications: the first object will be placed at transf_relative_to_reference, the other number_of_replications - 1 objects will be placed at replication_transf relative to the previous one
+/**
+ *  \overload
+ *  \n
+ *
+ *  The "missing" argument(s) can be set by the setter functions below, or the default values (SetDefaults()) are used.
+ */
+G4OpticalCoupling * CoupleVolumes( G4VPhysicalVolume* base_volume,
+				   G4VPhysicalVolume* volume_optically_coupled_to_base_volume,
+				   G4double coupling_edgeLength,
+				   G4double coupling_width,
+				   G4VPhysicalVolume* mother_volume
+				 )
+{
+	return CoupleVolumes( base_volume,
+			      volume_optically_coupled_to_base_volume,
+			      coupling_edgeLength,
+			      coupling_width,
+			      mother_volume,
+			      CouplingName,
+			      SurfaceNormal_rel,
+			      CentrePos_rel,
+			      ConstructSensitiveDetector );
+}
+
+/**
+ *  \overload
+ *  \n
+ *
+ *  The "missing" argument(s) can be set by the setter functions below, or the default values (SetDefaults()) are used.
+ */
+G4OpticalCoupling * CoupleVolumes( G4VPhysicalVolume* base_volume,
+				   G4VPhysicalVolume* volume_optically_coupled_to_base_volume,
+				   G4double coupling_edgeLength,
+				   G4double coupling_width,
+				   G4VPhysicalVolume* mother_volume,
+				   G4String coupling_name
+				 )
+{
+	return CoupleVolumes( base_volume,
+			      volume_optically_coupled_to_base_volume,
+			      coupling_edgeLength,
+			      coupling_width,
+			      mother_volume,
+			      coupling_name,
+			      SurfaceNormal_rel,
+			      CentrePos_rel,
+			      ConstructSensitiveDetector );
+}
+
+/**
+ *  \overload
+ *  \n
+ *
+ *  The "missing" argument(s) can be set by the setter functions below, or the default values (SetDefaults()) are used.
+ */
+G4OpticalCoupling * CoupleVolumes( G4VPhysicalVolume* base_volume,
+				   G4VPhysicalVolume* volume_optically_coupled_to_base_volume,
+				   G4double coupling_edgeLength,
+				   G4double coupling_width,
+				   G4VPhysicalVolume* mother_volume,
+				   G4String coupling_name,
+				   G4ThreeVector sensitive_surface_normal_relative_to_base,
+				   G4ThreeVector sensitive_centre_position_relative_to_base )
+{
+	return CoupleVolumes( base_volume,
+			      volume_optically_coupled_to_base_volume,
+			      coupling_edgeLength,
+			      coupling_width,
+			      mother_volume,
+			      coupling_name,
+			      sensitive_surface_normal_relative_to_base,
+			      sensitive_centre_position_relative_to_base,
+			      ConstructSensitiveDetector );
+}

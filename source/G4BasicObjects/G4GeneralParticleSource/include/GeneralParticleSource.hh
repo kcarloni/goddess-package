@@ -31,6 +31,9 @@ private:
 	std::vector<G4double> dicedTimes;
 	std::ofstream OutFile;
 
+	G4int nBins = 100;
+	G4double para[100];
+
 	void dicePos(G4double& x, G4double& y);
 	void dicePosInCircle(G4double& x, G4double& y);
 	void dicePosInRect(G4double& x, G4double& y);

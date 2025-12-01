@@ -42,6 +42,7 @@ G4Fibre * FibreConstructor::ConstructFibre( G4String fibre_property_file,
 					    G4String embedment_profile,
 					    G4String where_is_embedment_to_be_flush_with_fibre,
 					    std::vector<G4VPhysicalVolume *> volumes_with_embedment,
+// 					    G4bool in_groove,
 					    G4bool constructSensitiveDetector
 					  )
 {
@@ -70,6 +71,7 @@ G4Fibre * FibreConstructor::ConstructFibre( G4String fibre_property_file,
 				      embedment_profile,
 				      where_is_embedment_to_be_flush_with_fibre,
 				      volumes_with_embedment,
+// 				      in_groove,
 				      constructSensitiveDetector,
 				      SearchOverlaps,
 				      PropertyTools,
@@ -111,6 +113,7 @@ vector<G4Fibre *> FibreConstructor::ConstructFibres( G4String fibre_property_fil
 						     G4String embedment_profile,
 						     G4String where_is_embedment_to_be_flush_with_fibre,
 						     std::vector<G4VPhysicalVolume *> volumes_with_embedment,
+// 						     G4bool in_groove,
 						     G4bool constructSensitiveDetector
 						   )
 {
@@ -164,6 +167,7 @@ vector<G4Fibre *> FibreConstructor::ConstructFibres( G4String fibre_property_fil
 					      embedment_profile,
 					      where_is_embedment_to_be_flush_with_fibre,
 					      volumes_with_embedment,
+// 					      in_groove,
 					      constructSensitiveDetector,
 					      SearchOverlaps,
 					      PropertyTools,
@@ -206,6 +210,7 @@ G4Fibre * FibreConstructor::ConstructFibre( G4String fibre_property_file,
 					    G4String embedment_profile,
 					    G4String where_is_embedment_to_be_flush_with_fibre,
 					    std::vector<G4VPhysicalVolume *> volumes_with_embedment,
+// 					    G4bool in_groove,
 					    G4bool constructSensitiveDetector
 					  )
 {
@@ -234,6 +239,7 @@ G4Fibre * FibreConstructor::ConstructFibre( G4String fibre_property_file,
 				      embedment_profile,
 				      where_is_embedment_to_be_flush_with_fibre,
 				      volumes_with_embedment,
+// 				      in_groove,
 				      constructSensitiveDetector,
 				      SearchOverlaps,
 				      PropertyTools,
@@ -275,6 +281,7 @@ vector<G4Fibre *> FibreConstructor::ConstructFibres( G4String fibre_property_fil
 						     G4String embedment_profile,
 						     G4String where_is_embedment_to_be_flush_with_fibre,
 						     std::vector<G4VPhysicalVolume *> volumes_with_embedment,
+// 						     G4bool in_groove,
 						     G4bool constructSensitiveDetector
 						   )
 {
@@ -328,6 +335,7 @@ vector<G4Fibre *> FibreConstructor::ConstructFibres( G4String fibre_property_fil
 					      embedment_profile,
 					      where_is_embedment_to_be_flush_with_fibre,
 					      volumes_with_embedment,
+// 					      in_groove,
 					      constructSensitiveDetector,
 					      SearchOverlaps,
 					      PropertyTools,
@@ -372,6 +380,7 @@ G4Fibre * FibreConstructor::ConstructFibre( G4String fibre_property_file,
 					    G4String embedment_profile,
 					    G4String where_is_embedment_to_be_flush_with_fibre,
 					    std::vector<G4VPhysicalVolume *> volumes_with_embedment,
+// 					    G4bool in_groove,
 					    G4bool constructSensitiveDetector
 					  )
 {
@@ -402,6 +411,7 @@ G4Fibre * FibreConstructor::ConstructFibre( G4String fibre_property_file,
 				      embedment_profile,
 				      where_is_embedment_to_be_flush_with_fibre,
 				      volumes_with_embedment,
+// 				      in_groove,
 				      constructSensitiveDetector,
 				      SearchOverlaps,
 				      PropertyTools,
@@ -445,6 +455,7 @@ vector<G4Fibre *> FibreConstructor::ConstructFibres( G4String fibre_property_fil
 						     G4String embedment_profile,
 						     G4String where_is_embedment_to_be_flush_with_fibre,
 						     std::vector<G4VPhysicalVolume *> volumes_with_embedment,
+// 						     G4bool in_groove,
 						     G4bool constructSensitiveDetector
 						   )
 {
@@ -500,6 +511,7 @@ vector<G4Fibre *> FibreConstructor::ConstructFibres( G4String fibre_property_fil
 					      embedment_profile,
 					      where_is_embedment_to_be_flush_with_fibre,
 					      volumes_with_embedment,
+// 					      in_groove,
 					      constructSensitiveDetector,
 					      SearchOverlaps,
 					      PropertyTools,
@@ -545,6 +557,7 @@ G4Fibre * FibreConstructor::ConstructFibre( G4String fibre_property_file,
 					    G4String embedment_profile,
 					    G4String where_is_embedment_to_be_flush_with_fibre,
 					    std::vector<G4VPhysicalVolume *> volumes_with_embedment,
+// 					    G4bool in_groove,
 					    G4bool constructSensitiveDetector
 					  )
 {
@@ -576,6 +589,7 @@ G4Fibre * FibreConstructor::ConstructFibre( G4String fibre_property_file,
 				      embedment_profile,
 				      where_is_embedment_to_be_flush_with_fibre,
 				      volumes_with_embedment,
+// 				      in_groove,
 				      constructSensitiveDetector,
 				      SearchOverlaps,
 				      PropertyTools,
@@ -620,6 +634,7 @@ vector<G4Fibre *> FibreConstructor::ConstructFibres( G4String fibre_property_fil
 						     G4String embedment_profile,
 						     G4String where_is_embedment_to_be_flush_with_fibre,
 						     std::vector<G4VPhysicalVolume *> volumes_with_embedment,
+// 						     G4bool in_groove,
 						     G4bool constructSensitiveDetector
 						   )
 {
@@ -676,6 +691,7 @@ vector<G4Fibre *> FibreConstructor::ConstructFibres( G4String fibre_property_fil
 					      embedment_profile,
 					      where_is_embedment_to_be_flush_with_fibre,
 					      volumes_with_embedment,
+// 					      in_groove,
 					      constructSensitiveDetector,
 					      SearchOverlaps,
 					      PropertyTools,
@@ -786,4 +802,7 @@ void FibreConstructor::SetDefaults()
 	WhereIsEmbedmentToBeFlushWithFibre = "";
 
 	VolumesWithEmbedment.clear();
+
+// 	/* * - G4bool, if the G4Fibre is to be placed into a groove, i.e. the glue-volume will be extended to one side (using the side with the minimal groove extent), untill it reaches the mother volume's surface \code InGroove = false; \endcode */
+// 	InGroove = false;
 }

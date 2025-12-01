@@ -13,6 +13,7 @@
 #include <ScintillatorTileConstructor.hh>
 #include <FibreConstructor.hh>
 #include <PhotonDetectorConstructor.hh>
+#include <OpticalCouplingConstructor.hh>
 
 
 
@@ -36,6 +37,7 @@ public:
 	: STConstructor(0)
 	, FConstructor(0)
 	, PDConstructor(0)
+	, OCConstructor(0)
 	{
 		DataStorage = new GODDeSS_DataStorage();
 		PropertyTools = new PropertyToolsManager(energyRangeVector);
@@ -57,6 +59,7 @@ private:
 	ScintillatorTileConstructor * STConstructor;
 	FibreConstructor * FConstructor;
 	PhotonDetectorConstructor * PDConstructor;
+	OpticalCouplingConstructor * OCConstructor;
 
 public:
 	/**
@@ -103,6 +106,17 @@ public:
 	 */
 	PhotonDetectorConstructor * GetPhotonDetectorConstructor() const
 	{ return PDConstructor; }
+
+	/**
+	 *  Set the pointer to the OpticalCouplingConstructor.
+	 */
+	void SetOpticalCouplingConstructor(OpticalCouplingConstructor * opticalCouplingConstructor)
+	{ OCConstructor = opticalCouplingConstructor; }
+	/**
+	 *  @return pointer to the OpticalCouplingConstructor
+	 */
+	OpticalCouplingConstructor * GetOpticalCouplingConstructor() const
+	{ return OCConstructor; }
 };
 
 #endif

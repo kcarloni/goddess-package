@@ -102,6 +102,7 @@ public:
 					   G4String embedment_profile,					/**< profile that the G4Fibre%'s glue volume should have ("round" or "quadratic") */
 					   G4String where_is_embedment_to_be_flush_with_fibre,		/**< the ends at which the G4Fibre%'s glue volume is to be flush with the G4Fibre ("" = none, "S" = start point, "E" = end point or "SE" = start and end point) */
 					   std::vector<G4VPhysicalVolume *> volumes_with_embedment,	/**< the volumes to which the G4Fibre is to be glued */
+// 					   G4bool in_groove,						/**< the G4Fibre is to be placed into a groove, i.e. the glue-volume will be extended to one side (using the side with the minimal groove extent), untill it reaches the mother volume's surface ("true" or "false") */
 					   G4bool constructSensitiveDetector				/**< a sensitive detector is to be constructed ("true" or "false") */
 					 );
 
@@ -128,6 +129,7 @@ public:
 				  G4String embedment_profile,					/**< profile that the G4Fibre%'s glue volume should have ("round" or "quadratic") */
 				  G4String where_is_embedment_to_be_flush_with_fibre,		/**< the ends at which the G4Fibre%'s glue volume is to be flush with the G4Fibre ("" = none, "S" = start point, "E" = end point or "SE" = start and end point) */
 				  std::vector<G4VPhysicalVolume *> volumes_with_embedment,	/**< the volumes to which the G4Fibre is to be glued */
+// 				  G4bool in_groove,						/**< the G4Fibre is to be placed into a groove, i.e. the glue-volume will be extended to one side (using the side with the minimal groove extent), untill it reaches the mother volume's surface ("true" or "false") */
 				  G4bool constructSensitiveDetector				/**< a sensitive detector is to be constructed ("true" or "false") */
 				);
 
@@ -162,6 +164,7 @@ public:
 					   G4String embedment_profile,					/**< profile that the G4Fibre%'s glue volume should have ("round" or "quadratic") */
 					   G4String where_is_embedment_to_be_flush_with_fibre,		/**< the ends at which the G4Fibre%'s glue volume is to be flush with the G4Fibre ("" = none, "S" = start point, "E" = end point or "SE" = start and end point) */
 					   std::vector<G4VPhysicalVolume *> volumes_with_embedment,	/**< the volumes to which the G4Fibre is to be glued */
+// 					   G4bool in_groove,						/**< the G4Fibre is to be placed into a groove, i.e. the glue-volume will be extended to one side (using the side with the minimal groove extent), untill it reaches the mother volume's surface ("true" or "false") */
 					   G4bool constructSensitiveDetector				/**< a sensitive detector is to be constructed ("true" or "false") */
 					 );
 
@@ -187,6 +190,7 @@ public:
 				  G4String embedment_profile,					/**< profile that the G4Fibre%'s glue volume should have ("round" or "quadratic") */
 				  G4String where_is_embedment_to_be_flush_with_fibre,		/**< the ends at which the G4Fibre%'s glue volume is to be flush with the G4Fibre ("" = none, "S" = start point, "E" = end point or "SE" = start and end point) */
 				  std::vector<G4VPhysicalVolume *> volumes_with_embedment,	/**< the volumes to which the G4Fibre is to be glued */
+// 				  G4bool in_groove,						/**< the G4Fibre is to be placed into a groove, i.e. the glue-volume will be extended to one side (using the side with the minimal groove extent), untill it reaches the mother volume's surface ("true" or "false") */
 				  G4bool constructSensitiveDetector				/**< a sensitive detector is to be constructed ("true" or "false") */
 				);
 
@@ -220,6 +224,7 @@ public:
 					   G4String embedment_profile,					/**< profile that the G4Fibre%'s glue volume should have ("round" or "quadratic") */
 					   G4String where_is_embedment_to_be_flush_with_fibre,		/**< the ends at which the G4Fibre%'s glue volume is to be flush with the G4Fibre ("" = none, "S" = start point, "E" = end point or "SE" = start and end point) */
 					   std::vector<G4VPhysicalVolume *> volumes_with_embedment,	/**< the volumes to which the G4Fibre is to be glued */
+// 					   G4bool in_groove,						/**< the G4Fibre is to be placed into a groove, i.e. the glue-volume will be extended to one side (using the side with the minimal groove extent), untill it reaches the mother volume's surface ("true" or "false") */
 					   G4bool constructSensitiveDetector				/**< a sensitive detector is to be constructed ("true" or "false") */
 					 );
 
@@ -243,6 +248,7 @@ public:
 				  G4String embedment_profile,					/**< profile that the G4Fibre%'s glue volume should have ("round" or "quadratic") */
 				  G4String where_is_embedment_to_be_flush_with_fibre,		/**< the ends at which the G4Fibre%'s glue volume is to be flush with the G4Fibre ("" = none, "S" = start point, "E" = end point or "SE" = start and end point) */
 				  std::vector<G4VPhysicalVolume *> volumes_with_embedment,	/**< the volumes to which the G4Fibre is to be glued */
+// 				  G4bool in_groove,						/**< the G4Fibre is to be placed into a groove, i.e. the glue-volume will be extended to one side (using the side with the minimal groove extent), untill it reaches the mother volume's surface ("true" or "false") */
 				  G4bool constructSensitiveDetector				/**< a sensitive detector is to be constructed ("true" or "false") */
 				);
 
@@ -276,6 +282,7 @@ public:
 					   G4String embedment_profile,					/**< profile that the G4Fibre%'s glue volume should have ("round" or "quadratic") */
 					   G4String where_is_embedment_to_be_flush_with_fibre,		/**< the ends at which the G4Fibre%'s glue volume is to be flush with the G4Fibre ("" = none, "S" = start point, "E" = end point or "SE" = start and end point) */
 					   std::vector<G4VPhysicalVolume *> volumes_with_embedment,	/**< the volumes to which the G4Fibre is to be glued */
+// 					   G4bool in_groove,						/**< the G4Fibre is to be placed into a groove, i.e. the glue-volume will be extended to one side (using the side with the minimal groove extent), untill it reaches the mother volume's surface ("true" or "false") */
 					   G4bool constructSensitiveDetector				/**< a sensitive detector is to be constructed ("true" or "false") */
 					 );
 
@@ -299,6 +306,7 @@ public:
 				  G4String embedment_profile,					/**< profile that the G4Fibre%'s glue volume should have ("round" or "quadratic") */
 				  G4String where_is_embedment_to_be_flush_with_fibre,		/**< the ends at which the G4Fibre%'s glue volume is to be flush with the G4Fibre ("" = none, "S" = start point, "E" = end point or "SE" = start and end point) */
 				  std::vector<G4VPhysicalVolume *> volumes_with_embedment,	/**< the volumes to which the G4Fibre is to be glued */
+// 				  G4bool in_groove,						/**< the G4Fibre is to be placed into a groove, i.e. the glue-volume will be extended to one side (using the side with the minimal groove extent), untill it reaches the mother volume's surface ("true" or "false") */
 				  G4bool constructSensitiveDetector				/**< a sensitive detector is to be constructed ("true" or "false") */
 				);
 
@@ -451,6 +459,17 @@ public:
 		WhereIsEmbedmentToBeFlushWithFibre = where_is_embedment_to_be_flush_with_fibre;
 	}
 
+// 	/* *
+// 	 *  Function to make the G4Fibre to be placed into a groove.\n
+// 	 *  I.e. the glue-volume will be extended to one side (using the side with the minimal groove extent), untill it reaches the mother volume's surface.
+// 	 *
+// 	 *  <b> The value set by this function will only apply to the very next G4Fibre object that is created! </b>
+// 	 */
+// 	void SetFibreInGroove()
+// 	{
+// 		InGroove = true;
+// 	}
+
 private:
 	void applyVolumeCounter( G4String & physical_volume_name /**< name prefix which is to be used for naming the volumes */
 			       );
@@ -473,6 +492,7 @@ private:
 	G4bool OnlyInsideMother;
 	G4bool CutAuntVolumesWithDaughters;
 	G4bool Glued;
+// 	G4bool InGroove;
 	G4String OpticalCementPropertyFile;
 	G4String EmbedmentProfile;
 	G4String WhereIsEmbedmentToBeFlushWithFibre;

@@ -289,7 +289,7 @@ std::vector<boost::any> G4Fibre::ConstructFibreLayerLogical( G4Transform3D trans
 			G4VSolid * solid = new G4Tubs("solid", BendingRadius - edgeLengthMax / 2., BendingRadius + edgeLengthMax / 2., edgeLengthMax / 2., startAngle, deltaAngle);
 			if(fabs(edgeLengthMin) >= 1e-12)
 			{
-				G4VSolid * cutSolid = new G4Tubs("cutSolid", BendingRadius - edgeLengthMin / 2., BendingRadius + edgeLengthMin / 2., edgeLengthMin / 2., 0. * CLHEP::deg, 360. * CLHEP::deg);
+				G4VSolid * cutSolid = new G4Tubs("cutSolid", BendingRadius - edgeLengthMin / 2., BendingRadius + edgeLengthMin / 2., edgeLengthMin / 2., 0. * CLHEP::rad, 2.0 * CLHEP::pi * CLHEP::rad);
 				fibreLayer_solid = new G4SubtractionSolid(nameBase + "_square_solid", solid, cutSolid, G4Transform3D());
 			}
 			else
@@ -538,6 +538,7 @@ std::vector<boost::any> G4Fibre::ConstructEmbedmentLogical( G4String nameBase,
 // solids (dimensions):
 
 	G4VSolid * fibreLayer_solid = 0;
+	//G4Transform3D cutTransformation = G4Transform3D(G4RotationMatrix(),G4ThreeVector(0,+0.9* CLHEP::mm,0));
 	G4Transform3D cutTransformation = G4Transform3D();
 	std::vector<boost::any> solids;
 	G4String volumeName = "";
@@ -664,6 +665,7 @@ std::vector<boost::any> G4Fibre::ConstructEmbedmentLogical( G4String nameBase,
 		{
 			cutSolid = new G4Tubs("cutSolid", 0, FibreRadius, cutLength / 2., phi_start, delta_Phi);
 			fibreLayer_solid = new G4SubtractionSolid(nameBase + "_round_solid", solid, cutSolid, cutTransformation.inverse());
+			//fibreLayer_solid = new G4SubtractionSolid(nameBase + "_round_solid", solid, cutSolid, 0,G4ThreeVector(0,-0.625* CLHEP::mm,0));
 		}
 		else
 		{
@@ -685,6 +687,7 @@ std::vector<boost::any> G4Fibre::ConstructEmbedmentLogical( G4String nameBase,
 		solids.push_back(MotherVolume_physical);
 
 		// WARNING-NOTE: as transform() changes the vector it is applied to, the following 3 commands are needed instead of a 1 line command
+		//G4ThreeVector translation = cutTransformation.getTranslation() / 2. + G4ThreeVector(0,+0.9* CLHEP::mm,0)/2;
 		G4ThreeVector translation = cutTransformation.getTranslation() / 2.;
 		translation.transform(FibreTransformation_insideMother.getRotation());
 		translation += FibreTransformation_insideMother.getTranslation();
@@ -1086,7 +1089,7 @@ void G4Fibre::InitialiseVariables()
 		RelativeFibreRadius_CoatingMin = FibreProperties.getNumber("R_relMin_coating");
 		RelativeFibreRadius_CoatingMax = FibreProperties.getNumber("R_relMax_coating");
 
-		if(isnan(RelativeFibreRadius_CoatingMax))
+		if(std::isnan(RelativeFibreRadius_CoatingMax))
 		{
 			std::cerr <<
 			std::endl << "##########" <<
@@ -1099,7 +1102,7 @@ void G4Fibre::InitialiseVariables()
 			CriticalErrorOccured = true;
 		}
 
-		if(isnan(RelativeFibreRadius_CoatingMin))
+		if(std::isnan(RelativeFibreRadius_CoatingMin))
 		{
 			std::cerr <<
 			std::endl << "##########" <<
@@ -1217,13 +1220,14 @@ std::vector<G4VPhysicalVolume *> G4Fibre::findGrandMotherAndAuntVolumes(G4bool c
  *  - the transformation of the fibre relative to the reference volume
  *  - the transformation of the reference volume relative to the mother volume
  */
+// *  - embedment (GenerateEmbedmentTransformation()), reflective end, and roughened end
 void G4Fibre::GenerateTransformation(G4String fibreType)
 {
 	// get the fibre's transformation relative to the reference volume
 	G4RotationMatrix fibreRotation_rel = G4RotationMatrix();
 	G4ThreeVector fibreTranslation_rel = G4ThreeVector(0., 0., 0.);
 
-	if(!isnan(Length))   //i.e. a straight fibre is defined by Transformation and length
+	if(!std::isnan(Length))   //i.e. a straight fibre is defined by Transformation and length
 	{
 		fibreTranslation_rel = FibreTransformation_rel.getTranslation();
 		fibreRotation_rel = FibreTransformation_rel.getRotation();
@@ -1255,7 +1259,7 @@ void G4Fibre::GenerateTransformation(G4String fibreType)
 		}
 		else if(fibreAxis / fibreAxis.mag() == - originAxis)
 		{
-			alpha = 180. * CLHEP::deg;
+			alpha = CLHEP::pi * CLHEP::rad;
 			rotationAxis = referenceAxis;
 		}
 		fibreRotation_rel.rotate(alpha, rotationAxis);
@@ -1277,7 +1281,7 @@ void G4Fibre::GenerateTransformation(G4String fibreType)
 		else if(fibreType == "bent")
 		{
 			// calculate the the angle at which the bent fibre starts (if it is not given)
-			if(isnan(BendingStartAngle))
+			if(std::isnan(BendingStartAngle))
 			{
 				// NOTE: the fibre is originally generated circularly around the z-axis, 0° is parallel to the x-axis and the angle is counted mathematically right-handed around the z-axis
 
@@ -1286,7 +1290,7 @@ void G4Fibre::GenerateTransformation(G4String fibreType)
 				startPoint_rel /= startPoint_rel.mag();
 				startPoint_rel.transform(fibreRotation_rel.inverse());
 
-				if(startPoint_rel.y() < 0) BendingStartAngle = 180. * CLHEP::deg + acos(- startPoint_rel.x());
+				if(startPoint_rel.y() < 0) BendingStartAngle = CLHEP::pi * CLHEP::rad + acos(- startPoint_rel.x());
 				else BendingStartAngle = acos(startPoint_rel.x());
 			}
 		}
@@ -1451,7 +1455,191 @@ void G4Fibre::GenerateTransformation(G4String fibreType)
 			RoughenedEndPointTransformation_insideMother = FibreTransformation_insideMother;
 		}
 	}
+
+
+// 	// if the fibre is glued, get the transformation for the embedment volume as well as the transformation needed to cut the embedment into pieces fitting into the different volumina of the mother volume (scintillator, wrapping) + adjust the transformation of the fibre
+// 	if(Glued) GenerateEmbedmentTransformation();
 }
+
+
+
+// /**
+//  *  Function to determine the embedment dimensions and generate its transformation:
+//  *  - determines the embedment with the smallest volume
+//  *  - generates its transformation
+//  *  - adjusts the transformation of the fibre (inside the scintillator), as it will be placed inside the embedment volume
+//  */
+// void G4Fibre::GenerateEmbedmentTransformation()
+// {
+// 	G4RotationMatrix embedmentRotation = FibreTransformation_insideMother.getRotation();
+// 	G4ThreeVector embedmentTranslation = FibreTransformation_insideMother.getTranslation();
+//
+// 	G4RotationMatrix fibreRotation_insideMother = G4RotationMatrix();   // the fibre (inside the scintillator) will be placed into the embedment volume instead of the scintillator volume
+// 	G4ThreeVector fibreTranslation_insideMother = G4ThreeVector(0, 0, 0);
+//
+// 	// if the fibre is glued in a groove, get the groove with the minimal volume as well as its transformation
+// 	if(InGroove)
+// 	{
+// 		G4double motherW = 2. * ( (G4Box*) MotherVolume_solid )->GetXHalfLength();//FIXME
+// 		G4double motherH = 2. * ( (G4Box*) MotherVolume_solid )->GetYHalfLength();//FIXME
+// 		G4double motherL = 2. * ( (G4Box*) MotherVolume_solid )->GetZHalfLength();//FIXME
+//
+// 		G4double MotherDiagonal = sqrt( pow(motherW, 2) + pow(motherH, 2) + pow(motherL, 2) );
+//
+// 		G4double tempEmbedmentWidth = 0.;
+// 		G4double tempEmbedmentDepth = 0.;
+// 		G4double tempEmbedmentLength = 0.;
+// 		G4ThreeVector relTempEmbedmentTranslation = G4ThreeVector(0, 0, 0);
+// 		G4ThreeVector tempEmbedmentTranslation = G4ThreeVector(0, 0, 0);
+// 		G4double tempEmbedmentVolume = 0.;
+//
+// 		G4double tempEmbedmentWidth_best = 0.;
+// 		G4double tempEmbedmentDepth_best = 0.;
+// 		G4double tempEmbedmentLength_best = 0.;
+// 		G4ThreeVector relTempEmbedmentTranslation_best = G4ThreeVector(0, 0, 0);
+// 		G4ThreeVector tempEmbedmentTranslation_best = G4ThreeVector(0, 0, 0);
+// 		G4double tempEmbedmentVolume_best = 0.;
+//
+// 	//groove in positive X-direction (relative to the fibre)
+// 		if(FibreRound)
+// 		{
+// 			tempEmbedmentWidth = 2. * FibreRadius + 2. * EmbedmentThickness + MotherDiagonal;
+// 			tempEmbedmentDepth = 2. * FibreRadius + 2. * EmbedmentThickness;
+// 		}
+// 		else
+// 		{
+// 			tempEmbedmentWidth = FibreEdgeLength + 2. * EmbedmentThickness + MotherDiagonal;
+// 			tempEmbedmentDepth = FibreEdgeLength + 2. * EmbedmentThickness;
+// 		}
+// 		tempEmbedmentLength = Length + 2. * EmbedmentThickness + MotherDiagonal;
+//
+// 		relTempEmbedmentTranslation = G4ThreeVector(MotherDiagonal / 2., 0., 0.);
+// 		// WARNING-NOTE: as rotate() changes the vector it is applied to, the following 3 commands are needed instead of the 1 line command
+// 		tempEmbedmentTranslation = relTempEmbedmentTranslation;
+// 		tempEmbedmentTranslation.rotate(embedmentRotation.getPhi(), embedmentRotation.getTheta(), embedmentRotation.getPsi());
+// 		tempEmbedmentTranslation += embedmentTranslation;
+//
+// 		G4Box tempEmbedmentBox = G4Box("tempEmbedmentBox", tempEmbedmentWidth / 2., tempEmbedmentDepth / 2., tempEmbedmentLength / 2.);
+// 		tempEmbedmentVolume = G4IntersectionSolid("tempEmbedmentVolume", & tempEmbedmentBox, MotherVolume_solid, G4Transform3D(embedmentRotation, tempEmbedmentTranslation).inverse()).GetCubicVolume();
+//
+// 		// save values of the embedment with the smallest volume
+// 		tempEmbedmentVolume_best = tempEmbedmentVolume;
+// 		tempEmbedmentWidth_best = tempEmbedmentWidth;
+// 		tempEmbedmentDepth_best = tempEmbedmentDepth;
+// 		tempEmbedmentLength_best = tempEmbedmentLength;
+// 		relTempEmbedmentTranslation_best = relTempEmbedmentTranslation;
+// 		tempEmbedmentTranslation_best = tempEmbedmentTranslation;
+//
+// // G4Box* EmbedmentTempBoxx = new G4Box("EmbedmentTempBoxx", tempEmbedmentWidth / 2., tempEmbedmentDepth / 2., tempEmbedmentLength / 2.);
+// // G4LogicalVolume* EmbedmentTemp_logical = new G4LogicalVolume(EmbedmentTempBoxx, Material_OpticalCement, "EmbedmentTemp_logical",0,0,0);
+// // G4VisAttributes EmbedmentTempVisAtt(G4Colour::Red());
+// // EmbedmentTempVisAtt.SetForceWireframe(true);
+// // EmbedmentTemp_logical->SetVisAttributes(EmbedmentTempVisAtt);
+// // G4VPhysicalVolume * EmbedmentTemp_physical = new G4PVPlacement(G4Transform3D(embedmentRotation, tempEmbedmentTranslation), "XYZ", EmbedmentTemp_logical, MotherVolume_physical, false, 0, SearchOverlaps);
+//
+// 	//groove in negative X-direction (relative to the fibre)
+// 		relTempEmbedmentTranslation = G4ThreeVector(- MotherDiagonal / 2., 0., 0.);
+// 		// WARNING-NOTE: as rotate() changes the vector it is applied to, the following 3 commands are needed instead of a 1 line command
+// 		tempEmbedmentTranslation = relTempEmbedmentTranslation;
+// 		tempEmbedmentTranslation.rotate(embedmentRotation.getPhi(), embedmentRotation.getTheta(), embedmentRotation.getPsi());
+// 		tempEmbedmentTranslation += embedmentTranslation;
+//
+// 		tempEmbedmentVolume = G4IntersectionSolid("tempEmbedmentVolume", & tempEmbedmentBox, MotherVolume_solid, G4Transform3D(embedmentRotation, tempEmbedmentTranslation).inverse()).GetCubicVolume();
+//
+// 		// save values of the embedment with the smallest volume
+// 		if(tempEmbedmentVolume < tempEmbedmentVolume_best)
+// 		{
+// 			tempEmbedmentVolume_best = tempEmbedmentVolume;
+// 			tempEmbedmentWidth_best = tempEmbedmentWidth;
+// 			tempEmbedmentDepth_best = tempEmbedmentDepth;
+// 			tempEmbedmentLength_best = tempEmbedmentLength;
+// 			relTempEmbedmentTranslation_best = relTempEmbedmentTranslation;
+// 			tempEmbedmentTranslation_best = tempEmbedmentTranslation;
+// 		}
+//
+// // EmbedmentTemp_physical = new G4PVPlacement(G4Transform3D(embedmentRotation, tempEmbedmentTranslation), "XYZ", EmbedmentTemp_logical, MotherVolume_physical, false, 0, SearchOverlaps);
+//
+// 	//groove in positive Y-direction (relative to the fibre)
+// 		if(FibreRound)
+// 		{
+// 			tempEmbedmentWidth = 2. * FibreRadius + 2. * EmbedmentThickness; //FIXME umbenennen
+// 			tempEmbedmentDepth = 2. * FibreRadius + 2. * EmbedmentThickness + MotherDiagonal;
+// 		}
+// 		else
+// 		{
+// 			tempEmbedmentWidth = FibreEdgeLength + 2. * EmbedmentThickness; //FIXME umbenennen
+// 			tempEmbedmentDepth = FibreEdgeLength + 2. * EmbedmentThickness + MotherDiagonal;
+// 		}
+// 		tempEmbedmentLength = Length + 2. * EmbedmentThickness + MotherDiagonal;
+//
+// 		relTempEmbedmentTranslation = G4ThreeVector(0., MotherDiagonal / 2., 0.);
+// 		// WARNING-NOTE: as rotate() changes the vector it is applied to, the following 3 commands are needed instead of a 1 line command
+// 		tempEmbedmentTranslation = relTempEmbedmentTranslation;
+// 		tempEmbedmentTranslation.rotate(embedmentRotation.getPhi(), embedmentRotation.getTheta(), embedmentRotation.getPsi());
+// 		tempEmbedmentTranslation += embedmentTranslation;
+//
+// 		tempEmbedmentBox = G4Box("tempEmbedmentBox", tempEmbedmentWidth / 2., tempEmbedmentDepth / 2., tempEmbedmentLength / 2.);
+// 		tempEmbedmentVolume = G4IntersectionSolid("tempEmbedmentVolume", & tempEmbedmentBox, MotherVolume_solid, G4Transform3D(embedmentRotation, tempEmbedmentTranslation).inverse()).GetCubicVolume();
+//
+// 		// save values of the embedment with the smallest volume
+// 		if(tempEmbedmentVolume < tempEmbedmentVolume_best)
+// 		{
+// 			tempEmbedmentVolume_best = tempEmbedmentVolume;
+// 			tempEmbedmentWidth_best = tempEmbedmentWidth;
+// 			tempEmbedmentDepth_best = tempEmbedmentDepth;
+// 			tempEmbedmentLength_best = tempEmbedmentLength;
+// 			relTempEmbedmentTranslation_best = relTempEmbedmentTranslation;
+// 			tempEmbedmentTranslation_best = tempEmbedmentTranslation;
+// 		}
+//
+// // EmbedmentTempBoxx = new G4Box("EmbedmentTempBoxx", tempEmbedmentWidth / 2., tempEmbedmentDepth / 2., tempEmbedmentLength / 2.);
+// // EmbedmentTemp_logical = new G4LogicalVolume(EmbedmentTempBoxx, Material_OpticalCement, "EmbedmentTemp_logical",0,0,0);
+// // G4VisAttributes EmbedmentTempVisAtt1(G4Colour::Blue());
+// // EmbedmentTempVisAtt1.SetForceWireframe(true);
+// // EmbedmentTemp_logical->SetVisAttributes(EmbedmentTempVisAtt1);
+// // EmbedmentTemp_physical = new G4PVPlacement(G4Transform3D(embedmentRotation, tempEmbedmentTranslation), "XYZ", EmbedmentTemp_logical, MotherVolume_physical, false, 0, SearchOverlaps);
+//
+// 	//groove in negative Y-direction (relative to the fibre)
+// 		relTempEmbedmentTranslation = G4ThreeVector(0., - MotherDiagonal / 2., 0.);
+// 		// WARNING-NOTE: as rotate() changes the vector it is applied to, the following 3 commands are needed instead of a 1 line command
+// 		tempEmbedmentTranslation = relTempEmbedmentTranslation;
+// 		tempEmbedmentTranslation.rotate(embedmentRotation.getPhi(), embedmentRotation.getTheta(), embedmentRotation.getPsi());
+// 		tempEmbedmentTranslation += embedmentTranslation;
+//
+// 		tempEmbedmentVolume = G4IntersectionSolid("tempEmbedmentVolume", & tempEmbedmentBox, MotherVolume_solid, G4Transform3D(embedmentRotation, tempEmbedmentTranslation).inverse()).GetCubicVolume();
+//
+// 		// save values of the embedment with the smallest volume
+// 		if(tempEmbedmentVolume < tempEmbedmentVolume_best)
+// 		{
+// 			tempEmbedmentVolume_best = tempEmbedmentVolume;
+// 			tempEmbedmentWidth_best = tempEmbedmentWidth;
+// 			tempEmbedmentDepth_best = tempEmbedmentDepth;
+// 			tempEmbedmentLength_best = tempEmbedmentLength;
+// 			relTempEmbedmentTranslation_best = relTempEmbedmentTranslation;
+// 			tempEmbedmentTranslation_best = tempEmbedmentTranslation;
+// 		}
+//
+// // EmbedmentTemp_physical = new G4PVPlacement(G4Transform3D(embedmentRotation, tempEmbedmentTranslation), "XYZ", EmbedmentTemp_logical, MotherVolume_physical, false, 0, SearchOverlaps);
+//
+// 		// use the embedment with the smallest volume
+// 		EmbedmentDimensions = G4ThreeVector(tempEmbedmentWidth_best, tempEmbedmentDepth_best, tempEmbedmentLength_best);
+// 		embedmentTranslation = tempEmbedmentTranslation_best;
+//
+// 		fibreRotation_insideMother = G4RotationMatrix();
+// 		fibreTranslation_insideMother = - relTempEmbedmentTranslation_best;
+// 	}
+// 	else
+// 	{
+// 		if(FibreRound) EmbedmentDimensions = G4ThreeVector(2. * FibreRadius, 2. * FibreRadius, Length) + G4ThreeVector(2. * EmbedmentThickness, 2. * EmbedmentThickness, 2. * EmbedmentThickness);
+// 		else           EmbedmentDimensions = G4ThreeVector(FibreEdgeLength, FibreEdgeLength, Length) + G4ThreeVector(2. * EmbedmentThickness, 2. * EmbedmentThickness, 2. * EmbedmentThickness);
+// 	}
+//
+// 	EmbedmentTransformation = G4Transform3D(embedmentRotation, embedmentTranslation);
+// 	EmbedmentCutTransformation = EmbedmentTransformation.inverse();
+//
+// 	// adjust the transformation of the fibre (inside the scintillator)
+// 	FibreTransformation_insideMother = G4Transform3D(fibreRotation_insideMother, fibreTranslation_insideMother);
+// }
 
 
 
@@ -2792,7 +2980,7 @@ void G4Fibre::ConstructSurface()
 		}
 
 		G4double fibreSigmaAlpha_Coating = FibreProperties.getNumber("roughness_coating");
-		if(isnan(fibreSigmaAlpha_Coating))
+		if(std::isnan(fibreSigmaAlpha_Coating))
 		{
 			std::cerr <<
 			std::endl << "##########" <<
@@ -3385,6 +3573,9 @@ void G4Fibre::SetDefaults()
 	FibreTransformation_outsideMother = G4Transform3D();
 
 // Embedment
+// 	EmbedmentTransformation = G4Transform3D();
+// 	EmbedmentCutTransformation = G4Transform3D();
+// 	EmbedmentDimensions = G4ThreeVector(NAN, NAN, NAN);
 	EmbedmentThickness = NAN;
 
 
@@ -3397,12 +3588,12 @@ void G4Fibre::SetDefaults()
 
 	ReflectiveStartPointTransformation_insideMother = G4Transform3D();
 	ReflectiveStartPointTransformation_outsideMother = G4Transform3D();
-	if(isnan(Reflectivity_startPoint)) CreateReflectiveStartPointVolumes = false;
+	if(std::isnan(Reflectivity_startPoint)) CreateReflectiveStartPointVolumes = false;
 	else CreateReflectiveStartPointVolumes = true;
 
 	ReflectiveEndPointTransformation_insideMother = G4Transform3D();
 	ReflectiveEndPointTransformation_outsideMother = G4Transform3D();
-	if(isnan(Reflectivity_endPoint)) CreateReflectiveEndPointVolumes = false;
+	if(std::isnan(Reflectivity_endPoint)) CreateReflectiveEndPointVolumes = false;
 	else CreateReflectiveEndPointVolumes = true;
 
 // Roughened fibre end

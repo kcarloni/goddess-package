@@ -34,7 +34,7 @@ include(${Geant4_USE_FILE})
 set(LIBS_GEANT4 ${Geant4_LIBRARIES})
 
 ########## Add libraries of the current project ##########
-#set(LIBS G4PropertyFileReadInTools)
+# set(LIBS XYZ)
 
 ########## The project ##########
 # Get list of needed header and source files:
@@ -44,11 +44,10 @@ file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
 # Add include directories to the list of directories searched by the compiler for include files:
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
-#${LIBS}
 # Create one library from all source files and add links and dependencies (inside the current project):
 add_library(${PROJECT_NAME} ${sources} ${headers})
 target_link_libraries(${PROJECT_NAME} ${LIBS_GEANT4} ${LIBS})
-#add_dependencies(${PROJECT_NAME} )
+# add_dependencies(${PROJECT_NAME} ${LIBS})
 
 # add dependencies to the documentation (defined in the top-level cmake file):
 add_dependencies(documentation ${PROJECT_NAME})

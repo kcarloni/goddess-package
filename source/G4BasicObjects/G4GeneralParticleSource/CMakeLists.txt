@@ -34,14 +34,13 @@ include(${Geant4_USE_FILE})
 set(LIBS_GEANT4 ${Geant4_LIBRARIES})
 
 #------ Boost ------#
+
 # Find Boost package
-find_package(Boost REQUIRED program_options)
-
 # Add include directories to the list of directories searched by the compiler for include files:
-include_directories(${Boost_INCLUDE_DIRS})
-
 # Set Boost library list
-set(LIBS_BOOST boost_program_options)
+# find_package(Boost REQUIRED program_options)
+# include_directories(${Boost_INCLUDE_DIRS})
+set(LIBS_BOOST ${Boost_PROGRAM_OPTIONS_LIBRARY})
 
 #------ zlib ------#
 # Find zlib package

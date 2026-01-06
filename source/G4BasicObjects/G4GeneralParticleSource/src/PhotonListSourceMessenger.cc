@@ -161,17 +161,6 @@ void PhotonListSourceMessenger::ReadInPhotonList(G4String infilePath)
 
 								continue;
 							}
-							if(!Primary_set)
-							{
-								if( getIntValue(dataCharArray, "primary:", Primary) )
-								{
-									Primary_set = true;
-
-									savePhotonData();
-
-									continue;
-								}
-							}
 
 							if(!Start_time_ns_set)
 							{
@@ -192,8 +181,6 @@ void PhotonListSourceMessenger::ReadInPhotonList(G4String infilePath)
 									Start_position_mm_set = true;
 
 									savePhotonData();
-
-									//G4cout <<  "test #Start_position_mm_set "<< Start_position_mm << G4endl;
 
 									continue;
 								}
@@ -260,10 +247,9 @@ void PhotonListSourceMessenger::createNewEvent()
 
 void PhotonListSourceMessenger::savePhotonData()
 {
-	if(Primary_set && Start_time_ns_set && Start_position_mm_set && Start_momentum_MeV_set && Start_polarisation_set && ParticleInformations.size())
+	if(Start_time_ns_set && Start_position_mm_set && Start_momentum_MeV_set && Start_polarisation_set && ParticleInformations.size())
 	{
 		std::vector<G4ThreeVector> tempVector;
-		tempVector.push_back(G4ThreeVector(Primary, NAN, NAN));
 		tempVector.push_back(G4ThreeVector(Start_time_ns, NAN, NAN));
 		tempVector.push_back(Start_position_mm);
 		tempVector.push_back(Start_momentum_MeV);
@@ -328,7 +314,7 @@ G4bool PhotonListSourceMessenger::getVectorValue(const char * & data, G4String k
 
 		sscanf(data, "%*s (%lf,%lf,%lf)%n", &vx, &vy, &vz, &matchedStringlength);
 
-		if(!std::isnan(vx) && !std::isnan(vy) && !std::isnan(vz))
+		if(!isnan(vx) && !isnan(vy) && !isnan(vz))
 		{
 			G4ThreeVector vec = G4ThreeVector(vx, vy, vz);
 			output = vec;
@@ -361,8 +347,6 @@ void PhotonListSourceMessenger::relocateCharArrayPointer(const char * & charArra
 
 void PhotonListSourceMessenger::setDefaultValues()
 {
-	Primary = NAN;
-	Primary_set = false;
 	Start_time_ns = NAN;
 	Start_time_ns_set = false;
 	Start_position_mm = G4ThreeVector(NAN, NAN, NAN);

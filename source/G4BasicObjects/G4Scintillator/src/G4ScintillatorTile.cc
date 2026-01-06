@@ -189,7 +189,7 @@ void G4ScintillatorTile::DefineMaterials()
 	Material_Scinti = new G4Material("tempName", density_Scinti, (int) chemicalComponents_Scinti["element"].size());
 
 	PropertyTools->AddElementsFromTable(Material_Scinti, chemicalComponents_Scinti);
-	if(!std::isnan(BirksConstant_Scinti)) Material_Scinti->GetIonisation()->SetBirksConstant(BirksConstant_Scinti);
+	if(!isnan(BirksConstant_Scinti)) Material_Scinti->GetIonisation()->SetBirksConstant(BirksConstant_Scinti);
 
 	DefineScintillatorMaterialProperties();
 

@@ -85,16 +85,10 @@ void G4Wrapping::ConstructWrappingVolumes()
 	// air gap between scintillator and wrapping
 	G4ThreeVector dimensions_airGap = Dimensions + G4ThreeVector(2 * AirGapThickness, 2 * AirGapThickness, 2 * AirGapThickness);
 	G4VSolid * airGap_solid = 0;
+	if(AirGapThickness) airGap_solid = new G4Box("airGap_solid", dimensions_airGap.x() / 2., dimensions_airGap.y() / 2., dimensions_airGap.z() / 2.);
 
-	if(AirGapThickness)
-	{
-		airGap_solid = new G4Box("airGap_solid", dimensions_airGap.x() / 2., dimensions_airGap.y() / 2., dimensions_airGap.z() / 2.);
-	}
 	// first wrapping layer
-	// Wrapping with open ends:
-	G4ThreeVector dimensions_wrapping1 = dimensions_airGap + G4ThreeVector(2 * Wrapping1Thickness, 2 * Wrapping1Thickness, 0 * Wrapping1Thickness);
-	// Wrapping with closed ends:
-	//G4ThreeVector dimensions_wrapping1 = dimensions_airGap + G4ThreeVector(2 * Wrapping1Thickness, 2 * Wrapping1Thickness, 2 * Wrapping1Thickness);
+	G4ThreeVector dimensions_wrapping1 = dimensions_airGap + G4ThreeVector(2 * Wrapping1Thickness, 2 * Wrapping1Thickness, 2 * Wrapping1Thickness);
 
 	if(Wrapping2Exists) wrapping1_solid_name = WrappingName + "_firstLayer_solid";
 	else wrapping1_solid_name = WrappingName + "_solid";

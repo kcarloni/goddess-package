@@ -7,8 +7,9 @@
 
 ########## Setup the project ##########
 cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
+
 # Set project name:
-project(RunSimulation)
+project(SimExample)
 
 ########## Add external libraries ##########
 #------ Geant4 ------#
@@ -34,14 +35,13 @@ include(${Geant4_USE_FILE})
 # set(LIBS_GEANT4 ${Geant4_LIBRARIES})   // NOTE: These libraries are already included by the G4BasicObjects of GODDeSS and an additional inclusion here leads to linking errors since Geant4.10!
 
 #------ Boost ------#
+
 # Find Boost package
-find_package(Boost REQUIRED regex)
-
 # Add include directories to the list of directories searched by the compiler for include files:
-include_directories(${Boost_INCLUDE_DIRS})
-
 # Set Boost library list
-set(LIBS_BOOST boost_regex)
+# find_package(Boost REQUIRED regex)
+# include_directories(${Boost_INCLUDE_DIRS})
+set(LIBS_BOOST ${Boost_REGEX_LIBRARY})
 
 #------ zlib ------#
 # Find zlib package

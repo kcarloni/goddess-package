@@ -34,14 +34,13 @@ include(${Geant4_USE_FILE})
 set(LIBS_GEANT4 ${Geant4_LIBRARIES})
 
 #------ Boost ------#
+
 # Find Boost package
-find_package(Boost REQUIRED regex)
-
 # Add include directories to the list of directories searched by the compiler for include files:
-include_directories(${Boost_INCLUDE_DIRS})
-
 # Set Boost library list
-set(LIBS_BOOST boost_regex)
+# find_package(Boost REQUIRED regex)
+# include_directories(${Boost_INCLUDE_DIRS})
+set(LIBS_BOOST ${Boost_REGEX_LIBRARY})
 
 ########## Add libraries of the current project ##########
 set(LIBS G4PropertyFileReadInTools G4Scintillator G4Fibre G4GeneralParticleSource G4PhotonDetector)

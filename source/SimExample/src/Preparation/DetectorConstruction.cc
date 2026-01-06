@@ -44,89 +44,95 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	//---------- experimental hall (world volume) ----------//
 	G4Box * world_solid = new G4Box("world_solid", WorldDimensions.x(), WorldDimensions.y(), WorldDimensions.z());
 
+//
+
 //   ######  logical volumes (material):  ######   //
 
 	//---------- experimental hall (world volume) ----------//
 	G4LogicalVolume * world_logical = new G4LogicalVolume(world_solid, Material_Vacuum, "world_logical", 0, 0, 0);
 	world_logical->SetVisAttributes(G4VisAttributes::Invisible);
 
-//   ######  physical volumes (placement):  ######   //
-//NOTE: G4PVPlacement puts the volume to be placed into EVERY physical volume emanating from the same logical volume (no matter whether the logical or physical volume is specified as mother volume)!
-//      => If G4PVPlacement should be able to distinguish physical volumes, for each physical volume a separate logical volume has to be created.
-//      => rule of thumb: For each volume that might become a mother volume, a separate logical volume should to be created.
+	
+	//   ######  physical volumes (placement):  ######   //
+	// NOTE: G4PVPlacement puts the volume to be placed into EVERY physical volume emanating from the same logical volume 
+	// (no matter whether the logical or physical volume is specified as mother volume)!
+	// => If G4PVPlacement should be able to distinguish physical volumes, for each physical volume a separate logical volume has to be created.
+	// => rule of thumb: For each volume that might become a mother volume, a separate logical volume should to be created.
 
 	//---------- experimental hall (world volume) ----------//
 	G4VPhysicalVolume * world_physical = new G4PVPlacement(G4Transform3D(), world_logical, "world", 0, false, 0);
 
-
-
-
+	G4double fibreLength = 0.; 
 
 	G4double edgeLength = 0.;
 	G4ThreeVector sensitiveSurfaceNormalRelativeToReferenceVolume = G4ThreeVector();
 	G4ThreeVector sensitiveSurfacePositionRelativeToReferenceVolume = G4ThreeVector();
 
-// >>> Setup: 1 SiPM at the side <<< //
+//
 
-	ScintiTransform = G4Transform3D(G4RotationMatrix(), G4ThreeVector(0., 0., 0.));
-	edgeLength = 3. * CLHEP::mm;
-	sensitiveSurfaceNormalRelativeToReferenceVolume = G4ThreeVector(0., 0., -1.);
-	sensitiveSurfacePositionRelativeToReferenceVolume = G4ThreeVector(0. * CLHEP::mm, 0. * CLHEP::mm, ScintiDimensions[2] / 2.);
+// // >>> Setup: 1 SiPM at the side <<< //
 
-	//---------- scintillator tile ----------//
-	STConstructor->SetScintillatorTransformation(ScintiTransform);
-	STConstructor->SetScintillatorName("scintillator 1");
-	STConstructor->ConstructASensitiveDetector();
-	G4ScintillatorTile * scintillator_1 = STConstructor->ConstructScintillator(ScintiDimensions, ScintiPropertyFile, world_physical);
-	G4VPhysicalVolume * scintillator_1_physical = scintillator_1->GetScintillator_physicalVolume();
+// 	ScintiTransform = G4Transform3D(G4RotationMatrix(), G4ThreeVector(0., 0., 0.));
+// 	edgeLength = 3. * CLHEP::mm;
+// 	sensitiveSurfaceNormalRelativeToReferenceVolume = G4ThreeVector(0., 0., -1.);
+// 	sensitiveSurfacePositionRelativeToReferenceVolume = G4ThreeVector(0. * CLHEP::mm, 0. * CLHEP::mm, ScintiDimensions[2] / 2.);
 
-	//---------- SiPM ----------//
-	PDConstructor->SetPhotonDetectorName("SiPM 1");
-	PDConstructor->SetPhotonDetectorReferenceVolume(scintillator_1_physical);
-	PDConstructor->SetSensitiveSurfaceNormalRelativeToReferenceVolume(sensitiveSurfaceNormalRelativeToReferenceVolume);
-	PDConstructor->SetSensitiveSurfacePositionRelativeToReferenceVolume(sensitiveSurfacePositionRelativeToReferenceVolume);
-	PDConstructor->ConstructPhotonDetector(edgeLength, world_physical);
+// 	//---------- scintillator tile ----------//
+// 	STConstructor->SetScintillatorTransformation(ScintiTransform);
+// 	STConstructor->SetScintillatorName("scintillator 1");
+// 	STConstructor->ConstructASensitiveDetector();
+// 	G4ScintillatorTile * scintillator_1 = STConstructor->ConstructScintillator(ScintiDimensions, ScintiPropertyFile, world_physical);
+// 	G4VPhysicalVolume * scintillator_1_physical = scintillator_1->GetScintillator_physicalVolume();
 
-	//---------- external reflector / wrapping ----------//
-	STConstructor->SetWrappingName("wrapping 1");
-	STConstructor->ConstructWrapping(scintillator_1, WrappingPropertyFile);
+// 	//---------- SiPM ----------//
+// 	PDConstructor->SetPhotonDetectorName("SiPM 1");
+// 	PDConstructor->SetPhotonDetectorReferenceVolume(scintillator_1_physical);
+// 	PDConstructor->SetSensitiveSurfaceNormalRelativeToReferenceVolume(sensitiveSurfaceNormalRelativeToReferenceVolume);
+// 	PDConstructor->SetSensitiveSurfacePositionRelativeToReferenceVolume(sensitiveSurfacePositionRelativeToReferenceVolume);
+// 	PDConstructor->ConstructPhotonDetector(edgeLength, world_physical);
 
+// 	//---------- external reflector / wrapping ----------//
+// 	STConstructor->SetWrappingName("wrapping 1");
+// 	STConstructor->ConstructWrapping(scintillator_1, WrappingPropertyFile);
 
-	// >>> Setup: 1 glued fibre with 1 SiPM and a reflective end <<< //
+// //
 
-	ScintiTransform = G4Transform3D(G4RotationMatrix(), G4ThreeVector(0., 50. * CLHEP::mm, 0.));
-	FibreEndPoint = G4ThreeVector(0. * CLHEP::mm, 0. * CLHEP::mm, ScintiDimensions[2] / 2. + 5. * CLHEP::mm);
-	FibreStartPoint = G4ThreeVector(0. * CLHEP::mm, 0. * CLHEP::mm, -ScintiDimensions[2] / 2.);
-	edgeLength = 1. * CLHEP::mm;
+// // >>> Setup: 1 glued fibre with 1 SiPM and a reflective end <<< //
 
-	//---------- scintillator tile ----------//
-	STConstructor->SetScintillatorTransformation(ScintiTransform);
-	STConstructor->SetScintillatorName("scintillator 2");
-	G4ScintillatorTile * scintillator_2 = STConstructor->ConstructScintillator(ScintiDimensions, ScintiPropertyFile, world_physical);
+// 	ScintiTransform = G4Transform3D(G4RotationMatrix(), G4ThreeVector(0., 50. * CLHEP::mm, 0.));
+// 	FibreEndPoint = G4ThreeVector(0. * CLHEP::mm, 0. * CLHEP::mm, ScintiDimensions[2] / 2. + 5. * CLHEP::mm);
+// 	FibreStartPoint = G4ThreeVector(0. * CLHEP::mm, 0. * CLHEP::mm, -ScintiDimensions[2] / 2.);
+// 	edgeLength = 1. * CLHEP::mm;
 
-	//---------- fibre ----------//
-	FConstructor->SetFibreStartPointReflectivity(FibreEndReflectivity);
-	G4Fibre * fibre_2 = FConstructor->ConstructFibre(WLSFibrePropertyFile, scintillator_2->GetScintillator_physicalVolume(), FibreStartPoint, FibreEndPoint);
+// 	//---------- scintillator tile ----------//
+// 	STConstructor->SetScintillatorTransformation(ScintiTransform);
+// 	STConstructor->SetScintillatorName("scintillator 2");
+// 	G4ScintillatorTile * scintillator_2 = STConstructor->ConstructScintillator(ScintiDimensions, ScintiPropertyFile, world_physical);
 
-	G4VPhysicalVolume * fibre_2_physical = fibre_2->GetOutermostVolumeOutsideMother_physicalVolume();
+// 	//---------- fibre ----------//
+// 	FConstructor->SetFibreStartPointReflectivity(FibreEndReflectivity);
+// 	G4Fibre * fibre_2 = FConstructor->ConstructFibre(WLSFibrePropertyFile, scintillator_2->GetScintillator_physicalVolume(), FibreStartPoint, FibreEndPoint);
 
-	//---------- SiPM ----------//
-	G4double fibreLength = fibre_2->GetFibreLength();
-	sensitiveSurfaceNormalRelativeToReferenceVolume = G4ThreeVector(0., 0., -1.);
-	sensitiveSurfacePositionRelativeToReferenceVolume = G4ThreeVector(0. * CLHEP::mm, 0. * CLHEP::mm, fibreLength / 2.);
+// 	G4VPhysicalVolume * fibre_2_physical = fibre_2->GetOutermostVolumeOutsideMother_physicalVolume();
 
-	PDConstructor->SetPhotonDetectorName("SiPM 2");
-	PDConstructor->SetPhotonDetectorReferenceVolume(fibre_2_physical);
-	PDConstructor->SetSensitiveSurfaceNormalRelativeToReferenceVolume(sensitiveSurfaceNormalRelativeToReferenceVolume);
-	PDConstructor->SetSensitiveSurfacePositionRelativeToReferenceVolume(sensitiveSurfacePositionRelativeToReferenceVolume);
-	PDConstructor->ConstructPhotonDetector(edgeLength, world_physical);
+// 	//---------- SiPM ----------//
+// 	fibreLength = fibre_2->GetFibreLength();
+// 	sensitiveSurfaceNormalRelativeToReferenceVolume = G4ThreeVector(0., 0., -1.);
+// 	sensitiveSurfacePositionRelativeToReferenceVolume = G4ThreeVector(0. * CLHEP::mm, 0. * CLHEP::mm, fibreLength / 2.);
 
-	//---------- external reflector / wrapping ----------//
-	STConstructor->SetWrappingName("wrapping 2");
-	STConstructor->ConstructWrapping(scintillator_2, WrappingPropertyFile);
+// 	PDConstructor->SetPhotonDetectorName("SiPM 2");
+// 	PDConstructor->SetPhotonDetectorReferenceVolume(fibre_2_physical);
+// 	PDConstructor->SetSensitiveSurfaceNormalRelativeToReferenceVolume(sensitiveSurfaceNormalRelativeToReferenceVolume);
+// 	PDConstructor->SetSensitiveSurfacePositionRelativeToReferenceVolume(sensitiveSurfacePositionRelativeToReferenceVolume);
+// 	PDConstructor->ConstructPhotonDetector(edgeLength, world_physical);
 
+// 	//---------- external reflector / wrapping ----------//
+// 	STConstructor->SetWrappingName("wrapping 2");
+// 	STConstructor->ConstructWrapping(scintillator_2, WrappingPropertyFile);
 
-	// >>> Setup: 1 glued sigma fibre with 1 SiPM and a reflective end <<< //
+// //
+
+// >>> Setup: 1 glued sigma fibre with 1 SiPM and a reflective end <<< //
 
 	ScintiTransform = G4Transform3D(G4RotationMatrix(), G4ThreeVector(0., -50. * CLHEP::mm, 0.));
 	G4double fibreDistanceToScintillatorEdge = 50. * CLHEP::mm;
@@ -147,45 +153,84 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	G4double straightFibreLength_x = 2. * (ScintiDimensions[0] / 2. - (fibreDistanceToScintillatorEdge + fibreBendigRadius));
 	G4double straightFibreLength_z = 2. * (ScintiDimensions[2] / 2. - (fibreDistanceToScintillatorEdge + fibreBendigRadius));
 
-	FibreStartPoint = G4ThreeVector(ScintiDimensions[0] / 2. - fibreDistanceToScintillatorEdge - 5. * CLHEP::mm, 2. * CLHEP::mm, ScintiDimensions[2] / 2. - fibreDistanceToScintillatorEdge);
-	FibreEndPoint = FibreStartPoint + G4ThreeVector(-straightFibreLength_x, 0. * CLHEP::mm, 0. * CLHEP::mm) + G4ThreeVector(-(fibreBendigRadius - 5. * CLHEP::mm), 0. * CLHEP::mm, 0. * CLHEP::mm);
+	// segment 1
+	FibreStartPoint = G4ThreeVector(
+		ScintiDimensions[0] / 2. - fibreDistanceToScintillatorEdge - 5. * CLHEP::mm, 
+		2. * CLHEP::mm, 
+		ScintiDimensions[2] / 2. - fibreDistanceToScintillatorEdge
+	);
+	FibreEndPoint = FibreStartPoint + G4ThreeVector(
+		-straightFibreLength_x, 
+		0. * CLHEP::mm, 
+		0. * CLHEP::mm) + G4ThreeVector(
+			-(fibreBendigRadius - 5. * CLHEP::mm), 0. * CLHEP::mm, 0. * CLHEP::mm
+		);
 	FConstructor->SetFibreStartPointReflectivity(FibreEndReflectivity);
 	FConstructor->SetFibreGlued(OpticalCementPropertyFile, "quadratic", 0, "E");
-	FConstructor->ConstructFibre(WLSFibrePropertyFile, scintillator_3->GetScintillator_physicalVolume(), FibreStartPoint, FibreEndPoint);
+	FConstructor->ConstructFibre(
+		WLSFibrePropertyFile,
+		scintillator_3->GetScintillator_physicalVolume(), 
+		FibreStartPoint, FibreEndPoint);
 
+	// segment 2 (curved)
 	FibreStartPoint = FibreEndPoint;
 	FibreEndPoint = FibreStartPoint + G4ThreeVector(-fibreBendigRadius, 0. * CLHEP::mm, -fibreBendigRadius);
 	FConstructor->SetFibreGlued(OpticalCementPropertyFile, "quadratic", 0, "SE");
-	FConstructor->ConstructFibre(WLSFibrePropertyFile, scintillator_3->GetScintillator_physicalVolume(), FibreStartPoint, FibreEndPoint, 90. * deg, G4ThreeVector(0, -1, 0));
+	FConstructor->ConstructFibre(
+		WLSFibrePropertyFile, 
+		scintillator_3->GetScintillator_physicalVolume(), 
+		FibreStartPoint, FibreEndPoint, 90. * deg, G4ThreeVector(0, -1, 0));
 
+	// segment 3 (straight)
 	FibreStartPoint = FibreEndPoint;
 	FibreEndPoint = FibreStartPoint + G4ThreeVector(0. * CLHEP::mm, 0. * CLHEP::mm, -straightFibreLength_z);
 	FConstructor->SetFibreGlued(OpticalCementPropertyFile, "quadratic", 0, "SE");
-	FConstructor->ConstructFibre(WLSFibrePropertyFile, scintillator_3->GetScintillator_physicalVolume(), FibreStartPoint, FibreEndPoint);
+	FConstructor->ConstructFibre(
+		WLSFibrePropertyFile, 
+		scintillator_3->GetScintillator_physicalVolume(), 
+		FibreStartPoint, 
+		FibreEndPoint
+	);
 
+	// segment 4 (curved)
 	FibreStartPoint = FibreEndPoint;
 	FibreEndPoint = FibreStartPoint + G4ThreeVector(fibreBendigRadius, 0. * CLHEP::mm, -fibreBendigRadius);
 	FConstructor->SetFibreGlued(OpticalCementPropertyFile, "quadratic", 0, "SE");
-	FConstructor->ConstructFibre(WLSFibrePropertyFile, scintillator_3->GetScintillator_physicalVolume(), FibreStartPoint, FibreEndPoint, 90. * deg, G4ThreeVector(0, -1, 0));
+	FConstructor->ConstructFibre(
+		WLSFibrePropertyFile, 
+		scintillator_3->GetScintillator_physicalVolume(), 
+		FibreStartPoint, FibreEndPoint, 90. * deg, G4ThreeVector(0, -1, 0)
+	);
 
+	// segment 5 (straight)
 	FibreStartPoint = FibreEndPoint;
 	FibreEndPoint = FibreStartPoint + G4ThreeVector(straightFibreLength_x, 0. * CLHEP::mm, 0. * CLHEP::mm);
 	FConstructor->SetFibreGlued(OpticalCementPropertyFile, "quadratic", 0, "SE");
 	FConstructor->ConstructFibre(WLSFibrePropertyFile, scintillator_3->GetScintillator_physicalVolume(), FibreStartPoint, FibreEndPoint);
 
+	// segment 6 (curved)
 	FibreStartPoint = FibreEndPoint;
 	FibreEndPoint = FibreStartPoint + G4ThreeVector(fibreBendigRadius, 0. * CLHEP::mm, fibreBendigRadius);
 	FConstructor->SetFibreGlued(OpticalCementPropertyFile, "quadratic", 0, "SE");
 	FConstructor->ConstructFibre(WLSFibrePropertyFile, scintillator_3->GetScintillator_physicalVolume(), FibreStartPoint, FibreEndPoint, 90. * deg, G4ThreeVector(0, -1, 0));
 
+	// segment 7 (straight)
 	FibreStartPoint = FibreEndPoint;
 	FibreEndPoint = FibreStartPoint + G4ThreeVector(0. * CLHEP::mm, 0. * CLHEP::mm, straightFibreLength_z) + G4ThreeVector(0. * CLHEP::mm, 0. * CLHEP::mm, fibreDistanceToScintillatorEdge + fibreBendigRadius);
 	FConstructor->SetFibreGlued(OpticalCementPropertyFile, "quadratic", 0, "SE");
-	FConstructor->ConstructFibre(WLSFibrePropertyFile, scintillator_3->GetScintillator_physicalVolume(), FibreStartPoint, FibreEndPoint);
+	FConstructor->ConstructFibre(
+		WLSFibrePropertyFile, 
+		scintillator_3->GetScintillator_physicalVolume(), 
+		FibreStartPoint, FibreEndPoint);
 
+	// segment 8 (straight -- outside of scintillator)
 	FibreStartPoint = FibreEndPoint;
-	FibreEndPoint = FibreStartPoint + G4ThreeVector(0. * CLHEP::mm, 0. * CLHEP::mm, 2000. * CLHEP::mm);
-	G4Fibre * fibre_3 = FConstructor->ConstructFibre(LightGuidingFibrePropertyFile, world_physical, FibreStartPoint, FibreEndPoint, scintillator_3->GetScintillator_physicalVolume());
+	FibreEndPoint = FibreStartPoint + G4ThreeVector(0. * CLHEP::mm, 0. * CLHEP::mm, 500. * CLHEP::mm);
+	G4Fibre * fibre_3 = FConstructor->ConstructFibre(
+		LightGuidingFibrePropertyFile, 
+		world_physical, 
+		FibreStartPoint, FibreEndPoint, 
+		scintillator_3->GetScintillator_physicalVolume());
 
 	G4VPhysicalVolume * fibre_3_physical = fibre_3->GetOutermostVolumeInsideMother_physicalVolume();
 
@@ -204,8 +249,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	STConstructor->ConstructWrapping(scintillator_3, WrappingPropertyFile);
 	PDConstructor->ConstructPhotonDetector(edgeLength, world_physical);
 
-
-
+//
 
 	return world_physical;   //return experimentalHall-volume with all volumes placed inside
 }
@@ -213,33 +257,36 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
 
 /**
- *  Function for the initialisation of variables.
- */
+*  Function for the initialisation of variables.
+*/
 void DetectorConstruction::DefineVariables()
 {
-//---------- experimental hall (world volume) ----------//
-	WorldDimensions = G4ThreeVector(10. * m, 10. * m, 10. * m);
+	//---------- experimental hall (world volume) ----------//
+		WorldDimensions = G4ThreeVector(10. * m, 10. * m, 10. * m);
+	//
 
-//---------- scintillator tile ----------//
+	//---------- scintillator tile ----------//
 
-	ScintiDimensions = Messenger->GetScintillatorDimensions();
-	if(!(!isnan(ScintiDimensions.x()) && !isnan(ScintiDimensions.y()) && !isnan(ScintiDimensions.z())))
-	{
-		ScintiDimensions = G4ThreeVector(100. * CLHEP::mm, 10. * CLHEP::mm, 100. * CLHEP::mm);
-	}
+		ScintiDimensions = Messenger->GetScintillatorDimensions();
+		// if ( !( !isnan( ScintiDimensions.x() ) && !isnan( ScintiDimensions.y() ) && !isnan( ScintiDimensions.z() ) ))
+		if ( isnan( ScintiDimensions.x() ) ||  isnan( ScintiDimensions.y() ) || isnan( ScintiDimensions.z() ) )
+		{
+			ScintiDimensions = G4ThreeVector(100. * CLHEP::mm, 10. * CLHEP::mm, 100. * CLHEP::mm);
+		}
+	//
 
-//---------- fibre ----------//
-
-	FibreEndReflectivity = 0.9;
+	//---------- fibre ----------//
+		FibreEndReflectivity = 0.9;
+	//
 }
 
 
 
 /**
- *  Function to create chemical elements and register them to Geant4:
- *  - creates hydrogen, carbon, nitrogen, oxygen, fluorine, aluminum, titanium, and lead
- *  - <b> if other chemical elements are needed for the simulation, they have to be defined here </b>
- */
+*  Function to create chemical elements and register them to Geant4:
+*  - creates hydrogen, carbon, nitrogen, oxygen, fluorine, aluminum, titanium, and lead
+*  - <b> if other chemical elements are needed for the simulation, they have to be defined here </b>
+*/
 void DetectorConstruction::DefineElements()
 {
 // http://pdg.lbl.gov/2009/AtomicNuclearProperties/index.html
@@ -256,15 +303,15 @@ void DetectorConstruction::DefineElements()
 
 
 /**
- *  Function to create materials and register them to Geant4.
- */
+*  Function to create materials and register them to Geant4.
+*/
 void DetectorConstruction::DefineMaterials()
 {
-//---------- vacuum ----------//
+	//---------- vacuum ----------//
 	// G4Material(const G4String &name, G4double z, G4double a, G4double density, G4State state=kStateUndefined, G4double temp=STP_Temperature, G4double pressure=STP_Pressure)
 	Material_Vacuum = new G4Material("Vacuum", 1., 1.01 * g/mole, universe_mean_density, kStateGas, 0.1 * kelvin, 1.e-19 * pascal);		// definition from Geant
 
-//---------- air ----------//
+	//---------- air ----------//
 	// G4Material(const G4String &name, G4double density, G4int nComponents, G4State state=kStateUndefined, G4double temp=STP_Temperature, G4double pressure=STP_Pressure)
 	Material_Air = new G4Material("Air", 1.293 * kg/m3, 2);
 	Material_Air->AddElement(G4Element::GetElement("Nitrogen"), 70 * perCent);
@@ -321,7 +368,7 @@ void DetectorConstruction::DefineMaterials()
  */
 void DetectorConstruction::DefineMaterialProperties()
 {
-//---------- experimental hall (world volume) -> vacuum or air ----------//
+	//---------- experimental hall (world volume) -> vacuum or air ----------//
 	// by now, GEANT expects that a material property with the name identifier RINDEX is wavelength/energy dependent (http://hypernews.slac.stanford.edu/HyperNews/geant4/get/opticalphotons/379.html)!
 	G4MaterialPropertyVector * refractiveIndex_Vacuum = PropertyTools->GetPropertyDistribution(1.);
 

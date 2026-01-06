@@ -46,9 +46,6 @@ GeneralParticleSourceMessenger::GeneralParticleSourceMessenger() :
 	diceBetaGammaCmd = G4UiMessengerUtil::createCmd(this, "/gps/energy/", "diceBetaGamma", diceBetaGamma);
 	betaGammaMinCmd = G4UiMessengerUtil::createCmd(this, "/gps/energy/", "betaGammaMin", betaGammaMin);
 	betaGammaMaxCmd = G4UiMessengerUtil::createCmd(this, "/gps/energy/", "betaGammaMax", betaGammaMax);
-
-	userSpectrumCmd = G4UiMessengerUtil::createCmd(this, "/gps/energy/", "userSpectrum", userSpectrum);
-
 	// Create angle commands.
 	phiMinCmd = G4UiMessengerUtil::createCmd(this, "/gps/angle/", "phiMin", phiMin, "deg");
 	phiMaxCmd = G4UiMessengerUtil::createCmd(this, "/gps/angle/", "phiMax", phiMax, "deg");
@@ -97,9 +94,6 @@ GeneralParticleSourceMessenger::~GeneralParticleSourceMessenger() {
 	delete betaGammaMinCmd;
 	delete betaGammaMaxCmd;
 	delete diceBetaGammaCmd;
-
-	delete userSpectrumCmd;
-
 	delete phiMinCmd;
 	delete phiMaxCmd;
 	delete thetaMinCmd;
@@ -130,9 +124,6 @@ void GeneralParticleSourceMessenger::setDefaultValues() {
 	betaGammaMin = NAN;
 	betaGammaMax = NAN;
 	diceBetaGamma = false;
-
-	userSpectrum = false;
-
 	phiMin = 0;
 	phiMax = 360 * CLHEP::deg;
 	thetaMin = 0;
@@ -165,9 +156,6 @@ void GeneralParticleSourceMessenger::SetNewValue(G4UIcommand* cmd, G4String valu
 	G4UiMessengerUtil::setNewValueIfCmdMatches(cmd, betaGammaMinCmd, value, &betaGammaMin);
 	G4UiMessengerUtil::setNewValueIfCmdMatches(cmd, betaGammaMaxCmd, value, &betaGammaMax);
 	G4UiMessengerUtil::setNewValueIfCmdMatches(cmd, diceBetaGammaCmd, value, &diceBetaGamma);
-
-	G4UiMessengerUtil::setNewValueIfCmdMatches(cmd, userSpectrumCmd, value, &userSpectrum);
-
 	G4UiMessengerUtil::setNewValueIfCmdMatches(cmd, phiMinCmd, value, &phiMin);
 	G4UiMessengerUtil::setNewValueIfCmdMatches(cmd, phiMaxCmd, value, &phiMax);
 	G4UiMessengerUtil::setNewValueIfCmdMatches(cmd, thetaMinCmd, value, &thetaMin);

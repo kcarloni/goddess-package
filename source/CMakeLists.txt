@@ -1,16 +1,22 @@
+
 #/*
 # * author:      Erik Dietz-Laursonn
 # * institution: Physics Institute 3A, RWTH Aachen University, Aachen, Germany
 # * copyright:   Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License
 # */
 
-
 ########## Setup the project ##########
 cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
+
 # Set project name:
-project(Simulation)
+project(GODDESS_SIM)
+
+#------ Boost ------#
+find_package(Boost REQUIRED COMPONENTS program_options regex)
+include_directories(${Boost_INCLUDE_DIRS})
 
 ########## The project ##########
+
 # Traverse source folder and find extra includes.
 file(GLOB_RECURSE files ABSOLUTE ${CMAKE_CURRENT_SOURCE_DIR} *.h *.hh)
 
@@ -34,25 +40,27 @@ foreach(file ${files} )
 	endif()
 endforeach()
 
-# make documentation (after all subproject (which add dependencies to the documentation) are build):
+# make documentation (after all subprojects (which add dependencies to the documentation) are build):
 add_custom_target(documentation ALL
 				COMMAND echo Creating documentation
 				COMMAND rm -rf ../documentation
 				COMMAND mkdir -p ../documentation
 				COMMAND doxygen GODDeSS.dox > /dev/null
-				WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
-# add_custom_command(TARGET documentation
-#                      POST_BUILD
-#                      COMMAND echo ARGS Creating documentation pdf-files
-#                      COMMAND sed ARGS -e "s#makeindex#makeindex -q#" -i Makefile
-#                      COMMAND make all > /dev/null
-#                      COMMAND cp refman.pdf ../documentation.pdf
-#                      COMMAND touch ../documentation.html
-#                      COMMAND echo ARGS \"<html> <head> <meta http-equiv=\\\"refresh\\\" content=\\\"0\\; URL=html/index.html\\\"/> </head> </html>\" > ../documentation.html
-#                      WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../documentation/latex)
+				WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+)
 
-# Add subdirectories which contain CMakeLists, too (they will be executed after this project or, if this project depends on them, before this project):
-message(STATUS "Added subproject: ${CMAKE_CURRENT_SOURCE_DIR}/Simulation")
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Simulation)
+
+# Add subdirectories which contain CMakeLists, too 
+# (they will be executed after this project or, if this project depends on them, before this project):
+
 message(STATUS "Added subproject: ${CMAKE_CURRENT_SOURCE_DIR}/G4BasicObjects")
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/G4BasicObjects)
+
+message(STATUS "Added subproject: ${CMAKE_CURRENT_SOURCE_DIR}/SimExample")
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/SimExample)
+
+# message(STATUS "Added subproject: ${CMAKE_CURRENT_SOURCE_DIR}/SimA")
+# add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/SimA)
+
+# message(STATUS "Added subproject: ${CMAKE_CURRENT_SOURCE_DIR}/SimB")
+# add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/SimB)

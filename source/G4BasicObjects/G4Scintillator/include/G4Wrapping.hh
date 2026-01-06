@@ -75,7 +75,7 @@ public:
 		Dimensions = ScintiToBeWrapped_physical->GetScintillatorDimensions();
 		Transformation = ScintiToBeWrapped_physical->GetScintillatorTransformation();
 		AirGapThickness = WrappingProperties.getNumber("thick_air");
-		if(std::isnan(AirGapThickness)) AirGapThickness = 0.;
+		if(isnan(AirGapThickness)) AirGapThickness = 0.;
 
 		// does a second wrapping layer exist?
 		if(WrappingProperties.containsNumber("thick_layer_2"))

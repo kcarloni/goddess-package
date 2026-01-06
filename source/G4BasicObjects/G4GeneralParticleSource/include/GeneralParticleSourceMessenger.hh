@@ -67,9 +67,6 @@ private:
 	double betaGammaMin;
 	double betaGammaMax;
 	bool diceBetaGamma;
-
-	bool userSpectrum;
-
 	double phiMin;
 	double phiMax;
 	double thetaMin;
@@ -96,9 +93,6 @@ private:
 	G4UIcmdWithADouble* betaGammaMinCmd;
 	G4UIcmdWithADouble* betaGammaMaxCmd;
 	G4UIcmdWithABool* diceBetaGammaCmd;
-
-	G4UIcmdWithABool* userSpectrumCmd;
-
 	G4UIcmdWithADoubleAndUnit* phiMinCmd;
 	G4UIcmdWithADoubleAndUnit* phiMaxCmd;
 	G4UIcmdWithADoubleAndUnit* thetaMinCmd;
@@ -319,14 +313,6 @@ public:
 	 */
 	bool getDiceBetaGamma() const {
 		return diceBetaGamma;
-	}
-
-	bool getUserSpectrum() const {
-		return userSpectrum;
-	}
-
-	void setUserSpectrum(bool _userSpectrum) {
-		userSpectrum = _userSpectrum;
 	}
 
 	/**

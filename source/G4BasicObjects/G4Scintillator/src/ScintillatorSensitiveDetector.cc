@@ -59,7 +59,7 @@ G4bool ScintillatorSensitiveDetector::ProcessHits(G4Step* theStep, G4TouchableHi
 
 
 	// if the hit properties have already been set, stop here
-	if(! std::isnan(DataStorage->GetScintillatorHitTime(trackID))) return true;
+	if(! isnan(DataStorage->GetScintillatorHitTime(trackID))) return true;
 
 
 	G4StepPoint * thePreStepPoint = theStep->GetPreStepPoint();

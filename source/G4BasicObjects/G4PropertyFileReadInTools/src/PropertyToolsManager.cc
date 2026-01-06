@@ -103,7 +103,7 @@ void PropertyToolsManager::AddElementsFromTable(G4Material*& material, GoddessPr
 				std::endl << "##########" <<
 				std::endl << std::endl;
 
-				// abort the whole program, if a critical error occurred
+				// abort the whole programme, if a critical error occured
 				exit(1);
 			}
 		}
@@ -126,7 +126,7 @@ void PropertyToolsManager::AddElementsFromTable(G4Material*& material, GoddessPr
 			std::endl << "##########" <<
 			std::endl << std::endl;
 
-			// abort the whole program, if a critical error occurred
+			// abort the whole programme, if a critical error occured
 			exit(1);
 		}
 	}
@@ -145,7 +145,7 @@ G4MaterialPropertyVector * PropertyToolsManager::GetPropertyDistribution(Goddess
 {
 	G4MaterialPropertyVector * propertyVector = 0;
 
-	if(!std::isnan(linearMatchingCoefficient) && std::isnan(quadraticMatchingCoefficient)) quadraticMatchingCoefficient = 0.;
+	if(!isnan(linearMatchingCoefficient) && isnan(quadraticMatchingCoefficient)) quadraticMatchingCoefficient = 0.;
 
 	if(properties.containsTabular(propertyKey))
 	{
@@ -155,7 +155,7 @@ G4MaterialPropertyVector * PropertyToolsManager::GetPropertyDistribution(Goddess
 	else if(properties.containsNumber(propertyKey))
 	{
 		G4double propertyValue = properties.getNumber(propertyKey);
-		if(!std::isnan(linearMatchingCoefficient)) propertyValue = propertyValue * (linearMatchingCoefficient + propertyValue * quadraticMatchingCoefficient);
+		if(!isnan(linearMatchingCoefficient)) propertyValue = propertyValue * (linearMatchingCoefficient + propertyValue * quadraticMatchingCoefficient);
 
 		propertyVector = new G4MaterialPropertyVector();
 
@@ -223,7 +223,7 @@ G4MaterialPropertyVector * PropertyToolsManager::tabular_to_G4MaterialPropertyVe
 		std::endl << "##########" <<
 		std::endl << std::endl;
 
-		// abort the whole program, if a critical error occurred
+		// abort the whole programme, if a critical error occured
 		exit(1);
 	}
 
@@ -237,7 +237,7 @@ G4MaterialPropertyVector * PropertyToolsManager::tabular_to_G4MaterialPropertyVe
 		std::endl << "##########" <<
 		std::endl << std::endl;
 
-		// abort the whole program, if a critical error occurred
+		// abort the whole programme, if a critical error occured
 		exit(1);
 	}
 
@@ -299,7 +299,7 @@ G4MaterialPropertyVector * PropertyToolsManager::tabular_to_G4MaterialPropertyVe
 				propertyValue = getValueFromLinearFit(EnergyRangeVector[0], propertyValues, energies, iter_temp);
 
 				if(invert) propertyValue = 1. - propertyValue;
-				if(!std::isnan(linearMatchingCoefficient)) propertyValue = propertyValue * (linearMatchingCoefficient + propertyValue * quadraticMatchingCoefficient);
+				if(!isnan(linearMatchingCoefficient)) propertyValue = propertyValue * (linearMatchingCoefficient + propertyValue * quadraticMatchingCoefficient);
 
 				propertyVector->InsertValues(energy, propertyValue);
 
@@ -313,13 +313,13 @@ G4MaterialPropertyVector * PropertyToolsManager::tabular_to_G4MaterialPropertyVe
 		}
 		else if(insideOpticalEnergyRange && energies[iter] > EnergyRangeVector[EnergyRangeVector.size() - 1]) insertLastEntry = true;
 
-		if(!std::isnan(energy) && !std::isnan(propertyValue))
+		if(!isnan(energy) && !isnan(propertyValue))
 		{
 			if(invert) propertyValue = 1. - propertyValue;
-			if(!std::isnan(linearMatchingCoefficient))
+			if(!isnan(linearMatchingCoefficient))
 			{
 				G4double propertyValue_temp = propertyValue * (linearMatchingCoefficient + propertyValue * quadraticMatchingCoefficient);
-				if(std::isinf(propertyValue_temp)) propertyValue = copysign(std::numeric_limits<double>::max(), propertyValue);
+				if(isinf(propertyValue_temp)) propertyValue = copysign(std::numeric_limits<double>::max(), propertyValue);
 				else propertyValue = propertyValue_temp;
 			}
 
@@ -332,10 +332,10 @@ G4MaterialPropertyVector * PropertyToolsManager::tabular_to_G4MaterialPropertyVe
 			propertyValue = getValueFromLinearFit(EnergyRangeVector[EnergyRangeVector.size() - 1], propertyValues, energies, iter);
 
 			if(invert) propertyValue = 1. - propertyValue;
-			if(!std::isnan(linearMatchingCoefficient))
+			if(!isnan(linearMatchingCoefficient))
 			{
 				G4double propertyValue_temp = propertyValue * (linearMatchingCoefficient + propertyValue * quadraticMatchingCoefficient);
-				if(std::isinf(propertyValue_temp)) propertyValue = copysign(std::numeric_limits<double>::max(), propertyValue);
+				if(isinf(propertyValue_temp)) propertyValue = copysign(std::numeric_limits<double>::max(), propertyValue);
 				else propertyValue = propertyValue_temp;
 			}
 
@@ -466,24 +466,16 @@ G4bool PropertyToolsManager::sameMaterials(G4Material * material1, G4Material * 
 	// get the maps with the constant properties
 	const std::map<G4String, G4double> * constPropertiesMap1 = propertiesTable1->GetPropertiesCMap();
 	const std::map<G4String, G4double> * constPropertiesMap2 = propertiesTable2->GetPropertiesCMap();
-	
-	//const std::map<G4int, G4MaterialPropertyVector*> * propertiesMap1 = propertiesTable1->GetPropertyMap();
-	//const std::map<G4int, G4MaterialPropertyVector*> * propertiesMap2 = propertiesTable2->GetPropertyMap();
-	// get the maps with the constant properties
-	//const std::map<G4int, G4double> * constPropertiesMap1 = propertiesTable1->GetConstPropertyMap();
-	//const std::map<G4int, G4double> * constPropertiesMap2 = propertiesTable2->GetConstPropertyMap();
 
 	// compair the number of properties
 	if(propertiesMap1->size() != propertiesMap2->size() || constPropertiesMap1->size() != constPropertiesMap2->size()) return false;
 
 	// compair the constant properties
 	for(std::map<G4String, G4double>::const_iterator iterC1 = constPropertiesMap1->begin(); iterC1 != constPropertiesMap1->end(); iterC1++)
-	//for(std::map<G4int, G4double>::const_iterator iterC1 = constPropertiesMap1->begin(); iterC1 != constPropertiesMap1->end(); iterC1++)
 	{
 		G4bool propertyFound = false;
 
 		for(std::map<G4String, G4double>::const_iterator iterC2 = constPropertiesMap2->begin(); iterC2 != constPropertiesMap2->end(); iterC2++)
-		//for(std::map<G4int, G4double>::const_iterator iterC2 = constPropertiesMap2->begin(); iterC2 != constPropertiesMap2->end(); iterC2++)
 		{
 			// compair the names of the constant properties
 			if(iterC1->first == iterC2->first)
@@ -501,12 +493,10 @@ G4bool PropertyToolsManager::sameMaterials(G4Material * material1, G4Material * 
 
 	// compair the property spectra
 	for(std::map<G4String, G4MaterialPropertyVector*>::const_iterator iter1 = propertiesMap1->begin(); iter1 != propertiesMap1->end(); iter1++)
-	//for(std::map<G4int, G4MaterialPropertyVector*>::const_iterator iter1 = propertiesMap1->begin(); iter1 != propertiesMap1->end(); iter1++)
 	{
 		G4bool propertyFound = false;
 
 		for(std::map<G4String, G4MaterialPropertyVector*>::const_iterator iter2 = propertiesMap2->begin(); iter2 != propertiesMap2->end(); iter2++)
-		//for(std::map<G4int, G4MaterialPropertyVector*>::const_iterator iter2 = propertiesMap2->begin(); iter2 != propertiesMap2->end(); iter2++)
 		{
 			// compair the names of the property spectra
 			if(iter1->first == iter2->first)

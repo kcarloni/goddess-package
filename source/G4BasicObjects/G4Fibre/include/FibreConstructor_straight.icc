@@ -48,7 +48,6 @@ vector<G4Fibre *> ConstructFibres( G4String fibre_property_file,
 				EmbedmentProfile,
 				WhereIsEmbedmentToBeFlushWithFibre,
 				VolumesWithEmbedment,
-// 				InGroove,
 				ConstructSensitiveDetector
 			      );
 }
@@ -88,7 +87,6 @@ vector<G4Fibre *> ConstructFibres( G4String fibre_property_file,
 				EmbedmentProfile,
 				WhereIsEmbedmentToBeFlushWithFibre,
 				VolumesWithEmbedment,
-// 				InGroove,
 				ConstructSensitiveDetector
 			      );
 }
@@ -129,7 +127,6 @@ vector<G4Fibre *> ConstructFibres( G4String fibre_property_file,
 				EmbedmentProfile,
 				WhereIsEmbedmentToBeFlushWithFibre,
 				VolumesWithEmbedment,
-// 				InGroove,
 				ConstructSensitiveDetector
 			      );
 }
@@ -171,7 +168,6 @@ vector<G4Fibre *> ConstructFibres( G4String fibre_property_file,
 				EmbedmentProfile,
 				WhereIsEmbedmentToBeFlushWithFibre,
 				VolumesWithEmbedment,
-// 				InGroove,
 				ConstructSensitiveDetector
 			      );
 }
@@ -214,7 +210,6 @@ vector<G4Fibre *> ConstructFibres( G4String fibre_property_file,
 				EmbedmentProfile,
 				WhereIsEmbedmentToBeFlushWithFibre,
 				VolumesWithEmbedment,
-// 				InGroove,
 				ConstructSensitiveDetector
 			      );
 }
@@ -258,7 +253,6 @@ vector<G4Fibre *> ConstructFibres( G4String fibre_property_file,
 				EmbedmentProfile,
 				WhereIsEmbedmentToBeFlushWithFibre,
 				VolumesWithEmbedment,
-// 				InGroove,
 				ConstructSensitiveDetector
 			      );
 }
@@ -303,7 +297,6 @@ vector<G4Fibre *> ConstructFibres( G4String fibre_property_file,
 				EmbedmentProfile,
 				WhereIsEmbedmentToBeFlushWithFibre,
 				VolumesWithEmbedment,
-// 				InGroove,
 				ConstructSensitiveDetector
 			      );
 }
@@ -350,7 +343,6 @@ vector<G4Fibre *> ConstructFibres( G4String fibre_property_file,
 				EmbedmentProfile,
 				WhereIsEmbedmentToBeFlushWithFibre,
 				VolumesWithEmbedment,
-// 				InGroove,
 				ConstructSensitiveDetector
 			      );
 }
@@ -399,7 +391,6 @@ vector<G4Fibre *> ConstructFibres( G4String fibre_property_file,
 				EmbedmentProfile,
 				WhereIsEmbedmentToBeFlushWithFibre,
 				VolumesWithEmbedment,
-// 				InGroove,
 				ConstructSensitiveDetector
 			      );
 }
@@ -453,65 +444,9 @@ vector<G4Fibre *> ConstructFibres( G4String fibre_property_file,
 				embedment_profile,
 				where_is_embedment_to_be_flush_with_fibre,
 				volumes_with_embedment,
-// 				InGroove,
 				ConstructSensitiveDetector
 			      );
 }
-
-// // / <b> >>> construct replications of a STRAIGHT fibre with a given LENGTH and TRANSFORMATION </b>
-// /* *
-//  *  \overload
-//  *  \n
-//  *
-//  *  The "missing" argument(s) can be set by the setter functions below, or the default values (SetDefaults()) are used.
-//  */
-// vector<G4Fibre *> ConstructFibres( G4String fibre_property_file,
-// 				   G4VPhysicalVolume* mother_volume,
-// 				   G4double length,
-// 				   G4int number_of_replications,
-// 				   G4Transform3D replication_transf,
-// 				   G4Transform3D transf_relative_to_reference,
-// 				   G4VPhysicalVolume* reference_volume,
-// 				   G4Transform3D reference_volume_transformation,
-// 				   G4String fibre_name_prefix,
-// 				   G4bool onlyInsideMother,
-// 				   G4bool cutAuntVolumesWithDaughters,
-// 				   G4double startPoint_reflectivity,
-// 				   G4double startPoint_sigmaAlpha,
-// 				   G4double endPoint_reflectivity,
-// 				   G4double endPoint_sigmaAlpha,
-// 				   G4bool glued,
-// 				   G4String glue_property_file,
-// 				   G4String embedment_profile,
-// 				   G4String where_is_embedment_to_be_flush_with_fibre,
-// 				   std::vector<G4VPhysicalVolume *> volumes_with_embedment,
-// 				   G4bool in_groove
-// 				 )
-// {
-// 	return ConstructFibres( fibre_property_file,
-// 				mother_volume,
-// 				length,
-// 				number_of_replications,
-// 				replication_transf,
-// 				transf_relative_to_reference,
-// 				reference_volume,
-// 				reference_volume_transformation,
-// 				fibre_name_prefix,
-// 				onlyInsideMother,
-// 				cutAuntVolumesWithDaughters,
-// 				startPoint_reflectivity,
-// 				startPoint_sigmaAlpha,
-// 				endPoint_reflectivity,
-// 				endPoint_sigmaAlpha,
-// 				glued,
-// 				glue_property_file,
-// 				embedment_profile,
-// 				where_is_embedment_to_be_flush_with_fibre,
-// 				volumes_with_embedment,
-// 				in_groove,
-// 				ConstructSensitiveDetector
-// 			      );
-// }
 
 
 
@@ -546,7 +481,6 @@ G4Fibre * ConstructFibre( G4String fibre_property_file,
 			       EmbedmentProfile,
 			       WhereIsEmbedmentToBeFlushWithFibre,
 			       VolumesWithEmbedment,
-// 			       InGroove,
 			       ConstructSensitiveDetector
 			     );
 }
@@ -582,7 +516,6 @@ G4Fibre * ConstructFibre( G4String fibre_property_file,
 			       EmbedmentProfile,
 			       WhereIsEmbedmentToBeFlushWithFibre,
 			       VolumesWithEmbedment,
-// 			       InGroove,
 			       ConstructSensitiveDetector
 			     );
 }
@@ -619,7 +552,6 @@ G4Fibre * ConstructFibre( G4String fibre_property_file,
 			       EmbedmentProfile,
 			       WhereIsEmbedmentToBeFlushWithFibre,
 			       VolumesWithEmbedment,
-// 			       InGroove,
 			       ConstructSensitiveDetector
 			     );
 }
@@ -657,7 +589,6 @@ G4Fibre * ConstructFibre( G4String fibre_property_file,
 			       EmbedmentProfile,
 			       WhereIsEmbedmentToBeFlushWithFibre,
 			       VolumesWithEmbedment,
-// 			       InGroove,
 			       ConstructSensitiveDetector
 			     );
 }
@@ -696,7 +627,6 @@ G4Fibre * ConstructFibre( G4String fibre_property_file,
 			       EmbedmentProfile,
 			       WhereIsEmbedmentToBeFlushWithFibre,
 			       VolumesWithEmbedment,
-// 			       InGroove,
 			       ConstructSensitiveDetector
 			     );
 }
@@ -736,7 +666,6 @@ G4Fibre * ConstructFibre( G4String fibre_property_file,
 			       EmbedmentProfile,
 			       WhereIsEmbedmentToBeFlushWithFibre,
 			       VolumesWithEmbedment,
-// 			       InGroove,
 			       ConstructSensitiveDetector
 			     );
 }
@@ -777,7 +706,6 @@ G4Fibre * ConstructFibre( G4String fibre_property_file,
 			       EmbedmentProfile,
 			       WhereIsEmbedmentToBeFlushWithFibre,
 			       VolumesWithEmbedment,
-// 			       InGroove,
 			       ConstructSensitiveDetector
 			     );
 }
@@ -820,7 +748,6 @@ G4Fibre * ConstructFibre( G4String fibre_property_file,
 			       EmbedmentProfile,
 			       WhereIsEmbedmentToBeFlushWithFibre,
 			       VolumesWithEmbedment,
-// 			       InGroove,
 			       ConstructSensitiveDetector
 			     );
 }
@@ -865,7 +792,6 @@ G4Fibre * ConstructFibre( G4String fibre_property_file,
 			       EmbedmentProfile,
 			       WhereIsEmbedmentToBeFlushWithFibre,
 			       VolumesWithEmbedment,
-// 			       InGroove,
 			       ConstructSensitiveDetector
 			     );
 }
@@ -915,58 +841,6 @@ G4Fibre * ConstructFibre( G4String fibre_property_file,
 			       embedment_profile,
 			       where_is_embedment_to_be_flush_with_fibre,
 			       volumes_with_embedment,
-// 			       InGroove,
 			       ConstructSensitiveDetector
 			     );
 }
-
-// // / <b> >>> construct a STRAIGHT fibre with a given LENGTH and TRANSFORMATION </b>
-// /* *
-//  *  \overload
-//  *  \n
-//  *
-//  *  The "missing" argument(s) can be set by the setter functions below, or the default values (SetDefaults()) are used.
-//  */
-// G4Fibre * ConstructFibre( G4String fibre_property_file,
-// 			  G4VPhysicalVolume* mother_volume,
-// 			  G4double length,
-// 			  G4Transform3D transf_relative_to_reference,
-// 			  G4VPhysicalVolume* reference_volume,
-// 			  G4Transform3D reference_volume_transformation,
-// 			  G4String fibre_name_prefix,
-// 			  G4bool onlyInsideMother,
-// 			  G4bool cutAuntVolumesWithDaughters,
-// 			  G4double startPoint_reflectivity,
-// 			  G4double startPoint_sigmaAlpha,
-// 			  G4double endPoint_reflectivity,
-// 			  G4double endPoint_sigmaAlpha,
-// 			  G4bool glued,
-// 			  G4String glue_property_file,
-// 			  G4String embedment_profile,
-// 			  G4String where_is_embedment_to_be_flush_with_fibre,
-// 			  std::vector<G4VPhysicalVolume *> volumes_with_embedment,
-// 			  G4bool in_groove
-// 			)
-// {
-// 	return ConstructFibre( fibre_property_file,
-// 			       mother_volume,
-// 			       length,
-// 			       transf_relative_to_reference,
-// 			       reference_volume,
-// 			       reference_volume_transformation,
-// 			       fibre_name_prefix,
-// 			       onlyInsideMother,
-// 			       cutAuntVolumesWithDaughters,
-// 			       startPoint_reflectivity,
-// 			       startPoint_sigmaAlpha,
-// 			       endPoint_reflectivity,
-// 			       endPoint_sigmaAlpha,
-// 			       glued,
-// 			       glue_property_file,
-// 			       embedment_profile,
-// 			       where_is_embedment_to_be_flush_with_fibre,
-// 			       volumes_with_embedment,
-// 			       in_groove,
-// 			       ConstructSensitiveDetector
-// 			     );
-// }

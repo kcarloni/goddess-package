@@ -34,111 +34,6 @@ GeneralParticleSource::GeneralParticleSource() {
 	//
 	CLHEP::HepRandom::createInstance(); // to force instantiation of static generator before any usage of HepRandom classes!
 	CLHEP::HepRandom::setTheSeed(time(NULL));
-
-
-	//parametrization muon spectrum from 1 MeV to 1 PeV
-	para[0] = 0.0;
-	para[1] = 0.0;
-	para[2] = 0.0;
-	para[3] = 0.0;
-	para[4] = 0.0;
-	para[5] = 0.0;
-	para[6] = 0.0;
-	para[7] = 0.0;
-	para[8] = 0.0;
-	para[9] = 0.0;
-	para[10] = 0.0;
-	para[11] = 0.0026995440900287816;
-	para[12] = 0.004964809516318463;
-	para[13] = 0.00326000019581598;
-	para[14] = 0.0023705885876924306;
-	para[15] = 0.004472859127084012;
-	para[16] = 0.013381720127150318;
-	para[17] = 0.02162407118355328;
-	para[18] = 0.017267381686671048;
-	para[19] = 0.023188906942176006;
-	para[20] = 0.04258722329793201;
-	para[21] = 0.05924623004268623;
-	para[22] = 0.08682356032271416;
-	para[23] = 0.11358186452785908;
-	para[24] = 0.12835860477817393;
-	para[25] = 0.16445246650319661;
-	para[26] = 0.21844460462675522;
-	para[27] = 0.3234370759932772;
-	para[28] = 0.35775247047513503;
-	para[29] = 0.45429686724692064;
-	para[30] = 0.5266397433310757;
-	para[31] = 0.6102987299423275;
-	para[32] = 0.7117827255310789;
-	para[33] = 0.8036562299906911;
-	para[34] = 0.8845838623453878;
-	para[35] = 0.9541378322940567;
-	para[36] = 0.9835175203961615;
-	para[37] = 0.9922314608090405;
-	para[38] = 0.9393022999439072;
-	para[39] = 0.991870191133318;
-	para[40] = 0.9271365971581785;
-	para[41] = 0.8129276912117285;
-	para[42] = 0.7453810132576453;
-	para[43] = 0.6461020409593203;
-	para[44] = 0.5407427589141675;
-	para[45] = 0.4439719062106404;
-	para[46] = 0.3389962945268304;
-	para[47] = 0.2630032764673868;
-	para[48] = 0.19271337131761976;
-	para[49] = 0.15221736687501805;
-	para[50] = 0.12269106317995947;
-	para[51] = 0.0869888213350536;
-	para[52] = 0.05718459303532225;
-	para[53] = 0.0353945710226984;
-	para[54] = 0.021949656150772198;
-	para[55] = 0.014580225658333022;
-	para[56] = 0.009763431186346249;
-	para[57] = 0.0061020497149864815;
-	para[58] = 0.004200954367647113;
-	para[59] = 0.0021896400107469585;
-	para[60] = 0.0017235549559385236;
-	para[61] = 0.0013821702070580086;
-	para[62] = 0.000733550744252263;
-	para[63] = 0.00035372633455646777;
-	para[64] = 0.0002032508454689644;
-	para[65] = 0.00011530238011622543;
-	para[66] = 6.742283921807229e-05;
-	para[67] = 5.252193248908405e-05;
-	para[68] = 3.075639007944252e-05;
-	para[69] = 1.4510345281148254e-05;
-	para[70] = 9.319698959556058e-06;
-	para[71] = 2.6320164854002116e-06;
-	para[72] = 3.0737899661722674e-06;
-	para[73] = 1.4637280862309172e-06;
-	para[74] = 1.2459361255915287e-06;
-	para[75] = 6.004027257684925e-07;
-	para[76] = 1.8113732504367088e-07;
-	para[77] = 9.857050186766428e-08;
-	para[78] = 6.272592846036871e-08;
-	para[79] = 4.4627560458507795e-08;
-	para[80] = 1.3883441282171051e-08;
-	para[81] = 9.895360257040574e-09;
-	para[82] = 6.203557761965919e-09;
-	para[83] = 5.0101387593885945e-09;
-	para[84] = 1.5481762756824583e-08;
-	para[85] = 4.695137918293676e-09;
-	para[86] = 1.0050210287128687e-09;
-	para[87] = 1.353671310371081e-09;
-	para[88] = 7.922841348082864e-10;
-	para[89] = 1.0627364530364353e-10;
-	para[90] = 1.151828006879428e-10;
-	para[91] = 1.8305937033775083e-11;
-	para[92] = 8.220607258367524e-13;
-	para[93] = 4.708512207391739e-12;
-	para[94] = 1.6701733820405215e-11;
-	para[95] = 2.693261686336461e-12;
-	para[96] = 1.8632306047142446e-11;
-	para[97] = 8.498406210886402e-12;
-	para[98] = 0.0;
-	para[99] = 0.0;
-
-
 }
 
 GeneralParticleSource::~GeneralParticleSource() {
@@ -305,9 +200,6 @@ void GeneralParticleSource::GeneratePrimaries(G4Event* event) {
 		G4double eMin_default = 1 * eV;
 		G4double eMax_default = 10 * eV;
 		G4bool diceBetaGamma = messenger->getDiceBetaGamma();
-
-		G4bool userSpectrum = messenger->getUserSpectrum();
-
 		G4double betaGammaMin = messenger->getBetaGammaMin();
 		G4double betaGammaMax = messenger->getBetaGammaMax();
 		G4double betaGammaMin_default = 3;
@@ -315,69 +207,51 @@ void GeneralParticleSource::GeneratePrimaries(G4Event* event) {
 		G4double mass = particleGun->GetParticleDefinition()->GetPDGMass();
 		if (fabs(mass) > 1e-12) {
 			if(diceBetaGamma) {
-				if (std::isnan(betaGammaMin)) {
-					if (!std::isnan(eMin)) betaGammaMin = sqrt( (eMin / mass + 1.) * (eMin / mass + 1.) - 1. );
+				if (isnan(betaGammaMin)) {
+					if (!isnan(eMin)) betaGammaMin = sqrt( (eMin / mass + 1.) * (eMin / mass + 1.) - 1. );
 					else betaGammaMin = betaGammaMin_default;
 				}
-				if (std::isnan(betaGammaMax)) {
-					if (!std::isnan(eMax)) betaGammaMax = sqrt( (eMax / mass + 1.) * (eMax / mass + 1.) - 1. );
+				if (isnan(betaGammaMax)) {
+					if (!isnan(eMax)) betaGammaMax = sqrt( (eMax / mass + 1.) * (eMax / mass + 1.) - 1. );
 					else betaGammaMax = betaGammaMax_default;
 				}
 			}
 			else {
-				if (std::isnan(eMin)) {
-					if (!std::isnan(betaGammaMin)) eMin = (sqrt(betaGammaMin * betaGammaMin + 1.) - 1.) * mass;
+				if (isnan(eMin)) {
+					if (!isnan(betaGammaMin)) eMin = (sqrt(betaGammaMin * betaGammaMin + 1.) - 1.) * mass;
 					else eMin = eMin_default;
 				}
-				if (std::isnan(eMax)) {
-					if (!std::isnan(betaGammaMax)) eMax = (sqrt(betaGammaMax * betaGammaMax + 1.) - 1.) * mass;
+				if (isnan(eMax)) {
+					if (!isnan(betaGammaMax)) eMax = (sqrt(betaGammaMax * betaGammaMax + 1.) - 1.) * mass;
 					else eMax = eMax_default;
 				}
 			}
 		}
 		else {
 			diceBetaGamma = false;
-			if (std::isnan(eMin)) eMin = eMin_default;
-			if (std::isnan(eMax)) eMax = eMax_default;
+			if (isnan(eMin)) eMin = eMin_default;
+			if (isnan(eMax)) eMax = eMax_default;
 		}
 		G4double energy = 0.;
-
-		if(userSpectrum) {
-			CLHEP::RandGeneral randGeneral( para, nBins ,0);
-			G4double random = randGeneral.shoot();
-			//G4cout << "TEST spectrum random " << random << G4endl;
-			//parametrization muon spectrum in MeV from 1 MeV to 1 PeV
-			energy= pow(10.0, 9.0 * random) * CLHEP::MeV;
+		// If it is a massiv particle and beta * gamma is to be diced ...
+		if(fabs(mass) > 1e-12 && diceBetaGamma) {
+			//... dice beta * gamma ...
+			G4double betaGamma = CLHEP::RandFlat::shoot(betaGammaMin, betaGammaMax);
+			// ... determine the energy by beta * gamma.
+			energy = ( sqrt( pow(betaGamma, 2) + 1.) - 1.) * mass;
 			OutFile << "initial_energy_/_MeV:\t\t\t" << energy / CLHEP::MeV << "\n";
+			OutFile << "initial_beta*gamma:\t\t\t" << betaGamma << "\n";
 		}
+		// Else ...
 		else {
-			// If it is a massive particle and beta * gamma is to be diced ...
-			if(fabs(mass) > 1e-12 && diceBetaGamma) {
-				//... dice beta * gamma ...
-				G4double betaGamma = CLHEP::RandFlat::shoot(betaGammaMin, betaGammaMax);
-				// ... determine the energy by beta * gamma.
-				energy = ( sqrt( pow(betaGamma, 2) + 1.) - 1.) * mass;
-				OutFile << "initial_energy_/_MeV:\t\t\t" << energy / CLHEP::MeV << "\n";
+			//... dice the energy.
+			energy = CLHEP::RandFlat::shoot(eMin, eMax);
+			OutFile << "initial_energy_/_MeV:\t\t\t" << energy / CLHEP::MeV << "\n";
+			if (fabs(mass) > 1e-12) {
+				G4double betaGamma = sqrt( pow(energy / mass + 1., 2) - 1. );
 				OutFile << "initial_beta*gamma:\t\t\t" << betaGamma << "\n";
 			}
-			// Else ...
-			else {
-				//... dice the energy.
-				G4double log10eMin = log10(eMin);
-				G4double log10eMax = log10(eMax);
-				G4double energy_pow = CLHEP::RandFlat::shoot(log10eMin, log10eMax);
-				energy = pow(10,energy_pow);
-				//energy = CLHEP::RandFlat::shoot(eMin, eMax);
-
-				OutFile << "initial_energy_/_MeV:\t\t\t" << energy / CLHEP::MeV << "\n";
-				if (fabs(mass) > 1e-12) {
-					G4double betaGamma = sqrt( pow(energy / mass + 1., 2) - 1. );
-					OutFile << "initial_beta*gamma:\t\t\t" << betaGamma << "\n";
-				}
-			}
 		}
-
-
 		particleGun->SetParticleEnergy(energy);
 		// The particle position is diced in the x-y-plane by default, cf. below.
 		G4ThreeVector dicingPlaneNormal(0, 0, 1);
@@ -392,8 +266,8 @@ void GeneralParticleSource::GeneratePrimaries(G4Event* event) {
 			rotationAngle = 180. * CLHEP::deg;
 		}
 		// Dice position.
-		G4double x=0;
-		G4double y=0;
+		G4double x;
+		G4double y;
 		dicePos(x, y);
 		G4double z = 0.;
 		if(messenger->getShift() != 0.){

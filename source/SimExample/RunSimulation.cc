@@ -173,16 +173,31 @@ int main(int argc, char** argv)
 	G4VModularPhysicsList * physicsList = new PhysicsList();
 
 	// GODDeSS Constructor:
-	ScintillatorTileConstructor * scintillatorTileConstructor = new ScintillatorTileConstructor(physicsList, goddessMessenger->GetPropertyToolsManager(), goddessMessenger->GetDataStorage(), SearchOverlaps);
+	ScintillatorTileConstructor * scintillatorTileConstructor = new ScintillatorTileConstructor(
+		physicsList, 
+		goddessMessenger->GetPropertyToolsManager(), 
+		goddessMessenger->GetDataStorage(), 
+		SearchOverlaps
+	);
 	goddessMessenger->SetScintillatorTileConstructor(scintillatorTileConstructor);
 
-	FibreConstructor * fibreConstructor = new FibreConstructor(physicsList, goddessMessenger->GetPropertyToolsManager(), goddessMessenger->GetDataStorage(), SearchOverlaps);
+	FibreConstructor * fibreConstructor = new FibreConstructor(
+		physicsList, 
+		goddessMessenger->GetPropertyToolsManager(), 
+		goddessMessenger->GetDataStorage(), 
+		SearchOverlaps
+	);
 	goddessMessenger->SetFibreConstructor(fibreConstructor);
 
 	G4String hitFile = "hittingPhotons.hitData";
 	hitFile = assembleOutputFileName(OutDir + dataSubOutDir, hitFile, Phrase);
 	goddessMessenger->GetDataStorage()->SetPhotonDetectorHitFile(hitFile);
-	PhotonDetectorConstructor * photonDetectorConstructor = new PhotonDetectorConstructor(physicsList, goddessMessenger->GetPropertyToolsManager(), goddessMessenger->GetDataStorage(), SearchOverlaps);
+	PhotonDetectorConstructor * photonDetectorConstructor = new PhotonDetectorConstructor(
+		physicsList, 
+		goddessMessenger->GetPropertyToolsManager(), 
+		goddessMessenger->GetDataStorage(), 
+		SearchOverlaps
+	);
 	goddessMessenger->SetPhotonDetectorConstructor(photonDetectorConstructor);
 
 	// initialise the physics list (this has to be done AFTER the physics processes have been defined!!!)

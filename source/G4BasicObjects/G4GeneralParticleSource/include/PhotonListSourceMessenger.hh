@@ -70,29 +70,26 @@ public:
 	/**
 	 *  @return start time of the next optical photon to be generated
 	 */
-	G4int GetNextParticlePrimary()
-	{ return (((ParticleInformations[0])[0])[0]).x(); }
-
 	G4double GetNextPhotonStartTime_ns()
-	{ return (((ParticleInformations[0])[0])[1]).x(); }
+	{ return (((ParticleInformations[0])[0])[0]).x(); }
 
 	/**
 	 *  @return start position of the next optical photon to be generated
 	 */
 	G4ThreeVector GetNextPhotonStartPosition_mm()
-	{ return ((ParticleInformations[0])[0])[2]; }
+	{ return ((ParticleInformations[0])[0])[1]; }
 
 	/**
 	 *  @return start momentum of the next optical photon to be generated
 	 */
 	G4ThreeVector GetNextPhotonStartMomentum_MeV()
-	{ return ((ParticleInformations[0])[0])[3]; }
+	{ return ((ParticleInformations[0])[0])[2]; }
 
 	/**
 	 *  @return start polarisation of the next optical photon to be generated
 	 */
 	G4ThreeVector GetNextPhotonStartPolarisation()
-	{ return ((ParticleInformations[0])[0])[4]; }
+	{ return ((ParticleInformations[0])[0])[3]; }
 
 	/**
 	 *  @return remove the data of the next optical photon from the list
@@ -128,8 +125,6 @@ private:
 	G4String InfilePath;
 
 	G4int NumEvent;
-	G4int Primary;
-	G4bool Primary_set;
 	G4double Start_time_ns;
 	G4bool Start_time_ns_set;
 	G4ThreeVector Start_position_mm;

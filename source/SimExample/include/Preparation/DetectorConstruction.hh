@@ -38,12 +38,12 @@ class DetectorConstruction: public G4VUserDetectorConstruction
 public:
 
 	/**
-	 *  Constructor:
-	 *  - sets class variables to default values
-	 */
-	DetectorConstruction( SimulationMessenger * simulationMessenger   /**< class storing and providing variables which are needed in different parts of the simulation. */
-			    )
-	// initialising the variables (doing it with default values, "" or "0" is just to prevent errors from wrongly initialised variables), this has to be done in the order of their appearance in the hh-file:
+	*  Constructor:
+	*  - sets class variables to default values
+	*/
+	/**< class storing and providing variables which are needed in different parts of the simulation. */
+	DetectorConstruction( SimulationMessenger * simulationMessenger )
+	// initializer list -- order set by class definition below
 	: Messenger(simulationMessenger)
 	, PropertyTools(Messenger->GetGoddessMessenger()->GetPropertyToolsManager())
 	, SearchOverlaps(Messenger->GetSearchOverlaps())

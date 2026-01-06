@@ -80,11 +80,14 @@ source "$SIMDIR/run.sh"
 ```
 The above script is included as `test.sh`. If your `GEANT4` package was build with visualization enabled, the example script should produce a visualization of a square scintillator tile with a teal/blue fiber looped inside it and a SiPM on the end of the tile. To then shoot a single muon at the tile, you can enter `/run/beamOn 1` in the visualizer command line. 
 
-The subpackage run script, e.g. `source/SimExample/run.sh`, have a large number of adjustable program options. A few examples:
+The subpackage run script, e.g. `source/SimExample/run.sh`, has a large number of adjustable program options. A few examples:
 - Line 22: You can set `NumberOfEvents=1` to run in batch mode (without visualization).
+- Line 33: You can adjust the dimensions of the scintillator tile by modifying `TileDimensions`.
 
 ## Modifying sub-projects:
 
 The main way to alter a sub-project is by making changes to the detector construction, by modifying the definition of `G4VPhysicalVolume* DetectorConstruction::Construct()` inside of the `src/Preparation/DetectorConstruction.cc` file.
 
 The example setup in `SimExample` contains three possible setups inside the `DetectorConstruction.cc` file. As a first test, comment out the default setup and swap in a different setup.
+
+Note that any changes to a sub-project's source code, e.g. to `DetectorConstruction.cc`, will require re-compilation of that sub-project (run `make SimA`).

@@ -270,8 +270,8 @@ void DetectorConstruction::DefineVariables()
 	//---------- scintillator tile ----------//
 
 		ScintiDimensions = Messenger->GetScintillatorDimensions();
-		// if ( !( !isnan( ScintiDimensions.x() ) && !isnan( ScintiDimensions.y() ) && !isnan( ScintiDimensions.z() ) ))
-		if ( isnan( ScintiDimensions.x() ) ||  isnan( ScintiDimensions.y() ) || isnan( ScintiDimensions.z() ) )
+		// if ( !( !std::isnan( ScintiDimensions.x() ) && !std::isnan( ScintiDimensions.y() ) && !std::isnan( ScintiDimensions.z() ) ))
+		if ( std::isnan( ScintiDimensions.x() ) ||  std::isnan( ScintiDimensions.y() ) || std::isnan( ScintiDimensions.z() ) )
 		{
 			ScintiDimensions = G4ThreeVector(100. * CLHEP::mm, 10. * CLHEP::mm, 100. * CLHEP::mm);
 		}

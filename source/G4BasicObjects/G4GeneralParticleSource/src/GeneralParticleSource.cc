@@ -207,30 +207,30 @@ void GeneralParticleSource::GeneratePrimaries(G4Event* event) {
 		G4double mass = particleGun->GetParticleDefinition()->GetPDGMass();
 		if (fabs(mass) > 1e-12) {
 			if(diceBetaGamma) {
-				if (isnan(betaGammaMin)) {
-					if (!isnan(eMin)) betaGammaMin = sqrt( (eMin / mass + 1.) * (eMin / mass + 1.) - 1. );
+				if (std::isnan(betaGammaMin)) {
+					if (!std::isnan(eMin)) betaGammaMin = sqrt( (eMin / mass + 1.) * (eMin / mass + 1.) - 1. );
 					else betaGammaMin = betaGammaMin_default;
 				}
-				if (isnan(betaGammaMax)) {
-					if (!isnan(eMax)) betaGammaMax = sqrt( (eMax / mass + 1.) * (eMax / mass + 1.) - 1. );
+				if (std::isnan(betaGammaMax)) {
+					if (!std::isnan(eMax)) betaGammaMax = sqrt( (eMax / mass + 1.) * (eMax / mass + 1.) - 1. );
 					else betaGammaMax = betaGammaMax_default;
 				}
 			}
 			else {
-				if (isnan(eMin)) {
-					if (!isnan(betaGammaMin)) eMin = (sqrt(betaGammaMin * betaGammaMin + 1.) - 1.) * mass;
+				if (std::isnan(eMin)) {
+					if (!std::isnan(betaGammaMin)) eMin = (sqrt(betaGammaMin * betaGammaMin + 1.) - 1.) * mass;
 					else eMin = eMin_default;
 				}
-				if (isnan(eMax)) {
-					if (!isnan(betaGammaMax)) eMax = (sqrt(betaGammaMax * betaGammaMax + 1.) - 1.) * mass;
+				if (std::isnan(eMax)) {
+					if (!std::isnan(betaGammaMax)) eMax = (sqrt(betaGammaMax * betaGammaMax + 1.) - 1.) * mass;
 					else eMax = eMax_default;
 				}
 			}
 		}
 		else {
 			diceBetaGamma = false;
-			if (isnan(eMin)) eMin = eMin_default;
-			if (isnan(eMax)) eMax = eMax_default;
+			if (std::isnan(eMin)) eMin = eMin_default;
+			if (std::isnan(eMax)) eMax = eMax_default;
 		}
 		G4double energy = 0.;
 		// If it is a massiv particle and beta * gamma is to be diced ...

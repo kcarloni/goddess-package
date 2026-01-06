@@ -179,9 +179,9 @@ void UserRunInformation::DumpParticleMassesToFile(G4String pathToFile)
  */
 void UserRunInformation::SetMinMaxValue_ScintiHitPointX_mm(G4double newValue)
 {
-	if(isnan(newValue)) return;
+	if(std::isnan(newValue)) return;
 
-	if(isnan(ScintiHitPointX_mm_min) && isnan(ScintiHitPointX_mm_max))
+	if(std::isnan(ScintiHitPointX_mm_min) && std::isnan(ScintiHitPointX_mm_max))
 	{
 		ScintiHitPointX_mm_min = newValue;
 		ScintiHitPointX_mm_max = newValue;
@@ -195,9 +195,9 @@ void UserRunInformation::SetMinMaxValue_ScintiHitPointX_mm(G4double newValue)
  */
 void UserRunInformation::SetMinMaxValue_ScintiHitPointY_mm(G4double newValue)
 {
-	if(isnan(newValue)) return;
+	if(std::isnan(newValue)) return;
 
-	if(isnan(ScintiHitPointY_mm_min) && isnan(ScintiHitPointY_mm_max))
+	if(std::isnan(ScintiHitPointY_mm_min) && std::isnan(ScintiHitPointY_mm_max))
 	{
 		ScintiHitPointY_mm_min = newValue;
 		ScintiHitPointY_mm_max = newValue;
@@ -211,9 +211,9 @@ void UserRunInformation::SetMinMaxValue_ScintiHitPointY_mm(G4double newValue)
  */
 void UserRunInformation::SetMinMaxValue_ScintiHitPointZ_mm(G4double newValue)
 {
-	if(isnan(newValue)) return;
+	if(std::isnan(newValue)) return;
 
-	if(isnan(ScintiHitPointZ_mm_min) && isnan(ScintiHitPointZ_mm_max))
+	if(std::isnan(ScintiHitPointZ_mm_min) && std::isnan(ScintiHitPointZ_mm_max))
 	{
 		ScintiHitPointZ_mm_min = newValue;
 		ScintiHitPointZ_mm_max = newValue;
@@ -241,7 +241,7 @@ void UserRunInformation::SetMinMaxValue_opticalPhotonsPerPrimary(G4int newValue)
  */
 void UserRunInformation::SetMinMaxValue_opticalPhotonsPerEnergyDeposition(G4double newValue)
 {
-	if(isnan(newValue)) return;
+	if(std::isnan(newValue)) return;
 
 	if(OpticalPhotonsPerEnergyDeposition_min == -1 && OpticalPhotonsPerEnergyDeposition_max == -1)
 	{
@@ -271,9 +271,9 @@ void UserRunInformation::SetMinMaxValue_opticalPhotonsAbsorbedInPhotonDetector(G
  */
 void UserRunInformation::SetMinMaxValue_PhotonDetectorHitPointX_mm(G4double newValue)
 {
-	if(isnan(newValue)) return;
+	if(std::isnan(newValue)) return;
 
-	if(isnan(PhotonDetectorHitPointX_mm_min) && isnan(PhotonDetectorHitPointX_mm_max))
+	if(std::isnan(PhotonDetectorHitPointX_mm_min) && std::isnan(PhotonDetectorHitPointX_mm_max))
 	{
 		PhotonDetectorHitPointX_mm_min = newValue;
 		PhotonDetectorHitPointX_mm_max = newValue;
@@ -287,9 +287,9 @@ void UserRunInformation::SetMinMaxValue_PhotonDetectorHitPointX_mm(G4double newV
  */
 void UserRunInformation::SetMinMaxValue_PhotonDetectorHitPointY_mm(G4double newValue)
 {
-	if(isnan(newValue)) return;
+	if(std::isnan(newValue)) return;
 
-	if(isnan(PhotonDetectorHitPointY_mm_min) && isnan(PhotonDetectorHitPointY_mm_max))
+	if(std::isnan(PhotonDetectorHitPointY_mm_min) && std::isnan(PhotonDetectorHitPointY_mm_max))
 	{
 		PhotonDetectorHitPointY_mm_min = newValue;
 		PhotonDetectorHitPointY_mm_max = newValue;
@@ -300,9 +300,9 @@ void UserRunInformation::SetMinMaxValue_PhotonDetectorHitPointY_mm(G4double newV
 
 // void UserRunInformation::SetMinMaxValue_PhotonDetectorHitPointZ_mm(G4double newValue)
 // {
-// 	if(isnan(newValue)) return;
+// 	if(std::isnan(newValue)) return;
 //
-// 	if(isnan(PhotonDetectorHitPointZ_mm_min) && isnan(PhotonDetectorHitPointZ_mm_max))
+// 	if(std::isnan(PhotonDetectorHitPointZ_mm_min) && std::isnan(PhotonDetectorHitPointZ_mm_max))
 // 	{
 // 		PhotonDetectorHitPointZ_mm_min = newValue;
 // 		PhotonDetectorHitPointZ_mm_max = newValue;
@@ -316,9 +316,9 @@ void UserRunInformation::SetMinMaxValue_PhotonDetectorHitPointY_mm(G4double newV
  */
 void UserRunInformation::SetMinMaxValue_OpticalPhotonHitEnergy_MeV(G4double newValue)
 {
-	if(isnan(newValue)) return;
+	if(std::isnan(newValue)) return;
 
-	if(isnan(OpticalPhotonHitEnergy_MeV_min) && isnan(OpticalPhotonHitEnergy_MeV_max))
+	if(std::isnan(OpticalPhotonHitEnergy_MeV_min) && std::isnan(OpticalPhotonHitEnergy_MeV_max))
 	{
 		OpticalPhotonHitEnergy_MeV_min = newValue;
 		OpticalPhotonHitEnergy_MeV_max = newValue;
@@ -332,9 +332,9 @@ void UserRunInformation::SetMinMaxValue_OpticalPhotonHitEnergy_MeV(G4double newV
  */
 void UserRunInformation::SetMinMaxValue_DeltaTimeHitAbsorption_ns(G4double newValue)
 {
-	if(isnan(newValue)) return;
+	if(std::isnan(newValue)) return;
 
-	if(isnan(DeltaTimeHitAbsorption_ns_min) && isnan(DeltaTimeHitAbsorption_ns_max))
+	if(std::isnan(DeltaTimeHitAbsorption_ns_min) && std::isnan(DeltaTimeHitAbsorption_ns_max))
 	{
 		DeltaTimeHitAbsorption_ns_min = newValue;
 		DeltaTimeHitAbsorption_ns_max = newValue;
@@ -378,9 +378,9 @@ void UserRunInformation::SetMinMaxValue_Control_SecondaryParticleID(G4int newVal
  */
 void UserRunInformation::SetMinMaxValue_Control_PrimaryParticleInitialPositionX_mm(G4double newValue)
 {
-	if(isnan(newValue)) return;
+	if(std::isnan(newValue)) return;
 
-	if(isnan(Control_PrimaryParticleInitialPositionX_mm_min) && isnan(Control_PrimaryParticleInitialPositionX_mm_max))
+	if(std::isnan(Control_PrimaryParticleInitialPositionX_mm_min) && std::isnan(Control_PrimaryParticleInitialPositionX_mm_max))
 	{
 		Control_PrimaryParticleInitialPositionX_mm_min = newValue;
 		Control_PrimaryParticleInitialPositionX_mm_max = newValue;
@@ -394,9 +394,9 @@ void UserRunInformation::SetMinMaxValue_Control_PrimaryParticleInitialPositionX_
  */
 void UserRunInformation::SetMinMaxValue_Control_PrimaryParticleInitialPositionY_mm(G4double newValue)
 {
-	if(isnan(newValue)) return;
+	if(std::isnan(newValue)) return;
 
-	if(isnan(Control_PrimaryParticleInitialPositionY_mm_min) && isnan(Control_PrimaryParticleInitialPositionY_mm_max))
+	if(std::isnan(Control_PrimaryParticleInitialPositionY_mm_min) && std::isnan(Control_PrimaryParticleInitialPositionY_mm_max))
 	{
 		Control_PrimaryParticleInitialPositionY_mm_min = newValue;
 		Control_PrimaryParticleInitialPositionY_mm_max = newValue;
@@ -410,9 +410,9 @@ void UserRunInformation::SetMinMaxValue_Control_PrimaryParticleInitialPositionY_
  */
 void UserRunInformation::SetMinMaxValue_Control_PrimaryParticleInitialPositionZ_mm(G4double newValue)
 {
-	if(isnan(newValue)) return;
+	if(std::isnan(newValue)) return;
 
-	if(isnan(Control_PrimaryParticleInitialPositionZ_mm_min) && isnan(Control_PrimaryParticleInitialPositionZ_mm_max))
+	if(std::isnan(Control_PrimaryParticleInitialPositionZ_mm_min) && std::isnan(Control_PrimaryParticleInitialPositionZ_mm_max))
 	{
 		Control_PrimaryParticleInitialPositionZ_mm_min = newValue;
 		Control_PrimaryParticleInitialPositionZ_mm_max = newValue;
@@ -426,9 +426,9 @@ void UserRunInformation::SetMinMaxValue_Control_PrimaryParticleInitialPositionZ_
  */
 void UserRunInformation::SetMinMaxValue_Control_ScintiHitPointX_mm(G4double newValue)
 {
-	if(isnan(newValue)) return;
+	if(std::isnan(newValue)) return;
 
-	if(isnan(Control_ScintiHitPointX_mm_min) && isnan(Control_ScintiHitPointX_mm_max))
+	if(std::isnan(Control_ScintiHitPointX_mm_min) && std::isnan(Control_ScintiHitPointX_mm_max))
 	{
 		Control_ScintiHitPointX_mm_min = newValue;
 		Control_ScintiHitPointX_mm_max = newValue;
@@ -442,9 +442,9 @@ void UserRunInformation::SetMinMaxValue_Control_ScintiHitPointX_mm(G4double newV
  */
 void UserRunInformation::SetMinMaxValue_Control_ScintiHitPointY_mm(G4double newValue)
 {
-	if(isnan(newValue)) return;
+	if(std::isnan(newValue)) return;
 
-	if(isnan(Control_ScintiHitPointY_mm_min) && isnan(Control_ScintiHitPointY_mm_max))
+	if(std::isnan(Control_ScintiHitPointY_mm_min) && std::isnan(Control_ScintiHitPointY_mm_max))
 	{
 		Control_ScintiHitPointY_mm_min = newValue;
 		Control_ScintiHitPointY_mm_max = newValue;
@@ -458,9 +458,9 @@ void UserRunInformation::SetMinMaxValue_Control_ScintiHitPointY_mm(G4double newV
  */
 void UserRunInformation::SetMinMaxValue_Control_ScintiHitPointZ_mm(G4double newValue)
 {
-	if(isnan(newValue)) return;
+	if(std::isnan(newValue)) return;
 
-	if(isnan(Control_ScintiHitPointZ_mm_min) && isnan(Control_ScintiHitPointZ_mm_max))
+	if(std::isnan(Control_ScintiHitPointZ_mm_min) && std::isnan(Control_ScintiHitPointZ_mm_max))
 	{
 		Control_ScintiHitPointZ_mm_min = newValue;
 		Control_ScintiHitPointZ_mm_max = newValue;
@@ -474,9 +474,9 @@ void UserRunInformation::SetMinMaxValue_Control_ScintiHitPointZ_mm(G4double newV
  */
 void UserRunInformation::SetMinMaxValue_Control_PrimaryParticleInitialEnergy_MeV(G4double newValue)
 {
-	if(isnan(newValue)) return;
+	if(std::isnan(newValue)) return;
 
-	if(isnan(Control_PrimaryParticleInitialEnergy_MeV_min) && isnan(Control_PrimaryParticleInitialEnergy_MeV_max))
+	if(std::isnan(Control_PrimaryParticleInitialEnergy_MeV_min) && std::isnan(Control_PrimaryParticleInitialEnergy_MeV_max))
 	{
 		Control_PrimaryParticleInitialEnergy_MeV_min = newValue;
 		Control_PrimaryParticleInitialEnergy_MeV_max = newValue;
@@ -490,9 +490,9 @@ void UserRunInformation::SetMinMaxValue_Control_PrimaryParticleInitialEnergy_MeV
  */
 void UserRunInformation::SetMinMaxValue_Control_SecondaryParticleInitialEnergy_MeV(G4double newValue)
 {
-	if(isnan(newValue)) return;
+	if(std::isnan(newValue)) return;
 
-	if(isnan(Control_SecondaryParticleInitialEnergy_MeV_min) && isnan(Control_SecondaryParticleInitialEnergy_MeV_max))
+	if(std::isnan(Control_SecondaryParticleInitialEnergy_MeV_min) && std::isnan(Control_SecondaryParticleInitialEnergy_MeV_max))
 	{
 		Control_SecondaryParticleInitialEnergy_MeV_min = newValue;
 		Control_SecondaryParticleInitialEnergy_MeV_max = newValue;
@@ -506,9 +506,9 @@ void UserRunInformation::SetMinMaxValue_Control_SecondaryParticleInitialEnergy_M
  */
 void UserRunInformation::SetMinMaxValue_Control_OpticalPhotonInitialEnergy_MeV(G4double newValue)
 {
-	if(isnan(newValue)) return;
+	if(std::isnan(newValue)) return;
 
-	if(isnan(Control_OpticalPhotonInitialEnergy_MeV_min) && isnan(Control_OpticalPhotonInitialEnergy_MeV_max))
+	if(std::isnan(Control_OpticalPhotonInitialEnergy_MeV_min) && std::isnan(Control_OpticalPhotonInitialEnergy_MeV_max))
 	{
 		Control_OpticalPhotonInitialEnergy_MeV_min = newValue;
 		Control_OpticalPhotonInitialEnergy_MeV_max = newValue;
@@ -522,9 +522,9 @@ void UserRunInformation::SetMinMaxValue_Control_OpticalPhotonInitialEnergy_MeV(G
  */
 void UserRunInformation::SetMinMaxValue_Control_PrimaryParticleInitialBetaGamma(G4double newValue)
 {
-	if(isnan(newValue)) return;
+	if(std::isnan(newValue)) return;
 
-	if(isnan(Control_PrimaryParticleInitialBetaGamma_min) && isnan(Control_PrimaryParticleInitialBetaGamma_max))
+	if(std::isnan(Control_PrimaryParticleInitialBetaGamma_min) && std::isnan(Control_PrimaryParticleInitialBetaGamma_max))
 	{
 		Control_PrimaryParticleInitialBetaGamma_min = newValue;
 		Control_PrimaryParticleInitialBetaGamma_max = newValue;
@@ -538,9 +538,9 @@ void UserRunInformation::SetMinMaxValue_Control_PrimaryParticleInitialBetaGamma(
  */
 void UserRunInformation::SetMinMaxValue_Control_SecondaryParticleInitialBetaGamma(G4double newValue)
 {
-	if(isnan(newValue)) return;
+	if(std::isnan(newValue)) return;
 
-	if(isnan(Control_SecondaryParticleInitialBetaGamma_min) && isnan(Control_SecondaryParticleInitialBetaGamma_max))
+	if(std::isnan(Control_SecondaryParticleInitialBetaGamma_min) && std::isnan(Control_SecondaryParticleInitialBetaGamma_max))
 	{
 		Control_SecondaryParticleInitialBetaGamma_min = newValue;
 		Control_SecondaryParticleInitialBetaGamma_max = newValue;
@@ -554,9 +554,9 @@ void UserRunInformation::SetMinMaxValue_Control_SecondaryParticleInitialBetaGamm
  */
 void UserRunInformation::SetMinMaxValue_Control_PrimaryParticleEnergyDepositionInScintillator_MeV(G4double newValue)
 {
-	if(isnan(newValue)) return;
+	if(std::isnan(newValue)) return;
 
-	if(isnan(Control_PrimaryParticleEnergyDepositionInScintillator_MeV_min) && isnan(Control_PrimaryParticleEnergyDepositionInScintillator_MeV_max))
+	if(std::isnan(Control_PrimaryParticleEnergyDepositionInScintillator_MeV_min) && std::isnan(Control_PrimaryParticleEnergyDepositionInScintillator_MeV_max))
 	{
 		Control_PrimaryParticleEnergyDepositionInScintillator_MeV_min = newValue;
 		Control_PrimaryParticleEnergyDepositionInScintillator_MeV_max = newValue;
@@ -570,9 +570,9 @@ void UserRunInformation::SetMinMaxValue_Control_PrimaryParticleEnergyDepositionI
  */
 void UserRunInformation::SetMinMaxValue_Control_PrimaryParticlePathLengthInScintillator_MeV(G4double newValue)
 {
-	if(isnan(newValue)) return;
+	if(std::isnan(newValue)) return;
 
-	if(isnan(Control_PrimaryParticlePathLengthInScintillator_MeV_min) && isnan(Control_PrimaryParticlePathLengthInScintillator_MeV_max))
+	if(std::isnan(Control_PrimaryParticlePathLengthInScintillator_MeV_min) && std::isnan(Control_PrimaryParticlePathLengthInScintillator_MeV_max))
 	{
 		Control_PrimaryParticlePathLengthInScintillator_MeV_min = newValue;
 		Control_PrimaryParticlePathLengthInScintillator_MeV_max = newValue;
@@ -586,9 +586,9 @@ void UserRunInformation::SetMinMaxValue_Control_PrimaryParticlePathLengthInScint
  */
 void UserRunInformation::SetMinMaxValue_Control_SecondaryParticleEnergyDepositionInScintillator_MeV(G4double newValue)
 {
-	if(isnan(newValue)) return;
+	if(std::isnan(newValue)) return;
 
-	if(isnan(Control_SecondaryParticleEnergyDepositionInScintillator_MeV_min) && isnan(Control_SecondaryParticleEnergyDepositionInScintillator_MeV_max))
+	if(std::isnan(Control_SecondaryParticleEnergyDepositionInScintillator_MeV_min) && std::isnan(Control_SecondaryParticleEnergyDepositionInScintillator_MeV_max))
 	{
 		Control_SecondaryParticleEnergyDepositionInScintillator_MeV_min = newValue;
 		Control_SecondaryParticleEnergyDepositionInScintillator_MeV_max = newValue;
@@ -602,9 +602,9 @@ void UserRunInformation::SetMinMaxValue_Control_SecondaryParticleEnergyDepositio
  */
 void UserRunInformation::SetMinMaxValue_Control_GlobalScintiHitTime_ns(G4double newValue)
 {
-	if(isnan(newValue)) return;
+	if(std::isnan(newValue)) return;
 
-	if(isnan(Control_GlobalScintiHitTime_ns_min) && isnan(Control_GlobalScintiHitTime_ns_max))
+	if(std::isnan(Control_GlobalScintiHitTime_ns_min) && std::isnan(Control_GlobalScintiHitTime_ns_max))
 	{
 		Control_GlobalScintiHitTime_ns_min = newValue;
 		Control_GlobalScintiHitTime_ns_max = newValue;
@@ -618,9 +618,9 @@ void UserRunInformation::SetMinMaxValue_Control_GlobalScintiHitTime_ns(G4double 
  */
 void UserRunInformation::SetMinMaxValue_Control_DeltaTimeHitCreation_secondary_ns(G4double newValue)
 {
-	if(isnan(newValue)) return;
+	if(std::isnan(newValue)) return;
 
-	if(isnan(Control_DeltaTimeHitCreation_secondary_ns_min) && isnan(Control_DeltaTimeHitCreation_secondary_ns_max))
+	if(std::isnan(Control_DeltaTimeHitCreation_secondary_ns_min) && std::isnan(Control_DeltaTimeHitCreation_secondary_ns_max))
 	{
 		Control_DeltaTimeHitCreation_secondary_ns_min = newValue;
 		Control_DeltaTimeHitCreation_secondary_ns_max = newValue;
@@ -634,9 +634,9 @@ void UserRunInformation::SetMinMaxValue_Control_DeltaTimeHitCreation_secondary_n
  */
 void UserRunInformation::SetMinMaxValue_Control_DeltaTimeHitCreation_ns(G4double newValue)
 {
-	if(isnan(newValue)) return;
+	if(std::isnan(newValue)) return;
 
-	if(isnan(Control_DeltaTimeHitCreation_ns_min) && isnan(Control_DeltaTimeHitCreation_ns_max))
+	if(std::isnan(Control_DeltaTimeHitCreation_ns_min) && std::isnan(Control_DeltaTimeHitCreation_ns_max))
 	{
 		Control_DeltaTimeHitCreation_ns_min = newValue;
 		Control_DeltaTimeHitCreation_ns_max = newValue;
@@ -650,9 +650,9 @@ void UserRunInformation::SetMinMaxValue_Control_DeltaTimeHitCreation_ns(G4double
  */
 void UserRunInformation::SetMinMaxValue_Control_DeltaTimeCreationAbsorption_ns(G4double newValue)
 {
-	if(isnan(newValue)) return;
+	if(std::isnan(newValue)) return;
 
-	if(isnan(Control_DeltaTimeCreationAbsorption_ns_min) && isnan(Control_DeltaTimeCreationAbsorption_ns_max))
+	if(std::isnan(Control_DeltaTimeCreationAbsorption_ns_min) && std::isnan(Control_DeltaTimeCreationAbsorption_ns_max))
 	{
 		Control_DeltaTimeCreationAbsorption_ns_min = newValue;
 		Control_DeltaTimeCreationAbsorption_ns_max = newValue;
@@ -666,9 +666,9 @@ void UserRunInformation::SetMinMaxValue_Control_DeltaTimeCreationAbsorption_ns(G
  */
 void UserRunInformation::SetMinMaxValue_Control_DeltaTimeHitAbsorption_ns(G4double newValue)
 {
-	if(isnan(newValue)) return;
+	if(std::isnan(newValue)) return;
 
-	if(isnan(Control_DeltaTimeHitAbsorption_ns_min) && isnan(Control_DeltaTimeHitAbsorption_ns_max))
+	if(std::isnan(Control_DeltaTimeHitAbsorption_ns_min) && std::isnan(Control_DeltaTimeHitAbsorption_ns_max))
 	{
 		Control_DeltaTimeHitAbsorption_ns_min = newValue;
 		Control_DeltaTimeHitAbsorption_ns_max = newValue;
@@ -682,9 +682,9 @@ void UserRunInformation::SetMinMaxValue_Control_DeltaTimeHitAbsorption_ns(G4doub
  */
 void UserRunInformation::SetMinMaxValue_Control_DeltaTimeHitCreation_parentPrimary_ns(G4double newValue)
 {
-	if(isnan(newValue)) return;
+	if(std::isnan(newValue)) return;
 
-	if(isnan(Control_DeltaTimeHitCreation_parentPrimary_ns_min) && isnan(Control_DeltaTimeHitCreation_parentPrimary_ns_max))
+	if(std::isnan(Control_DeltaTimeHitCreation_parentPrimary_ns_min) && std::isnan(Control_DeltaTimeHitCreation_parentPrimary_ns_max))
 	{
 		Control_DeltaTimeHitCreation_parentPrimary_ns_min = newValue;
 		Control_DeltaTimeHitCreation_parentPrimary_ns_max = newValue;
@@ -698,9 +698,9 @@ void UserRunInformation::SetMinMaxValue_Control_DeltaTimeHitCreation_parentPrima
  */
 void UserRunInformation::SetMinMaxValue_Control_DeltaTimeCreationAbsorption_parentPrimary_ns(G4double newValue)
 {
-	if(isnan(newValue)) return;
+	if(std::isnan(newValue)) return;
 
-	if(isnan(Control_DeltaTimeCreationAbsorption_parentPrimary_ns_min) && isnan(Control_DeltaTimeCreationAbsorption_parentPrimary_ns_max))
+	if(std::isnan(Control_DeltaTimeCreationAbsorption_parentPrimary_ns_min) && std::isnan(Control_DeltaTimeCreationAbsorption_parentPrimary_ns_max))
 	{
 		Control_DeltaTimeCreationAbsorption_parentPrimary_ns_min = newValue;
 		Control_DeltaTimeCreationAbsorption_parentPrimary_ns_max = newValue;
@@ -714,9 +714,9 @@ void UserRunInformation::SetMinMaxValue_Control_DeltaTimeCreationAbsorption_pare
  */
 void UserRunInformation::SetMinMaxValue_Control_DeltaTimeHitAbsorption_parentPrimary_ns(G4double newValue)
 {
-	if(isnan(newValue)) return;
+	if(std::isnan(newValue)) return;
 
-	if(isnan(Control_DeltaTimeHitAbsorption_parentPrimary_ns_min) && isnan(Control_DeltaTimeHitAbsorption_parentPrimary_ns_max))
+	if(std::isnan(Control_DeltaTimeHitAbsorption_parentPrimary_ns_min) && std::isnan(Control_DeltaTimeHitAbsorption_parentPrimary_ns_max))
 	{
 		Control_DeltaTimeHitAbsorption_parentPrimary_ns_min = newValue;
 		Control_DeltaTimeHitAbsorption_parentPrimary_ns_max = newValue;
@@ -730,9 +730,9 @@ void UserRunInformation::SetMinMaxValue_Control_DeltaTimeHitAbsorption_parentPri
  */
 void UserRunInformation::SetMinMaxValue_Control_DeltaTimeHitCreation_parentSecondary_ns(G4double newValue)
 {
-	if(isnan(newValue)) return;
+	if(std::isnan(newValue)) return;
 
-	if(isnan(Control_DeltaTimeHitCreation_parentSecondary_ns_min) && isnan(Control_DeltaTimeHitCreation_parentSecondary_ns_max))
+	if(std::isnan(Control_DeltaTimeHitCreation_parentSecondary_ns_min) && std::isnan(Control_DeltaTimeHitCreation_parentSecondary_ns_max))
 	{
 		Control_DeltaTimeHitCreation_parentSecondary_ns_min = newValue;
 		Control_DeltaTimeHitCreation_parentSecondary_ns_max = newValue;
@@ -746,9 +746,9 @@ void UserRunInformation::SetMinMaxValue_Control_DeltaTimeHitCreation_parentSecon
  */
 void UserRunInformation::SetMinMaxValue_Control_DeltaTimeCreationAbsorption_parentSecondary_ns(G4double newValue)
 {
-	if(isnan(newValue)) return;
+	if(std::isnan(newValue)) return;
 
-	if(isnan(Control_DeltaTimeCreationAbsorption_parentSecondary_ns_min) && isnan(Control_DeltaTimeCreationAbsorption_parentSecondary_ns_max))
+	if(std::isnan(Control_DeltaTimeCreationAbsorption_parentSecondary_ns_min) && std::isnan(Control_DeltaTimeCreationAbsorption_parentSecondary_ns_max))
 	{
 		Control_DeltaTimeCreationAbsorption_parentSecondary_ns_min = newValue;
 		Control_DeltaTimeCreationAbsorption_parentSecondary_ns_max = newValue;
@@ -762,9 +762,9 @@ void UserRunInformation::SetMinMaxValue_Control_DeltaTimeCreationAbsorption_pare
  */
 void UserRunInformation::SetMinMaxValue_Control_DeltaTimeHitAbsorption_parentSecondary_ns(G4double newValue)
 {
-	if(isnan(newValue)) return;
+	if(std::isnan(newValue)) return;
 
-	if(isnan(Control_DeltaTimeHitAbsorption_parentSecondary_ns_min) && isnan(Control_DeltaTimeHitAbsorption_parentSecondary_ns_max))
+	if(std::isnan(Control_DeltaTimeHitAbsorption_parentSecondary_ns_min) && std::isnan(Control_DeltaTimeHitAbsorption_parentSecondary_ns_max))
 	{
 		Control_DeltaTimeHitAbsorption_parentSecondary_ns_min = newValue;
 		Control_DeltaTimeHitAbsorption_parentSecondary_ns_max = newValue;
@@ -946,7 +946,7 @@ void UserRunInformation::SetMinMaxValue_Control_WLSPhotonsFromSecondary(G4int ne
  */
 void UserRunInformation::SetMinMaxValue_Control_opticalPhotonsFromPrimaryPerPrimaryEnergyDeposition(G4double newValue)
 {
-	if(isnan(newValue)) return;
+	if(std::isnan(newValue)) return;
 
 	if(Control_OpticalPhotonsFromPrimaryPerPrimaryEnergyDeposition_min == -1 && Control_OpticalPhotonsFromPrimaryPerPrimaryEnergyDeposition_max == -1)
 	{
@@ -962,7 +962,7 @@ void UserRunInformation::SetMinMaxValue_Control_opticalPhotonsFromPrimaryPerPrim
  */
 void UserRunInformation::SetMinMaxValue_Control_opticalPhotonsFromSecondaryPerPrimaryEnergyDeposition(G4double newValue)
 {
-	if(isnan(newValue)) return;
+	if(std::isnan(newValue)) return;
 
 	if(Control_OpticalPhotonsFromSecondaryPerPrimaryEnergyDeposition_min == -1 && Control_OpticalPhotonsFromSecondaryPerPrimaryEnergyDeposition_max == -1)
 	{
@@ -978,7 +978,7 @@ void UserRunInformation::SetMinMaxValue_Control_opticalPhotonsFromSecondaryPerPr
  */
 void UserRunInformation::SetMinMaxValue_Control_opticalPhotonsAbsorbed_volume(G4int num_absorbed_inScinti, G4int num_absorbed_inFibre, G4int num_absorbed_inPhotonDetector, G4int num_total)
 {
-	if(isnan(num_absorbed_inScinti) || isnan(num_absorbed_inFibre) || isnan(num_absorbed_inPhotonDetector) || isnan(num_total)) return;
+	if(std::isnan(num_absorbed_inScinti) || std::isnan(num_absorbed_inFibre) || std::isnan(num_absorbed_inPhotonDetector) || std::isnan(num_total)) return;
 
 
 	G4double frac_min = ((G4double) num_absorbed_inScinti) / ((G4double) num_total);
@@ -998,7 +998,7 @@ void UserRunInformation::SetMinMaxValue_Control_opticalPhotonsAbsorbed_volume(G4
  */
 void UserRunInformation::SetMinMaxValue_Control_opticalPhotonsAbsorbed_process(G4int num_Scinti_absorbed, G4int num_Scinti_total, G4int num_Cerenkov_absorbed, G4int num_Cerenkov_total, G4int num_WLS_absorbed, G4int num_WLS_total)
 {
-	if(isnan(num_Scinti_absorbed) || isnan(num_Scinti_total) || isnan(num_Cerenkov_absorbed) || isnan(num_Cerenkov_total) || isnan(num_WLS_absorbed) || isnan(num_WLS_total)) return;
+	if(std::isnan(num_Scinti_absorbed) || std::isnan(num_Scinti_total) || std::isnan(num_Cerenkov_absorbed) || std::isnan(num_Cerenkov_total) || std::isnan(num_WLS_absorbed) || std::isnan(num_WLS_total)) return;
 
 	G4int num_absorbed = num_Scinti_absorbed + num_Cerenkov_absorbed + num_WLS_absorbed;
 	G4int num_total = num_Scinti_total + num_Cerenkov_total + num_WLS_total;

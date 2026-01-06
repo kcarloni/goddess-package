@@ -1086,7 +1086,7 @@ void G4Fibre::InitialiseVariables()
 		RelativeFibreRadius_CoatingMin = FibreProperties.getNumber("R_relMin_coating");
 		RelativeFibreRadius_CoatingMax = FibreProperties.getNumber("R_relMax_coating");
 
-		if(isnan(RelativeFibreRadius_CoatingMax))
+		if(std::isnan(RelativeFibreRadius_CoatingMax))
 		{
 			std::cerr <<
 			std::endl << "##########" <<
@@ -1099,7 +1099,7 @@ void G4Fibre::InitialiseVariables()
 			CriticalErrorOccured = true;
 		}
 
-		if(isnan(RelativeFibreRadius_CoatingMin))
+		if(std::isnan(RelativeFibreRadius_CoatingMin))
 		{
 			std::cerr <<
 			std::endl << "##########" <<
@@ -1223,7 +1223,7 @@ void G4Fibre::GenerateTransformation(G4String fibreType)
 	G4RotationMatrix fibreRotation_rel = G4RotationMatrix();
 	G4ThreeVector fibreTranslation_rel = G4ThreeVector(0., 0., 0.);
 
-	if(!isnan(Length))   //i.e. a straight fibre is defined by Transformation and length
+	if(!std::isnan(Length))   //i.e. a straight fibre is defined by Transformation and length
 	{
 		fibreTranslation_rel = FibreTransformation_rel.getTranslation();
 		fibreRotation_rel = FibreTransformation_rel.getRotation();
@@ -1277,7 +1277,7 @@ void G4Fibre::GenerateTransformation(G4String fibreType)
 		else if(fibreType == "bent")
 		{
 			// calculate the the angle at which the bent fibre starts (if it is not given)
-			if(isnan(BendingStartAngle))
+			if(std::isnan(BendingStartAngle))
 			{
 				// NOTE: the fibre is originally generated circularly around the z-axis, 0° is parallel to the x-axis and the angle is counted mathematically right-handed around the z-axis
 
@@ -2792,7 +2792,7 @@ void G4Fibre::ConstructSurface()
 		}
 
 		G4double fibreSigmaAlpha_Coating = FibreProperties.getNumber("roughness_coating");
-		if(isnan(fibreSigmaAlpha_Coating))
+		if(std::isnan(fibreSigmaAlpha_Coating))
 		{
 			std::cerr <<
 			std::endl << "##########" <<
@@ -3397,12 +3397,12 @@ void G4Fibre::SetDefaults()
 
 	ReflectiveStartPointTransformation_insideMother = G4Transform3D();
 	ReflectiveStartPointTransformation_outsideMother = G4Transform3D();
-	if(isnan(Reflectivity_startPoint)) CreateReflectiveStartPointVolumes = false;
+	if(std::isnan(Reflectivity_startPoint)) CreateReflectiveStartPointVolumes = false;
 	else CreateReflectiveStartPointVolumes = true;
 
 	ReflectiveEndPointTransformation_insideMother = G4Transform3D();
 	ReflectiveEndPointTransformation_outsideMother = G4Transform3D();
-	if(isnan(Reflectivity_endPoint)) CreateReflectiveEndPointVolumes = false;
+	if(std::isnan(Reflectivity_endPoint)) CreateReflectiveEndPointVolumes = false;
 	else CreateReflectiveEndPointVolumes = true;
 
 // Roughened fibre end

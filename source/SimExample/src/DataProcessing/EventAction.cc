@@ -164,7 +164,7 @@ void EventAction::saveDataToDataFile()
 
 			G4double globalAbsorptionTime = EventInformation->GetGlobalAbsorptionTime(iter);
 			dataFile << "t_abs/ns:\t\t" << globalAbsorptionTime / CLHEP::ns << "\n";
-			if(!isnan(globalHitTime)) RunInformation->SetMinMaxValue_DeltaTimeHitAbsorption_ns(globalAbsorptionTime / CLHEP::ns - globalHitTime / CLHEP::ns);
+			if(!std::isnan(globalHitTime)) RunInformation->SetMinMaxValue_DeltaTimeHitAbsorption_ns(globalAbsorptionTime / CLHEP::ns - globalHitTime / CLHEP::ns);
 
 			G4ThreeVector PhotonDetectorHitPoint = GoddessDataStorage->GetPhotonDetectorHitPoint(iter);
 			dataFile << "pos_SiPM_hit/mm:\t" << PhotonDetectorHitPoint / CLHEP::mm << "\n";
@@ -248,7 +248,7 @@ void EventAction::saveDataToControlFile()
 		G4int particleID = EventInformation->GetParticleID(iter);
 		if(isPrimary)
 		{
-			if(!isnan(particleID))
+			if(!std::isnan(particleID))
 			{
 				RunInformation->SetMinMaxValue_Control_PrimaryParticleID(particleID);
 				ID_primary = particleID;
@@ -259,7 +259,7 @@ void EventAction::saveDataToControlFile()
 		else if(EventID < mumberOfEventsToBeSaved)
 		{
 			controlFile << "ID:\t\t\t" << particleID << "\n";
-			if(!isnan(particleID)) RunInformation->SetMinMaxValue_Control_SecondaryParticleID(particleID);
+			if(!std::isnan(particleID)) RunInformation->SetMinMaxValue_Control_SecondaryParticleID(particleID);
 		}
 
 		if(!isPrimary)
@@ -321,7 +321,7 @@ void EventAction::saveDataToControlFile()
 			}
 
 			globalHitTime = GoddessDataStorage->GetScintillatorHitTime(iter);
-			if(!isnan(globalHitTime)) RunInformation->SetMinMaxValue_Control_GlobalScintiHitTime_ns(globalHitTime / CLHEP::ns);
+			if(!std::isnan(globalHitTime)) RunInformation->SetMinMaxValue_Control_GlobalScintiHitTime_ns(globalHitTime / CLHEP::ns);
 			if(EventID < mumberOfEventsToBeSaved) controlFile << "t_hit/ns:\t\t" << globalHitTime / CLHEP::ns << "\n";
 
 			G4ThreeVector scintiHitPoint = GoddessDataStorage->GetScintillatorHitPoint(iter);
@@ -413,7 +413,7 @@ void EventAction::saveDataToControlFile()
 					RunInformation->SetMinMaxValue_Control_DeltaTimeHitAbsorption_parentSecondary_ns(globalAbsorptionTime / CLHEP::ns - globalHitTime / CLHEP::ns);
 				}
 
-				if( ! isnan(globalAbsorptionTime) )
+				if( ! std::isnan(globalAbsorptionTime) )
 				{
 					G4String absorbedIn = EventInformation->GetAbsorbedIn(iter);
 					controlFile << "abs_vol:\t\t" << absorbedIn << "\n";

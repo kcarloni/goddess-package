@@ -134,7 +134,7 @@ void TrackingAction::PostUserTrackingAction(const G4Track* aTrack)
 			// find absorption process
 			if(thePostStepPoint->GetPhysicalVolume())   //the particle did not leave the world volume
 			{
-				if(isnan(EventInformation->GetGlobalAbsorptionTime(trackID)))
+				if(std::isnan(EventInformation->GetGlobalAbsorptionTime(trackID)))
 				{
 					G4double globalPhotonAbsorptionTime = thePostStepPoint->GetGlobalTime();
 					EventInformation->SetGlobalAbsorptionTime(trackID, globalPhotonAbsorptionTime);

@@ -314,7 +314,7 @@ G4bool PhotonListSourceMessenger::getVectorValue(const char * & data, G4String k
 
 		sscanf(data, "%*s (%lf,%lf,%lf)%n", &vx, &vy, &vz, &matchedStringlength);
 
-		if(!isnan(vx) && !isnan(vy) && !isnan(vz))
+		if(!std::isnan(vx) && !std::isnan(vy) && !std::isnan(vz))
 		{
 			G4ThreeVector vec = G4ThreeVector(vx, vy, vz);
 			output = vec;

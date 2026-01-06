@@ -145,7 +145,7 @@ G4MaterialPropertyVector * PropertyToolsManager::GetPropertyDistribution(Goddess
 {
 	G4MaterialPropertyVector * propertyVector = 0;
 
-	if(!isnan(linearMatchingCoefficient) && isnan(quadraticMatchingCoefficient)) quadraticMatchingCoefficient = 0.;
+	if(!std::isnan(linearMatchingCoefficient) && std::isnan(quadraticMatchingCoefficient)) quadraticMatchingCoefficient = 0.;
 
 	if(properties.containsTabular(propertyKey))
 	{
@@ -155,7 +155,7 @@ G4MaterialPropertyVector * PropertyToolsManager::GetPropertyDistribution(Goddess
 	else if(properties.containsNumber(propertyKey))
 	{
 		G4double propertyValue = properties.getNumber(propertyKey);
-		if(!isnan(linearMatchingCoefficient)) propertyValue = propertyValue * (linearMatchingCoefficient + propertyValue * quadraticMatchingCoefficient);
+		if(!std::isnan(linearMatchingCoefficient)) propertyValue = propertyValue * (linearMatchingCoefficient + propertyValue * quadraticMatchingCoefficient);
 
 		propertyVector = new G4MaterialPropertyVector();
 
@@ -299,7 +299,7 @@ G4MaterialPropertyVector * PropertyToolsManager::tabular_to_G4MaterialPropertyVe
 				propertyValue = getValueFromLinearFit(EnergyRangeVector[0], propertyValues, energies, iter_temp);
 
 				if(invert) propertyValue = 1. - propertyValue;
-				if(!isnan(linearMatchingCoefficient)) propertyValue = propertyValue * (linearMatchingCoefficient + propertyValue * quadraticMatchingCoefficient);
+				if(!std::isnan(linearMatchingCoefficient)) propertyValue = propertyValue * (linearMatchingCoefficient + propertyValue * quadraticMatchingCoefficient);
 
 				propertyVector->InsertValues(energy, propertyValue);
 
@@ -313,10 +313,10 @@ G4MaterialPropertyVector * PropertyToolsManager::tabular_to_G4MaterialPropertyVe
 		}
 		else if(insideOpticalEnergyRange && energies[iter] > EnergyRangeVector[EnergyRangeVector.size() - 1]) insertLastEntry = true;
 
-		if(!isnan(energy) && !isnan(propertyValue))
+		if(!std::isnan(energy) && !std::isnan(propertyValue))
 		{
 			if(invert) propertyValue = 1. - propertyValue;
-			if(!isnan(linearMatchingCoefficient))
+			if(!std::isnan(linearMatchingCoefficient))
 			{
 				G4double propertyValue_temp = propertyValue * (linearMatchingCoefficient + propertyValue * quadraticMatchingCoefficient);
 				if(isinf(propertyValue_temp)) propertyValue = copysign(std::numeric_limits<double>::max(), propertyValue);
@@ -332,7 +332,7 @@ G4MaterialPropertyVector * PropertyToolsManager::tabular_to_G4MaterialPropertyVe
 			propertyValue = getValueFromLinearFit(EnergyRangeVector[EnergyRangeVector.size() - 1], propertyValues, energies, iter);
 
 			if(invert) propertyValue = 1. - propertyValue;
-			if(!isnan(linearMatchingCoefficient))
+			if(!std::isnan(linearMatchingCoefficient))
 			{
 				G4double propertyValue_temp = propertyValue * (linearMatchingCoefficient + propertyValue * quadraticMatchingCoefficient);
 				if(isinf(propertyValue_temp)) propertyValue = copysign(std::numeric_limits<double>::max(), propertyValue);

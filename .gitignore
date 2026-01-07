@@ -4,5 +4,4 @@ output/
 documentation/
 build/
 
-source/SimA/
-source/SimB/
+source/Sim_*/

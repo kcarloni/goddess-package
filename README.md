@@ -35,6 +35,10 @@ make
 ```
 The above setup script is included in two parts as `setup_1.sh` and `setup_2.sh`. 
 
+The above script will most likely need to be modified to work with your particular OS / Geant4 version. Here is a list of some potential modifications:
+- Adjust the Geant4 version in the make command line argument 
+- Adjust the BOOST root path in the make command line argument
+
 
 ## Adding sub-projects:
 For now, I add a new subproject by copying `SimExample` to a new directory, e.g. `SimA`, and making the following modifications:
@@ -51,7 +55,14 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/SimA)
 project(SimA)
 ```
 
-3. modify the final run command inside of `SimA/run.sh`. 
+3. modify the output directory inside of `SimA/run.sh`, line 95. Or disable it.
+```bash
+### Path to the output directory. (This directory must exist!)
+### Default: the directory in which the program runs
+OutputDirectory="${GODDESS}/output/SimA/"
+```
+
+4. modify the final run command inside of `SimA/run.sh`. 
 ```bash
 # finally, run the program
 $BUILDDIR/SimA $InitFileString

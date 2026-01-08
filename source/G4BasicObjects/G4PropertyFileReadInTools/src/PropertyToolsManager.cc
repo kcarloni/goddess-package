@@ -440,85 +440,164 @@ G4bool PropertyToolsManager::isConstantProperty(G4MaterialPropertyVector * prope
 
 
 
-/**
- *  Function to compair two material, if they are exactly the same.
- */
-G4bool PropertyToolsManager::sameMaterials(G4Material * material1, G4Material * material2)
+// /**
+//  *  Function to compair two material, if they are exactly the same.
+//  */
+// G4bool PropertyToolsManager::sameMaterials(G4Material * material1, G4Material * material2)
+// {
+// 	if(   material1->GetNumberOfElements() != material2->GetNumberOfElements()
+// 	   || fabs(material1->GetDensity() - material2->GetDensity()) > 1e-12   )
+// 	{
+// 		return false;
+// 	}
+
+// 	for(unsigned int iter = 0; iter < material1->GetNumberOfElements(); iter++)
+// 	{
+// 		if(material1->GetElement(iter) != material2->GetElement(iter)) return false;
+// 	}
+
+// 	G4MaterialPropertiesTable * propertiesTable1 = material1->GetMaterialPropertiesTable();
+// 	G4MaterialPropertiesTable * propertiesTable2 = material2->GetMaterialPropertiesTable();
+
+// 	// get the maps with the property spectra
+// 	const std::map<G4String, G4MaterialPropertyVector*> * propertiesMap1 = propertiesTable1->GetPropertiesMap();
+// 	const std::map<G4String, G4MaterialPropertyVector*> * propertiesMap2 = propertiesTable2->GetPropertiesMap();
+// 	// get the maps with the constant properties
+// 	const std::map<G4String, G4double> * constPropertiesMap1 = propertiesTable1->GetPropertiesCMap();
+// 	const std::map<G4String, G4double> * constPropertiesMap2 = propertiesTable2->GetPropertiesCMap();
+
+// 	// compare the number of properties
+// 	if(propertiesMap1->size() != propertiesMap2->size() || constPropertiesMap1->size() != constPropertiesMap2->size()) return false;
+
+// 	// compare the constant properties
+// 	for(std::map<G4String, G4double>::const_iterator iterC1 = constPropertiesMap1->begin(); iterC1 != constPropertiesMap1->end(); iterC1++)
+// 	{
+// 		G4bool propertyFound = false;
+
+// 		for(std::map<G4String, G4double>::const_iterator iterC2 = constPropertiesMap2->begin(); iterC2 != constPropertiesMap2->end(); iterC2++)
+// 		{
+// 			// compare the names of the constant properties
+// 			if(iterC1->first == iterC2->first)
+// 			{
+// 				// compare the values of the constant properties
+// 				if(iterC1->second != iterC2->second) return false;
+
+// 				propertyFound = true;
+// 				break;
+// 			}
+// 		}
+
+// 		if(!propertyFound) return false;
+// 	}
+
+// 	// compare the property spectra
+// 	for(std::map<G4String, G4MaterialPropertyVector*>::const_iterator iter1 = propertiesMap1->begin(); iter1 != propertiesMap1->end(); iter1++)
+// 	{
+// 		G4bool propertyFound = false;
+
+// 		for(std::map<G4String, G4MaterialPropertyVector*>::const_iterator iter2 = propertiesMap2->begin(); iter2 != propertiesMap2->end(); iter2++)
+// 		{
+// 			// compare the names of the property spectra
+// 			if(iter1->first == iter2->first)
+// 			{
+// 				// compare the values of the property spectra
+// 				if(!properySpectrumEqual(iter1->second, iter2->second)) return false;
+
+// 				propertyFound = true;
+// 				break;
+// 			}
+// 		}
+
+// 		if(!propertyFound) return false;
+// 	}
+
+// 	return true;
+// }
+
+// fix -- switch to GetConstPropertyMap() to suppress v. annoying G4 warnings
+G4bool PropertyToolsManager::sameMaterials(G4Material* material1, G4Material* material2)
 {
-	if(   material1->GetNumberOfElements() != material2->GetNumberOfElements()
-	   || fabs(material1->GetDensity() - material2->GetDensity()) > 1e-12   )
-	{
-		return false;
-	}
+    // Basic checks: number of elements and density
+    if (material1->GetNumberOfElements() != material2->GetNumberOfElements()
+        || std::fabs(material1->GetDensity() - material2->GetDensity()) > 1e-12) {
+        return false;
+    }
 
-	for(unsigned int iter = 0; iter < material1->GetNumberOfElements(); iter++)
-	{
-		if(material1->GetElement(iter) != material2->GetElement(iter)) return false;
-	}
+    // Same elements, in the same order
+    for (size_t i = 0; i < material1->GetNumberOfElements(); ++i) {
+        if (material1->GetElement(i) != material2->GetElement(i)) {
+            return false;
+        }
+    }
 
-	G4MaterialPropertiesTable * propertiesTable1 = material1->GetMaterialPropertiesTable();
-	G4MaterialPropertiesTable * propertiesTable2 = material2->GetMaterialPropertiesTable();
+    G4MaterialPropertiesTable* propertiesTable1 = material1->GetMaterialPropertiesTable();
+    G4MaterialPropertiesTable* propertiesTable2 = material2->GetMaterialPropertiesTable();
 
+    // If one has no MPT and the other does, they differ
+    if (propertiesTable1 == nullptr || propertiesTable2 == nullptr) {
+        return (propertiesTable1 == nullptr && propertiesTable2 == nullptr);
+    }
 
-	// get the maps with the property spectra
-	const std::map<G4String, G4MaterialPropertyVector*> * propertiesMap1 = propertiesTable1->GetPropertiesMap();
-	const std::map<G4String, G4MaterialPropertyVector*> * propertiesMap2 = propertiesTable2->GetPropertiesMap();
-	// get the maps with the constant properties
-	const std::map<G4String, G4double> * constPropertiesMap1 = propertiesTable1->GetPropertiesCMap();
-	const std::map<G4String, G4double> * constPropertiesMap2 = propertiesTable2->GetPropertiesCMap();
+    // New API: integer-keyed maps
+    const std::map<G4int, G4MaterialPropertyVector*>* propertiesMap1 =
+        propertiesTable1->GetPropertyMap();
+    const std::map<G4int, G4MaterialPropertyVector*>* propertiesMap2 =
+        propertiesTable2->GetPropertyMap();
 
-	// compair the number of properties
-	if(propertiesMap1->size() != propertiesMap2->size() || constPropertiesMap1->size() != constPropertiesMap2->size()) return false;
+    const std::map<G4int, G4double>* constPropertiesMap1 =
+        propertiesTable1->GetConstPropertyMap();
+    const std::map<G4int, G4double>* constPropertiesMap2 =
+        propertiesTable2->GetConstPropertyMap();
 
-	// compair the constant properties
-	for(std::map<G4String, G4double>::const_iterator iterC1 = constPropertiesMap1->begin(); iterC1 != constPropertiesMap1->end(); iterC1++)
-	{
-		G4bool propertyFound = false;
+    // Compare the number of properties
+    if (propertiesMap1->size() != propertiesMap2->size()
+        || constPropertiesMap1->size() != constPropertiesMap2->size()) {
+        return false;
+    }
 
-		for(std::map<G4String, G4double>::const_iterator iterC2 = constPropertiesMap2->begin(); iterC2 != constPropertiesMap2->end(); iterC2++)
-		{
-			// compair the names of the constant properties
-			if(iterC1->first == iterC2->first)
-			{
-				// compair the values of the constant properties
-				if(iterC1->second != iterC2->second) return false;
+    // Compare constant properties (same set of keys, same values)
+    for (auto itC1 = constPropertiesMap1->begin();
+         itC1 != constPropertiesMap1->end(); ++itC1)
+    {
+        G4int key = itC1->first;
+        auto itC2 = constPropertiesMap2->find(key);
 
-				propertyFound = true;
-				break;
-			}
-		}
+        // key not found in second table
+        if (itC2 == constPropertiesMap2->end()) {
+            return false;
+        }
 
-		if(!propertyFound) return false;
-	}
+        // different value
+        if (itC1->second != itC2->second) {
+            return false;
+        }
+    }
 
-	// compair the property spectra
-	for(std::map<G4String, G4MaterialPropertyVector*>::const_iterator iter1 = propertiesMap1->begin(); iter1 != propertiesMap1->end(); iter1++)
-	{
-		G4bool propertyFound = false;
+    // Compare property spectra
+    for (auto it1 = propertiesMap1->begin();
+         it1 != propertiesMap1->end(); ++it1)
+    {
+        G4int key = it1->first;
+        auto it2 = propertiesMap2->find(key);
 
-		for(std::map<G4String, G4MaterialPropertyVector*>::const_iterator iter2 = propertiesMap2->begin(); iter2 != propertiesMap2->end(); iter2++)
-		{
-			// compair the names of the property spectra
-			if(iter1->first == iter2->first)
-			{
-				// compair the values of the property spectra
-				if(!properySpectrumEqual(iter1->second, iter2->second)) return false;
+        // spectrum with this key not found in second table
+        if (it2 == propertiesMap2->end()) {
+            return false;
+        }
 
-				propertyFound = true;
-				break;
-			}
-		}
+        // compare the spectra
+        if (!properySpectrumEqual(it1->second, it2->second)) {
+            return false;
+        }
+    }
 
-		if(!propertyFound) return false;
-	}
-
-	return true;
+    return true;
 }
 
 
 
 /**
- *  Function to compair two spectra, if they are exactly the same.
+ *  Function to compare two spectra, if they are exactly the same.
  */
 G4bool PropertyToolsManager::properySpectrumEqual(G4MaterialPropertyVector * propertyVector1, G4MaterialPropertyVector * propertyVector2)
 {

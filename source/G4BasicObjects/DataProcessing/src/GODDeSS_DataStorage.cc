@@ -88,7 +88,7 @@ G4double GODDeSS_DataStorage::GetScintillatorHitTime(G4int trackID) const
 void GODDeSS_DataStorage::AddUpEnergyDepositionInScintillator(G4int trackID, G4double deltaE)
 {
 	if( ! TrackIDHasEntries(trackID) )					(ParticleVector[trackID])[EnergyDepositionKey] = deltaE;
-	else if( ! (ParticleVector[trackID]).count(ScintillatorHitTimeKey) )	(ParticleVector[trackID])[EnergyDepositionKey] = deltaE;
+	else if( ! (ParticleVector[trackID]).count(EnergyDepositionKey) )	(ParticleVector[trackID])[EnergyDepositionKey] = deltaE;
 	else if( std::isnan(GetEnergyDepositionInScintillator(trackID)) )		(ParticleVector[trackID])[EnergyDepositionKey] = deltaE;
 	else
 	{
@@ -116,7 +116,7 @@ G4double GODDeSS_DataStorage::GetEnergyDepositionInScintillator(G4int trackID) c
 void GODDeSS_DataStorage::AddUpPathLengthInScintillator(G4int trackID, G4double deltaX)
 {
 	if( ! TrackIDHasEntries(trackID) )					(ParticleVector[trackID])[PathLengthKey] = deltaX;
-	else if( ! (ParticleVector[trackID]).count(ScintillatorHitTimeKey) )	(ParticleVector[trackID])[PathLengthKey] = deltaX;
+	else if( ! (ParticleVector[trackID]).count(PathLengthKey) )	(ParticleVector[trackID])[PathLengthKey] = deltaX;
 	else if( std::isnan(GetPathLengthInScintillator(trackID)) )		(ParticleVector[trackID])[PathLengthKey] = deltaX;
 	else
 	{

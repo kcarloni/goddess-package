@@ -58,9 +58,3 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/G4BasicObjects)
 
 message(STATUS "Added subproject: ${CMAKE_CURRENT_SOURCE_DIR}/SimExample")
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/SimExample)
-
-# message(STATUS "Added subproject: ${CMAKE_CURRENT_SOURCE_DIR}/SimA")
-# add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/SimA)
-
-# message(STATUS "Added subproject: ${CMAKE_CURRENT_SOURCE_DIR}/SimB")
-# add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/SimB)

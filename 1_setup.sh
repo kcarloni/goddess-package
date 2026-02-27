@@ -6,7 +6,7 @@ export GODDESS="/Users/kiara/home/research/tambo/g4_panel_sim/goddess-package"
 cd "${GEANT4_INSTALL_DIR}/bin/"
 source "geant4.sh"
 
-cd "$GODDESS/build"
+mkdir -p "$GODDESS/build" && cd "$GODDESS/build"
 if [ -f CMakeCache.txt ]; then rm CMakeCache.txt; fi
 cmake \
     -DGeant4_DIR="${GEANT4_INSTALL_DIR}/lib/Geant4-10.6.0" \

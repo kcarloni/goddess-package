@@ -94,7 +94,9 @@ void ScintillatorTileConstructor::LoadPhysicsList( G4VModularPhysicsList * physi
 	 *      - additionally (if the particles are created by other Physics Constructors):
 	 *        - G4TauPlus, G4TauMinus, G4BMesonMinus, G4BMesonPlus, G4DMesonMinus, G4DMesonPlus, G4DsMesonMinus, G4DsMesonPlus, G4AntiProton, G4Deuteron, G4AntiDeuteron, G4Triton, G4AntiTriton, G4AntiHe3, G4AntiAlpha, G4LambdacPlus, G4AntiLambdacPlus, G4OmegaMinus, G4AntiOmegaMinus, G4SigmacPlus, G4AntiSigmacPlus, G4SigmacPlusPlus, G4AntiSigmacPlusPlus, G4SigmaPlus, G4AntiSigmaPlus, G4SigmaMinus, G4AntiSigmaMinus, G4XicPlus, G4AntiXicPlus, G4XiMinus, G4AntiXiMinus: G4hMultipleScattering, G4hIonisation
 	 */
-	registerPhysics(physicsList, new G4EmLowEPPhysics(verbose));
+	// G4EmLowEPPhysics has the same type ID as G4EmStandardPhysics (registered above),
+	// so Geant4 rejects it with a "Duplicate type" warning. Skip registration.
+	// registerPhysics(physicsList, new G4EmLowEPPhysics(verbose));
 
 
 

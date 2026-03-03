@@ -1066,7 +1066,7 @@ public:
 // dimensions of the object:
 	/**
 	 *  @return <b> straight fibres: </b> the fibre's total length
-	 *  @return <b> bent fibres: </b> NAN
+	 *  @return <b> bent fibres: </b> the fibre's arc length (radius * angle)
 	 */
 	G4double GetFibreLength()
 	{ return Length; }

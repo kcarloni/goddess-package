@@ -1241,6 +1241,7 @@ void G4Fibre::GenerateTransformation(G4String fibreType)
 		{
 			fibreAxis = BendingAxis;
 			fibreTranslation_rel = BendingCircularCentre;
+			Length = BendingRadius * BendingDeltaAngle;
 		}
 
 		// get rotation parameters for positioning the fibre

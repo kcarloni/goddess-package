@@ -42,6 +42,11 @@ set(LIBS_GEANT4 ${Geant4_LIBRARIES})
 # include_directories(${Boost_INCLUDE_DIRS})
 set(LIBS_BOOST ${Boost_REGEX_LIBRARY})
 
+#------ HDF5 ------#
+find_package(HDF5 REQUIRED COMPONENTS CXX)
+include_directories(${HDF5_INCLUDE_DIRS})
+set(LIBS_HDF5 ${HDF5_CXX_LIBRARIES} ${HDF5_LIBRARIES})
+
 ########## Add libraries of the current project ##########
 set(LIBS G4PropertyFileReadInTools G4Scintillator G4Fibre G4GeneralParticleSource G4PhotonDetector)
 
@@ -55,7 +60,7 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 
 # Create one library from all source files and add links and dependencies (inside the current project):
 add_library(${PROJECT_NAME} ${sources} ${headers})
-target_link_libraries(${PROJECT_NAME} ${LIBS_GEANT4} ${LIBS_BOOST} ${LIBS})
+target_link_libraries(${PROJECT_NAME} ${LIBS_GEANT4} ${LIBS_BOOST} ${LIBS_HDF5} ${LIBS})
 add_dependencies(${PROJECT_NAME} ${LIBS})
 
 # add dependencies to the documentation (defined in the top-level cmake file):

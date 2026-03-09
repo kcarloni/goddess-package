@@ -5,6 +5,8 @@
  */
 
 
+#include <fstream>
+
 #include <G4Event.hh>
 #include <G4EventManager.hh>
 #include <G4OpticalPhoton.hh>
@@ -67,25 +69,7 @@ G4bool PhotonSensitiveDetector::ProcessHits(G4Step* theStep, G4TouchableHistory*
 // 	if(theStep->GetPostStepPoint()->GetPhysicalVolume() != photonDetectorThatWasHit) return true;
 
 
-	G4String hitFileName = DataStorage->GetPhotonDetectorHitFile();
-	hitFileName = hitFileName.substr(0, hitFileName.rfind(".")) + "_" + volumeThatWasHit->GetName() + hitFileName.substr(hitFileName.rfind("."));
-	std::ofstream hitFile;
-	hitFile.open(hitFileName.c_str(), std::ios_base::out | std::ios_base::app);
-
-	G4double previousStepStartTime = DataStorage->GetPreviousPreStepPointTime();
-	hitFile << "t/ns:\t\t" << previousStepStartTime / CLHEP::ns << "\n";
-
-	G4ThreeVector previousStepStartPos = DataStorage->GetPreviousPreStepPointPosition();
-	hitFile << "pos/mm:\t\t" << previousStepStartPos / CLHEP::mm << "\n";
-
 	G4ThreeVector hitMomentum = DataStorage->GetPreviousPreStepPointMomentum();
-	hitFile << "momentum/MeV:\t" << hitMomentum / CLHEP::MeV << "\n";
-
-	G4ThreeVector previousStepStartPolarisation = DataStorage->GetPreviousPreStepPointPolarisation();
-	hitFile << "pol:\t\t" << previousStepStartPolarisation << "\n\n";
-
-	hitFile.close();
-
 
 	DataStorage->SetNameOfPhotonDetectorThatWasHit(trackID, volumeThatWasHit->GetName());
 
@@ -96,6 +80,27 @@ G4bool PhotonSensitiveDetector::ProcessHits(G4Step* theStep, G4TouchableHistory*
 
 	hitMomentum.transform(photonDetectorThatWasHit->GetObjectRotationValue().inverse());
 	DataStorage->SetPhotonDetectorHitMomentum(trackID, hitMomentum);
+
+	// Write photon hit data to text file (if hit file has been configured)
+	G4String hitFileName = DataStorage->GetPhotonDetectorHitFile();
+	if(!hitFileName.empty())
+	{
+		hitFileName = hitFileName.substr(0, hitFileName.rfind(".")) + "_" + volumeThatWasHit->GetName() + hitFileName.substr(hitFileName.rfind("."));
+
+		G4ThreeVector initialPosition = theTrack->GetVertexPosition();
+		G4ThreeVector initialMomentum = theTrack->GetVertexMomentumDirection() * theTrack->GetVertexKineticEnergy();
+		G4ThreeVector polarisation = theTrack->GetPolarization();
+		G4double globalStartTime = theTrack->GetGlobalTime() - theTrack->GetLocalTime();
+
+		std::ofstream hitFile;
+		hitFile.open( hitFileName.c_str(), std::ios_base::out | std::ios_base::app );
+		hitFile << globalStartTime
+			<< "\t" << initialPosition.x() << "\t" << initialPosition.y() << "\t" << initialPosition.z()
+			<< "\t" << initialMomentum.x() << "\t" << initialMomentum.y() << "\t" << initialMomentum.z()
+			<< "\t" << polarisation.x() << "\t" << polarisation.y() << "\t" << polarisation.z()
+			<< "\n";
+		hitFile.close();
+	}
 
 	// Stop track.
 	theTrack->SetTrackStatus(fStopAndKill);

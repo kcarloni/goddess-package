@@ -5,27 +5,71 @@
  */
 
 #include <HDF5TableWriter.hh>
+#include <iostream>
+#include <fstream>
 
 
 HDF5TableWriter::HDF5TableWriter()
+: File(nullptr)
+, RunId(0)
 {
 }
 
 HDF5TableWriter::~HDF5TableWriter()
 {
+	finalize();
 }
 
-void HDF5TableWriter::open(const std::string& filename)
+void HDF5TableWriter::open(const std::string& filename, int runId)
 {
-	Filename = filename;
+	RunId = runId;
+
+	if (!File)
+	{
+		Filename = filename;
+		// Append to existing file, or create new
+		std::ifstream test(filename.c_str());
+		bool exists = test.good();
+		test.close();
+
+		if (exists)
+			File = new H5::H5File(filename, H5F_ACC_RDWR);
+		else
+			File = new H5::H5File(filename, H5F_ACC_TRUNC);
+	}
+
 	clearAll();
 }
 
 void HDF5TableWriter::close()
 {
-	if (Filename.empty()) return;
+	if (!File) return;
+
+	// Check if run group already exists
+	std::string runGroupName = "g4run_" + std::to_string(RunId);
+	if (H5Lexists(File->getId(), runGroupName.c_str(), H5P_DEFAULT) > 0)
+	{
+		std::cerr << "HDF5TableWriter::close: group '" << runGroupName
+		          << "' already exists in " << Filename << ", skipping write." << std::endl;
+		clearAll();
+		return;
+	}
+
 	writeDatasets();
 	clearAll();
+
+	// Close and flush the file so completed runs survive a crash
+	finalize();
+}
+
+void HDF5TableWriter::finalize()
+{
+	if (File)
+	{
+		File->close();
+		delete File;
+		File = nullptr;
+	}
 }
 
 // ---------- HDF5 writing helpers ----------
@@ -94,6 +138,15 @@ H5::Group HDF5TableWriter::createOrderedGroup(H5::H5File& file, const std::strin
 	hid_t gcpl = H5Pcreate(H5P_GROUP_CREATE);
 	H5Pset_link_creation_order(gcpl, H5P_CRT_ORDER_TRACKED | H5P_CRT_ORDER_INDEXED);
 	hid_t grp_id = H5Gcreate2(file.getId(), name.c_str(), H5P_DEFAULT, gcpl, H5P_DEFAULT);
+	H5Pclose(gcpl);
+	return H5::Group(grp_id);
+}
+
+H5::Group HDF5TableWriter::createOrderedGroup(H5::Group& parent, const std::string& name)
+{
+	hid_t gcpl = H5Pcreate(H5P_GROUP_CREATE);
+	H5Pset_link_creation_order(gcpl, H5P_CRT_ORDER_TRACKED | H5P_CRT_ORDER_INDEXED);
+	hid_t grp_id = H5Gcreate2(parent.getId(), name.c_str(), H5P_DEFAULT, gcpl, H5P_DEFAULT);
 	H5Pclose(gcpl);
 	return H5::Group(grp_id);
 }

@@ -21,8 +21,9 @@ public:
 	HDF5TableWriter();
 	virtual ~HDF5TableWriter();
 
-	void open(const std::string& filename);
+	void open(const std::string& filename, int runId);
 	void close();
+	void finalize();
 
 protected:
 	// Subclasses override these to define their schema
@@ -31,11 +32,14 @@ protected:
 
 	// Reusable I/O helpers
 	std::string Filename;
+	H5::H5File* File;
+	int RunId;
 	void writeIntDataset(H5::Group& group, const std::string& name, const std::vector<int>& data);
 	void writeDoubleDataset(H5::Group& group, const std::string& name, const std::vector<double>& data);
 	void writeStringDataset(H5::Group& group, const std::string& name, const std::vector<std::string>& data);
 	void write2DDoubleDataset(H5::Group& group, const std::string& name, const std::vector<std::vector<double>>& data);
 	H5::Group createOrderedGroup(H5::H5File& file, const std::string& name);
+	H5::Group createOrderedGroup(H5::Group& parent, const std::string& name);
 };
 
 #endif

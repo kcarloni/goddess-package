@@ -21,9 +21,68 @@
 
 #include <G4Fibre.hh>
 
+#include <cfloat>
+#include <G4Point3D.hh>
+
 
 
 // class variables begin with capital letters, local variables with small letters
+
+
+// ---------------------------------------------------------------------------
+// Conservative axis-aligned-bounding-box (AABB) overlap rejection.
+//
+// boundingBoxesDisjoint() returns true only when the two solids provably
+// cannot intersect, so it is safe as a fast pre-filter in front of the
+// expensive Monte-Carlo G4VSolid::GetCubicVolume() overlap tests in the
+// fibre-layer construction below. `bToA` is the transform that places solid
+// `b` in solid `a`'s frame (the same transform handed to the corresponding
+// G4IntersectionSolid). Because `b`'s box is re-wrapped as an AABB after
+// transformation - which can only over-estimate its extent - a "disjoint"
+// verdict is always conservatively correct: it is returned only when the
+// solids cannot possibly overlap, never otherwise. Skipping a provably-empty
+// intersection is therefore byte-identical to letting GetCubicVolume() find
+// it empty.
+namespace
+{
+	G4bool boundingBoxesDisjoint(G4VSolid* a, G4VSolid* b, const G4Transform3D& bToA)
+	{
+		G4ThreeVector aMin, aMax, bMin, bMax;
+		a->BoundingLimits(aMin, aMax);
+		b->BoundingLimits(bMin, bMax);
+
+		// transform b's 8 box corners into a's frame, accumulating their AABB
+		G4ThreeVector tMin( DBL_MAX,  DBL_MAX,  DBL_MAX);
+		G4ThreeVector tMax(-DBL_MAX, -DBL_MAX, -DBL_MAX);
+		for(int c = 0; c < 8; c++)
+		{
+			G4Point3D corner( (c & 1) ? bMax.x() : bMin.x(),
+			                  (c & 2) ? bMax.y() : bMin.y(),
+			                  (c & 4) ? bMax.z() : bMin.z() );
+			G4Point3D p = bToA * corner;
+			if(p.x() < tMin.x()) tMin.setX(p.x());
+			if(p.y() < tMin.y()) tMin.setY(p.y());
+			if(p.z() < tMin.z()) tMin.setZ(p.z());
+			if(p.x() > tMax.x()) tMax.setX(p.x());
+			if(p.y() > tMax.y()) tMax.setY(p.y());
+			if(p.z() > tMax.z()) tMax.setZ(p.z());
+		}
+
+		// Short-circuit only pairs that are UNAMBIGUOUSLY far apart. A small
+		// tolerance keeps borderline/touching pairs out of this fast path:
+		// they fall through to the exact Monte-Carlo GetCubicVolume() test the
+		// legacy code uses, so the pre-filter never changes a decision (the MC
+		// test is deterministic per call). Real fibre-routing separations are
+		// mm-to-cm, far above tol, so the speed-up is retained; the failure
+		// case this guards against is sub-nm-thick roughened fibre end-caps
+		// that abut where segments join, whose MC overlap is pure noise.
+		const G4double tol = 1e-3;   // mm
+
+		return    aMax.x() + tol < tMin.x() || tMax.x() + tol < aMin.x()
+		       || aMax.y() + tol < tMin.y() || tMax.y() + tol < aMin.y()
+		       || aMax.z() + tol < tMin.z() || tMax.z() + tol < aMin.z();
+	}
+}
 
 
 
@@ -392,8 +451,15 @@ std::vector<boost::any> G4Fibre::ConstructFibreLayerLogical( G4Transform3D trans
 					translation -= GrandMotherAndAuntVolumes[iter]->GetObjectTranslation();
 					translation.transform(GrandMotherAndAuntVolumes[iter]->GetObjectRotationValue().inverse());
 
+					G4VSolid * auntSolid = GrandMotherAndAuntVolumes[iter]->GetLogicalVolume()->GetSolid();
+					G4Transform3D auntTransform = G4Transform3D(rotation, translation).inverse();
+
+					// AABB pre-filter: skip the Monte-Carlo overlap test below for
+					// volumes that provably cannot intersect this fibre layer
+					if(boundingBoxesDisjoint(fibreLayer_solid, auntSolid, auntTransform)) continue;
+
 					volumeName = nameBase + "_(inside " + GrandMotherAndAuntVolumes[iter]->GetName() + ")";
-					fibreLayerIntersection_solid = new G4IntersectionSolid((volumeName + "_solid").c_str(), fibreLayer_solid, GrandMotherAndAuntVolumes[iter]->GetLogicalVolume()->GetSolid(), G4Transform3D(rotation, translation).inverse());
+					fibreLayerIntersection_solid = new G4IntersectionSolid((volumeName + "_solid").c_str(), fibreLayer_solid, auntSolid, auntTransform);
 
 
 					if(fabs(fibreLayerIntersection_solid->GetCubicVolume()) >= 1e-12)
@@ -768,8 +834,15 @@ std::vector<boost::any> G4Fibre::ConstructEmbedmentLogical( G4String nameBase,
 				translation -= GrandMotherAndAuntVolumes[iter]->GetObjectTranslation();
 				translation.transform(GrandMotherAndAuntVolumes[iter]->GetObjectRotationValue().inverse());
 
+				G4VSolid * auntSolid = GrandMotherAndAuntVolumes[iter]->GetLogicalVolume()->GetSolid();
+				G4Transform3D auntTransform = G4Transform3D(rotation, translation).inverse();
+
+				// AABB pre-filter: skip the Monte-Carlo overlap test below for
+				// volumes that provably cannot intersect this fibre layer
+				if(boundingBoxesDisjoint(fibreLayer_solid, auntSolid, auntTransform)) continue;
+
 				volumeName = nameBase + "_(inside " + GrandMotherAndAuntVolumes[iter]->GetName() + ")";
-				G4VSolid * fibreLayerIntersection_solid = new G4IntersectionSolid((volumeName + "_solid").c_str(), fibreLayer_solid, GrandMotherAndAuntVolumes[iter]->GetLogicalVolume()->GetSolid(), G4Transform3D(rotation, translation).inverse());
+				G4VSolid * fibreLayerIntersection_solid = new G4IntersectionSolid((volumeName + "_solid").c_str(), fibreLayer_solid, auntSolid, auntTransform);
 
 
 				if(fabs(fibreLayerIntersection_solid->GetCubicVolume()) >= 1e-12)
@@ -1145,7 +1218,7 @@ void G4Fibre::InitialiseVariables()
 std::vector<G4VPhysicalVolume *> G4Fibre::findGrandMotherAndAuntVolumes(G4bool cutAuntVolumesWithDaughters)
 {
 	// the default cut_volumes are all physical volumes
-	std::vector<G4VPhysicalVolume *> allVolumes = *G4PhysicalVolumeStore::GetInstance();
+	const std::vector<G4VPhysicalVolume *> & allVolumes = *G4PhysicalVolumeStore::GetInstance();
 
 	std::vector<G4VPhysicalVolume *> grandMotherAndAuntVolumes;
 	std::vector<G4VPhysicalVolume *> cutonlyAuntVolumes;

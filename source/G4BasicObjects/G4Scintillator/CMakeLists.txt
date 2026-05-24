@@ -41,11 +41,10 @@ set(LIBS G4PropertyFileReadInTools)
 file(GLOB sources ${PROJECT_SOURCE_DIR}/src/*.cc)
 file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
 
-# Add include directories to the list of directories searched by the compiler for include files:
-include_directories(${PROJECT_SOURCE_DIR}/include)
-
 # Create one library from all source files and add links and dependencies (inside the current project):
 add_library(${PROJECT_NAME} ${sources} ${headers})
+# Expose this library's headers to any target that links it (modern CMake):
+target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_link_libraries(${PROJECT_NAME} ${LIBS_GEANT4} ${LIBS})
 add_dependencies(${PROJECT_NAME} ${LIBS})
 

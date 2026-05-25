@@ -421,7 +421,13 @@ std::vector<boost::any> G4Fibre::ConstructFibreLayerLogical( G4Transform3D trans
 	solids.push_back(transformationInsideMother);
 
 
-	if(!OnlyInsideMother && GrandMotherAndAuntVolumes[0])
+	// Guard the [0] read: a prior layer of the same fibre may have hit the
+	// `else` branch below and called GrandMotherAndAuntVolumes.clear(),
+	// leaving size()==0 with non-zero capacity. Indexing [0] is then an
+	// out-of-bounds read whose stale value is usually nullptr (benign) but
+	// can be wild garbage under certain heap layouts, causing a SIGSEGV
+	// downstream when the bogus pointer is dereferenced as a G4VPhysicalVolume.
+	if(!OnlyInsideMother && !GrandMotherAndAuntVolumes.empty() && GrandMotherAndAuntVolumes[0])
 	{
 		fibreLayer_solid = new G4SubtractionSolid((nameBase + "_(outside " + MotherVolume_physical->GetName() + ")_solid").c_str(), fibreLayer_solid, MotherVolume_solid, transformationInsideMother.inverse());
 

@@ -1,104 +1,99 @@
+# GODDeSS
 
-This is a fork of the original GODDeSS package, from https://git.rwth-aachen.de/3pia/forge/goddess-package.
+A Geant4 extension providing object classes for scintillator tiles, optical
+fibres, wrappings and photon detectors, together with a library of measured
+material properties.
 
-## Compiling the package:
-To compile the package, I use a setup script that looks something like this:
+This is a **fork** of the original GODDeSS package by Erik Dietz-Laursonn
+(RWTH Aachen), carrying fixes that are not upstream. See
+[`ATTRIBUTION.md`](ATTRIBUTION.md) for the full provenance — what is upstream,
+what was inherited from elsewhere, and what was changed here — plus the licence
+terms (CC BY-NC-SA 3.0).
+
+Upstream is unmaintained and distributes release tarballs rather than a source
+tree, so the fixes here will not be merged back.
+
+## Building
+
+You need Geant4 (developed against 10.6), CMake, Boost and doxygen. Point at
+your Geant4 install — the directory containing `bin/geant4.sh` — and run the
+two build scripts:
+
 ```bash
-#!/bin/bash
+export GEANT4_INSTALL_DIR=/path/to/your/geant4-install
 
-# --- should point to the top-level GEANT4 directory.
-export GEANT4_DIR="/Users/kiara/software/csrc/geant4-v10.6.0-install"
-
-# --- points to the top-level of this package's directory
-export GODDESS="/Users/kiara/software/csrc/goddess-package"
-
-cd "${GEANT4_DIR}/bin/"
-source "geant4.sh"
-
-# --- setup the build directory
-mkdir -p "$GODDESS/build"
-cd "$GODDESS/build"
-
-# --- run cmake: 
-rm -f CMakeCache.txt
-cmake \
-    -DGeant4_DIR="${GEANT4_DIR}/lib/Geant4-10.6.0" \
-    -DBOOST_ROOT="/opt/homebrew/Cellar/boost/" \
-    $GODDESS/source
-
-# --- now make: 
-# make clean
-make 
-# make SimExample
-# make SimA
-# make SimB
-```
-The above setup script is included in two parts as `setup_1.sh` and `setup_2.sh`. 
-
-The above script will most likely need to be modified to work with your particular OS / Geant4 version. Here is a list of some potential modifications:
-- Adjust the Geant4 version in the make command line argument 
-- Adjust the BOOST root path in the make command line argument
-
-
-## Adding sub-projects:
-For now, I add a new subproject by copying `SimExample` to a new directory, e.g. `SimA`, and making the following modifications:
-
-1. modify `CMakeLists.txt` to add the new subproject:
-```bash
-message(STATUS "Added subproject: ${CMAKE_CURRENT_SOURCE_DIR}/SimA")
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/SimA)
+bash 1_setup.sh      # cmake
+bash 2_compile.sh    # make
 ```
 
-2. modify the project name in `SimA/CMakeLists.txt`, line 12:
+Both scripts source [`setup_paths.sh`](setup_paths.sh), which derives the
+package root from its own location and locates `Geant4Config.cmake` under your
+install regardless of version or `lib`/`lib64` layout. Nothing in this
+repository needs editing to build it.
+
+Two things that may need a hint on your system:
+
+- **Boost**, if CMake cannot find it on its own. Add `-DBOOST_ROOT=...` to the
+  `cmake` call in `1_setup.sh` — on macOS with Homebrew that is usually
+  `-DBOOST_ROOT=/opt/homebrew`.
+- **doxygen**, which the default `make` target uses to build the documentation
+  into `documentation/`. To skip it, build a specific target instead:
+  `bash 2_compile.sh SimExample`.
+
+## Running the example
+
 ```bash
-# Set project name:
-project(SimA)
+bash 3_test.sh
 ```
 
-3. modify the output directory inside of `SimA/run.sh`, line 95. Or disable it.
+`SimExample` is a square scintillator tile with a teal/blue fibre looped inside
+it and a SiPM on one end. If your Geant4 was built with visualisation enabled
+this opens the viewer; entering `/run/beamOn 1` at its command line fires a
+single muon at the tile.
+
+The sub-project's own run script, `source/SimExample/run.sh`, carries a large
+number of adjustable options near the top of the file. For example, line 22
+(`NumberOfEvents`) set to a positive value runs in batch mode without
+visualisation, and line 33 (`TileDimensions`) changes the tile geometry.
+
+To run a different sub-project, point `SIMDIR` and `BUILDDIR` at it:
+
 ```bash
-### Path to the output directory. (This directory must exist!)
-### Default: the directory in which the program runs
-OutputDirectory="${GODDESS}/output/SimA/"
+SIMDIR="$PWD/source/SimA" BUILDDIR="$PWD/build/SimA" bash 3_test.sh
 ```
 
-4. modify the final run command inside of `SimA/run.sh`. 
-```bash
-# finally, run the program
-$BUILDDIR/SimA $InitFileString
-```
+## Adding a sub-project
 
-## Running a simulation:
+Copy `source/SimExample` to a new directory, e.g. `source/SimA`, then:
 
-To run a simulation, you can source a script of the following form:
-```bash
-#!/bin/bash
+1. Register it in `source/CMakeLists.txt`:
+   ```cmake
+   message(STATUS "Added subproject: ${CMAKE_CURRENT_SOURCE_DIR}/SimA")
+   add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/SimA)
+   ```
+2. Change the project name in `SimA/CMakeLists.txt` (line 12) to `project(SimA)`.
+3. In `SimA/run.sh`, set the output directory (the commented
+   `OutputDirectory` near line 89) and update the final run command to launch
+   `$BUILDDIR/SimA`.
 
-export GEANT4_DIR="/Users/kiara/software/csrc/geant4-v10.6.0-install"
-export GODDESS="/Users/kiara/software/csrc/GODDeSS_4_3"
+Sub-projects matching `source/Sim_*` are gitignored, so scratch work does not
+end up in version control.
 
-cd "${GEANT4_DIR}/bin/"
-source "geant4.sh"
+## Modifying a sub-project
 
-# --- variables needed by the internal `run.sh` script. 
-export BUILDDIR="${GODDESS}/build/SimExample"
-export SIMDIR="${GODDESS}/source/SimExample"
+The main lever is the detector construction: `G4VPhysicalVolume*
+DetectorConstruction::Construct()` in the sub-project's
+`src/Preparation/DetectorConstruction.cc`. `SimExample` ships three alternative
+setups in that file — commenting out the default and swapping in another is a
+good first experiment.
 
-# export SIMDIR="${GODDESS}/source/SimA"
-# export BUILDDIR="${GODDESS}/build/SimA"
+Changes to a sub-project's source require rebuilding that target, e.g.
+`bash 2_compile.sh SimA`.
 
-source "$SIMDIR/run.sh"
-```
-The above script is included as `test.sh`. If your `GEANT4` package was build with visualization enabled, the example script should produce a visualization of a square scintillator tile with a teal/blue fiber looped inside it and a SiPM on the end of the tile. To then shoot a single muon at the tile, you can enter `/run/beamOn 1` in the visualizer command line. 
+## Use as part of G4ScintKit
 
-The subpackage run script, e.g. `source/SimExample/run.sh`, has a large number of adjustable program options. A few examples:
-- Line 22: You can set `NumberOfEvents=1` to run in batch mode (without visualization).
-- Line 33: You can adjust the dimensions of the scintillator tile by modifying `TileDimensions`.
-
-## Modifying sub-projects:
-
-The main way to alter a sub-project is by making changes to the detector construction, by modifying the definition of `G4VPhysicalVolume* DetectorConstruction::Construct()` inside of the `src/Preparation/DetectorConstruction.cc` file.
-
-The example setup in `SimExample` contains three possible setups inside the `DetectorConstruction.cc` file. As a first test, comment out the default setup and swap in a different setup.
-
-Note that any changes to a sub-project's source code, e.g. to `DetectorConstruction.cc`, will require re-compilation of that sub-project (run `make SimA`).
+This package is also a submodule of
+[G4ScintKit](https://github.com/kcarloni/G4ScintKit), which builds it in-tree as
+a CMake subdirectory and drives it through its own generic Geant4 application
+rather than through a hand-written sub-project. In that setting G4ScintKit's
+`bash_scripts/` handle the build, and the scripts here are not used.

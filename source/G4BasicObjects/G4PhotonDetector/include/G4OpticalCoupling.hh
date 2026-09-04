@@ -71,7 +71,27 @@ public:
 		// set default values
 		SetDefaults();
 
-		if(BaseVolume_physical->GetMotherLogical() != CoupledVolume_physical->GetMotherLogical() || BaseVolume_physical->GetMotherLogical() != MotherVolume_physical->GetLogicalVolume()) G4cout << G4endl << "ERROR: Mother volume for coupling could not be determined!" << G4endl << G4endl;
+		// The transformation computed below assumes the base volume, the volume
+		// being coupled to, and the stated mother all share one frame. If they
+		// do not, the coupling would be placed against the wrong reference — so
+		// abort rather than continue and silently produce a dead readout.
+		if(BaseVolume_physical->GetMotherLogical() != CoupledVolume_physical->GetMotherLogical() || BaseVolume_physical->GetMotherLogical() != MotherVolume_physical->GetLogicalVolume())
+		{
+			G4cerr << G4endl
+			       << "G4OpticalCoupling '" << CouplingName << "': the base volume ('"
+			       << BaseVolume_physical->GetName() << "'), the coupled volume ('"
+			       << CoupledVolume_physical->GetName() << "') and the mother volume ('"
+			       << MotherVolume_physical->GetName() << "') do not share a common frame."
+			       << G4endl
+			       << "  A frequent cause is a fibre that ends inside its mother volume while the"
+			       << G4endl
+			       << "  photon detector is placed beyond that end: extend the fibre past the face"
+			       << G4endl
+			       << "  being read out, so the coupling has a volume to be placed in."
+			       << G4endl << G4endl;
+			G4Exception("G4OpticalCoupling::G4OpticalCoupling(...)", "InvalidSetup",
+			            FatalException, "Mother volume for coupling could not be determined.");
+		}
 
 		// calculate the transformation
 		G4ThreeVector couplingTranslation = CentrePos_rel;
